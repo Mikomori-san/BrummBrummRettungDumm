@@ -4,25 +4,37 @@ using UnityEngine;
 
 public class GetAcceleration : MonoBehaviour
 {
-    private Vector3 acceleration;
-    private Vector3 velocity;
+    public Vector3 force;
+    public Vector3 angularTorque;
     private Vector3 lastVelocity;
-    private GameObject player;
+    private Vector3 lastAngularVelocity;
+    private Rigidbody rb;
+
     // Start is called before the first frame update
     void Start()
     {
-        player = this.gameObject;
-        acceleration = Vector3.zero;
-        velocity = Vector3.zero;
-        lastVelocity = Vector3.zero;
+        rb = gameObject.GetComponent<Rigidbody>();
+        force = Vector3.zero;
+        lastVelocity = rb.velocity;
+        lastAngularVelocity = rb.angularVelocity;
     }
 
     // Update is called once per frame
     void Update()
     {
-        acceleration = (player.transform.position - 2 * velocity + lastVelocity) / Time.deltaTime;
-        lastVelocity = velocity;
-        velocity = player.transform.position;
-        Debug.Log("Acceleration: " + acceleration);
+        Vector3 deltaVelocity = rb.velocity - lastVelocity;
+        Vector3 deltaAngularVelocity = rb.angularVelocity - lastAngularVelocity;
+
+        Vector3 acceleration = deltaVelocity / Time.fixedDeltaTime;
+        Vector3 angularAcceleration = deltaAngularVelocity / Time.fixedDeltaTime;
+
+        Vector3 totalForce = rb.mass * acceleration;
+        Vector3 totalTorque = Vector3.Scale(rb.inertiaTensor, angularAcceleration);
+
+        force = totalForce;
+        angularTorque = totalTorque;
+
+        lastVelocity = rb.velocity;
+        lastAngularVelocity = rb.angularVelocity;
     }
 }
