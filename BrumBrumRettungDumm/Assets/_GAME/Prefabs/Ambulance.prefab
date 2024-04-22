@@ -1832,7 +1832,7 @@ MonoBehaviour:
   centerOfMass: {x: 0, y: 0, z: 0}
   rollCounterMode: 1
   rollCounterTargetAngle: 0
-  rollCounterForce: 4
+  rollCounterForce: 2
   rollCounterSmoothing: 2
   rollCounterOverSpeed:
     serializedVersion: 2
