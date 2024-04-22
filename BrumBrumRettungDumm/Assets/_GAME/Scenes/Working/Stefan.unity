@@ -321,7 +321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 949b29fc16b384c48bd79f247f6f636c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.2
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 949b29fc16b384c48bd79f247f6f636c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1079,7 +1079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 949b29fc16b384c48bd79f247f6f636c, type: 3}
       propertyPath: m_LocalScale.x
-      value: 969.25
+      value: 799.35004
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 949b29fc16b384c48bd79f247f6f636c, type: 3}
       propertyPath: m_LocalScale.y
@@ -1087,7 +1087,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 949b29fc16b384c48bd79f247f6f636c, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1627.9249
+      value: 1105.75
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 949b29fc16b384c48bd79f247f6f636c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1095,7 +1095,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 949b29fc16b384c48bd79f247f6f636c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.040266
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 949b29fc16b384c48bd79f247f6f636c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1399,7 +1399,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &638455742
 Canvas:
   m_ObjectHideFlags: 0
@@ -2111,7 +2111,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1631845093}
@@ -4150,7 +4150,7 @@ MonoBehaviour:
   topDownSpeed: 50
   thirdPersonOffsetStart: {x: 0, y: 0, z: 0}
   thirdPersonOffsetEnd: {x: 0, y: 1, z: -6}
-  thirdPersonAngle: {x: 10, y: 0, z: 0}
+  thirdPersonAngle: {x: 20, y: 0, z: 0}
   thirdPersonSkinWidth: 0.1
   interpolationUpToSpeed: 50
   thirdPersonPositionSpeed: 100
@@ -4816,7 +4816,7 @@ Transform:
   m_GameObject: {fileID: 2083532478}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -135, y: 0, z: 5}
+  m_LocalPosition: {x: -135, y: 1.1, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4976,17 +4976,69 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2187871834777381282, guid: 553f28ca3430a46418f28a098c84f48d, type: 3}
+      propertyPath: steeringOverSpeed.m_Curve.Array.data[1].value
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2187871834777381282, guid: 553f28ca3430a46418f28a098c84f48d, type: 3}
+      propertyPath: steeringOverSpeed.m_Curve.Array.data[0].inSlope
+      value: -0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2187871834777381282, guid: 553f28ca3430a46418f28a098c84f48d, type: 3}
+      propertyPath: steeringOverSpeed.m_Curve.Array.data[1].inSlope
+      value: -0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2187871834777381282, guid: 553f28ca3430a46418f28a098c84f48d, type: 3}
+      propertyPath: steeringOverSpeed.m_Curve.Array.data[0].outSlope
+      value: -0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2187871834777381282, guid: 553f28ca3430a46418f28a098c84f48d, type: 3}
+      propertyPath: steeringOverSpeed.m_Curve.Array.data[1].outSlope
+      value: -0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3966769408617394158, guid: 553f28ca3430a46418f28a098c84f48d, type: 3}
+      propertyPath: bodyMass
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3966769408617394158, guid: 553f28ca3430a46418f28a098c84f48d, type: 3}
+      propertyPath: centerOfMass.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3966769408617394158, guid: 553f28ca3430a46418f28a098c84f48d, type: 3}
+      propertyPath: rollCounterMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3966769408617394158, guid: 553f28ca3430a46418f28a098c84f48d, type: 3}
       propertyPath: rollCounterForce
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5457402465587664843, guid: 553f28ca3430a46418f28a098c84f48d, type: 3}
+      propertyPath: steeringOverSpeed.m_Curve.Array.data[1].value
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457402465587664843, guid: 553f28ca3430a46418f28a098c84f48d, type: 3}
+      propertyPath: steeringOverSpeed.m_Curve.Array.data[0].inSlope
+      value: -0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457402465587664843, guid: 553f28ca3430a46418f28a098c84f48d, type: 3}
+      propertyPath: steeringOverSpeed.m_Curve.Array.data[1].inSlope
+      value: -0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457402465587664843, guid: 553f28ca3430a46418f28a098c84f48d, type: 3}
+      propertyPath: steeringOverSpeed.m_Curve.Array.data[0].outSlope
+      value: -0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457402465587664843, guid: 553f28ca3430a46418f28a098c84f48d, type: 3}
+      propertyPath: steeringOverSpeed.m_Curve.Array.data[1].outSlope
+      value: -0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 5497088827533659254, guid: 553f28ca3430a46418f28a098c84f48d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.102
+      value: -23.97
       objectReference: {fileID: 0}
     - target: {fileID: 5497088827533659254, guid: 553f28ca3430a46418f28a098c84f48d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.35
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 5497088827533659254, guid: 553f28ca3430a46418f28a098c84f48d, type: 3}
       propertyPath: m_LocalPosition.z
