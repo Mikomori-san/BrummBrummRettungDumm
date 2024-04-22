@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/_GAME/Scenes/_FinalGame/Game.unity
     guid: 4606cae15cd6a1a4c8abe80d81ef4e0b
   - enabled: 1
-    path: Assets/_GAME/Scenes/Working/Steffan.unity
+    path: Assets/_GAME/Scenes/Working/Stefan.unity
     guid: 2ce7f99d490a09e488238a4b286d120e
   - enabled: 1
     path: Assets/_GAME/Scenes/Working/Kevin.unity
