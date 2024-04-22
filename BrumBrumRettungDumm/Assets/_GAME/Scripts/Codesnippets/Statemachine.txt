@@ -1,0 +1,40 @@
+public enum State {State1, State2, State3};
+private State state;
+
+private void Start()
+{
+    state = State.State1;
+}
+
+void Update ()
+{
+    switch (state)
+    {
+        case State.State1:
+        State1();
+        break;
+
+        case State.State2:
+        State2();
+        break;
+
+        case State.State3:
+        State3();
+        break;
+    }
+}
+
+private void State1()
+{
+
+}
+
+private void State2()
+{
+
+}
+
+private void State3()
+{
+
+}

@@ -1,0 +1,12 @@
+public int poolSize;
+private Queue<GameObject> pool = new Queue<GameObject>();
+
+void InitializePool()
+{
+    for(int i=0; i< poolSize; i++)
+    {
+        GameObject newGO = Instantiate(PrefabToPool);
+        newGO.SetActive(false);
+        pool.Enqueue(newGO);
+    }
+}

@@ -1,0 +1,11 @@
+public delegate void Observers();
+public static event Observers OnObserve;
+
+//Call all Subscribed Functions
+OnObserve?.Invoke();
+
+//Other Scripts can Subscribe with
+ObserverClass.OnObserve += MySubscribingFunction;
+
+
+///When you the ObserverClass into an Singleton, then you can remove the "static" from your OnObserve and call it by ObserverClass.Instance.OnObserve

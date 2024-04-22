@@ -1,0 +1,65 @@
+void SelectionSorting()
+    {
+        print("Selection Sorting");
+
+
+        for (int i = 0; i < SIZE; i++)
+        {
+            int lowestFound = int.Parse(text[i].text);
+            int lowestFoundMarker = i;
+            for (int x = i; x < SIZE; x++)
+            {
+                if (int.Parse(text[x].text) < lowestFound)
+                {
+                    lowestFound = int.Parse(text[x].text);
+                    lowestFoundMarker = x;
+                }
+            }
+
+            text[lowestFoundMarker].text = text[i].text;
+            text[i].text = lowestFound.ToString();
+        }
+    }
+
+    void BubbleSorting()
+    {
+        print("Bubble Sorting");
+
+        int x;
+        for (int i = SIZE; i > 0; i--)
+        {
+            for (x = 0; x < i; x++)
+            {
+                if(x + 1 < i)
+                {
+                    if (int.Parse(text[x].text) > int.Parse(text[x + 1].text))
+                    {
+                        int temporairy = int.Parse(text[x + 1].text);
+                        text[x + 1].text = text[x].text;
+                        text[x].text = "" + temporairy;
+                    }
+                }
+            }
+            x = 0;
+        }
+    }
+
+    void InsertSorting()
+    {
+        print("Insert Sorting");
+
+        for (int i = 1; i < SIZE; i++)
+        {
+            int temporairy = int.Parse(text[i].text);
+            int index = i - 1;
+
+            while (index >= 0 && int.Parse(text[index].text) > temporairy)
+            {
+                text[index + 1].text = text[index].text;
+                index--;
+            }
+
+            text[index + 1].text = "" + temporairy;
+            text[i - 1].color = Color.green;
+        }
+    }

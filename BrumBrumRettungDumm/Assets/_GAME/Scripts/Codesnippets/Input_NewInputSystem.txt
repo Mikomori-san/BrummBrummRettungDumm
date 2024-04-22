@@ -1,0 +1,7 @@
+public void Input_Jump(InputAction.CallbackContext context)
+{
+    if (context.started) { /* On Input Down */ }
+    if (context.canceled) { /* On Input Up */ }
+
+    float inputValue = context.ReadValue<float>();
+}

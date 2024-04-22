@@ -1,0 +1,18 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "New Scriptable Object", menuName = "My Scriptable Object")]
+public class MyScriptableObject : ScriptableObject
+{
+    public int storedInt;
+    public float storedFloat;
+    public string storedString;
+
+    public struct StoredStructure
+    {
+        public bool storedBool;
+        public Sprite storedSprite
+    }
+    public StoredStructure storedStructure;
+}
