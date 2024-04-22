@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1276117064608958987}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.816, y: 0.145, z: -1.4686294}
+  m_LocalPosition: {x: -0.816, y: 0.25, z: -1.4686294}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -296,7 +296,7 @@ Transform:
   m_GameObject: {fileID: 2436610858007361296}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.82294893, y: 0.145, z: -1.4686294}
+  m_LocalPosition: {x: 0.82294893, y: 0.25, z: -1.4686294}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -903,7 +903,7 @@ Transform:
   m_GameObject: {fileID: 5973870724658250508}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.816, y: 0.145, z: 1.845}
+  m_LocalPosition: {x: -0.816, y: 0.25, z: 1.845}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1547,7 +1547,7 @@ Transform:
   m_GameObject: {fileID: 8359231764051872400}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.82294893, y: 0.145, z: 1.8450003}
+  m_LocalPosition: {x: 0.82294893, y: 0.25, z: 1.8450003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1829,11 +1829,11 @@ MonoBehaviour:
   bodyMass: 20
   rigidbodyInterpolation: 1
   collisionDetectionMode: 2
-  centerOfMass: {x: 0, y: -0.1, z: 0}
+  centerOfMass: {x: 0, y: 0, z: 0}
   rollCounterMode: 1
   rollCounterTargetAngle: 0
   rollCounterForce: 4
-  rollCounterSmoothing: 1
+  rollCounterSmoothing: 2
   rollCounterOverSpeed:
     serializedVersion: 2
     m_Curve:
