@@ -5,9 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class ForceObjectLogic : MonoBehaviour
 {
-    public float forceMultiplier = 1f;
+    public float forceMultiplier = -1f;
     public float torqueMultiplier = 0f;
-    public float gravityMultiplier = 1f;
+    public float gravityMultiplier = 0f;
 
     // Start is called before the first frame update
     void Start()

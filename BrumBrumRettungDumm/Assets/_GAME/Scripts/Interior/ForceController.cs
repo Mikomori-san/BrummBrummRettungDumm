@@ -31,7 +31,7 @@ public class ForceController : MonoBehaviour
     {
         foreach (ForceObjectLogic forceObject in forceObjects)
         {
-            forceObject.GetComponent<Rigidbody>().useGravity = false;
+            forceObject.GetComponent<Rigidbody>().useGravity = true;
         }
         targetRigidbody = target.GetComponent<Rigidbody>();
         lastVelocity = targetRigidbody.velocity;
@@ -55,9 +55,9 @@ public class ForceController : MonoBehaviour
             Vector3 totalForce = rb.mass * acceleration * forceObject.forceMultiplier;
             Vector3 totalTorque = Vector3.Scale(rb.inertiaTensor, angularAcceleration) * forceObject.torqueMultiplier;
 
-            rb.AddForce(-totalForce);
+            rb.AddForce(totalForce);
             rb.AddForce(gravity * forceObject.gravityMultiplier, ForceMode.Acceleration);   //the gravity applied may be a bit to strong
-            rb.AddTorque(-totalTorque);   //this works but i think the torque doesnt need to be applied
+            rb.AddTorque(totalTorque);   //this works but i think the torque doesnt need to be applied
         }
 
         lastVelocity = targetRigidbody.velocity;
