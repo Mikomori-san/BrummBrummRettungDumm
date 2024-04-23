@@ -41,7 +41,7 @@ public class ForceController : MonoBehaviour
     {
         if (timer > 1.5f)
         {
-            int randomNr = Random.Range(0, 5);
+            int randomNr = Random.Range(0, 4);
             Vector3 force = Vector3.zero;
             switch (randomNr)
             {
@@ -61,9 +61,6 @@ public class ForceController : MonoBehaviour
                     force = Vector3.right;
                     StartCoroutine(TiltGameObject(ambulance, 1f, -30f, TiltDirection.right));
                     break;
-                case 4:
-                    force = Vector3.up;
-                    break;
                 default:
                     break;
             }
@@ -76,21 +73,18 @@ public class ForceController : MonoBehaviour
 
                 if (Physics.Raycast(ray, maxDistance, LayerMask.GetMask("Ground")))
                 {
-                    print("JUMP!");
                     forceObjects[i].GetComponent<Rigidbody>().AddForce(force * 2, ForceMode.Impulse);
                 }
 
                 Vector3 lastPosition = forceObjects[i].GetComponent<ForceObjectLogic>().lastPosition;
                 Ray correctionRay = new Ray(position, lastPosition - position);
                 maxDistance = Vector3.Distance(lastPosition, position);
-
-                // Check if the object is colliding with the ground (through the ground)
+                
                 if (Physics.Raycast(correctionRay, maxDistance, LayerMask.GetMask("Ground")))
                 {
                     forceObjects[i].transform.position = lastPosition;
                 }
-
-                // Update last position
+                
                 forceObjects[i].GetComponent<ForceObjectLogic>().lastPosition = forceObjects[i].transform.position;
             }
             timer = 0;
