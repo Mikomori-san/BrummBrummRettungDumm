@@ -65,7 +65,8 @@ public class CarAI : MonoBehaviour
 
     private void CheckWaypoints()
     {
-        if(Vector3.Distance(transform.position, navi.CurrentPoints[curWayPoint].position) < waypointDetectionRadius) 
+        if (navi.CurrentPoints.Count == 0) { return; }
+        if (Vector3.Distance(transform.position, navi.CurrentPoints[0].position) < waypointDetectionRadius) 
         {
             curWayPoint++;
             print(curWayPoint);
@@ -80,7 +81,8 @@ public class CarAI : MonoBehaviour
 
     private void SteerTowardsPath()
     {
-        Vector3 relativeVector = transform.InverseTransformPoint(navi.CurrentPoints[curWayPoint].position);
+        if(navi.CurrentPoints.Count == 0) { return; }
+        Vector3 relativeVector = transform.InverseTransformPoint(navi.CurrentPoints[0].position);
         float newSteer = (relativeVector.x / relativeVector.magnitude) * maxSteerAngle;
         wheel_F_L.steerAngle = newSteer;
         wheel_F_R.steerAngle = newSteer;
