@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
-public class GameController : MonoBehaviour
+public class ObjectDragging : MonoBehaviour
 {
     public Camera cam;
 
