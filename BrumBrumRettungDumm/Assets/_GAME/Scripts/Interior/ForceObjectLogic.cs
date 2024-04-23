@@ -19,4 +19,14 @@ public class ForceObjectLogic : MonoBehaviour
     {
         
     }
+
+    public void DisableForce()
+    {
+        ForceController.Instance.RemoveForceObject(gameObject);
+    }
+
+    public void EnableForce()
+    {
+        ForceController.Instance.AddForceObject(gameObject);
+    }
 }

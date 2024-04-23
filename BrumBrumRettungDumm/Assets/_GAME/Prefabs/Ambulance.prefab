@@ -1008,17 +1008,17 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0.7
-      outSlope: -0.7
+      inSlope: -0.8
+      outSlope: -0.8
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 0.3
-      inSlope: -0.7
-      outSlope: -0.7
+      value: 0.2
+      inSlope: -0.8
+      outSlope: -0.8
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -1459,7 +1459,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5497088827533659254}
   - component: {fileID: 7023008539303486700}
-  - component: {fileID: 1682107582827835214}
   m_Layer: 0
   m_Name: Ambulance
   m_TagString: Untagged
@@ -1476,7 +1475,7 @@ Transform:
   m_GameObject: {fileID: 7637258036625778017}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.102, y: 0.35, z: -11.514}
+  m_LocalPosition: {x: -23.97, y: 1.1, z: -11.514}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1506,18 +1505,6 @@ MonoBehaviour:
   applyHandbrake: 0
   boostMaxSpeedMultiplier: 1.2
   boostAccelerationMultiplier: 1.5
---- !u!114 &1682107582827835214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7637258036625778017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5bcd526a1d460d41a5e976a7be0cecd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8359231764051872400
 GameObject:
   m_ObjectHideFlags: 0
@@ -1652,17 +1639,17 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0.7
-      outSlope: -0.7
+      inSlope: -0.8
+      outSlope: -0.8
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 0.3
-      inSlope: -0.7
-      outSlope: -0.7
+      value: 0.2
+      inSlope: -0.8
+      outSlope: -0.8
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -1830,7 +1817,7 @@ MonoBehaviour:
   rigidbodyInterpolation: 1
   collisionDetectionMode: 2
   centerOfMass: {x: 0, y: 0, z: 0}
-  rollCounterMode: 1
+  rollCounterMode: 0
   rollCounterTargetAngle: 0
   rollCounterForce: 2
   rollCounterSmoothing: 2
