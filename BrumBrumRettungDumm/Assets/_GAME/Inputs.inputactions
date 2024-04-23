@@ -769,6 +769,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "CarControls",
+            "id": "7d3ddcf8-eee9-429a-ad81-65b7de8c404b",
+            "actions": [
+                {
+                    "name": "Forward",
+                    "type": "Button",
+                    "id": "745c0686-06eb-47ed-a5c8-4064e2ef2fa4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7b31c37c-ea05-4ceb-8d5c-4c2877f98fb0",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Forward",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

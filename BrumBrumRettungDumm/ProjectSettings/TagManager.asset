@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ambulance
   - Draggable
+  - AmbulanceBody
   layers:
   - Default
   - TransparentFX

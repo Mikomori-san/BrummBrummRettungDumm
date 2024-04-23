@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(Rigidbody))]
 public class ApplyInversedForces : MonoBehaviour
 {
-    [SerializeField] GameObject target;
+    public GameObject target;
     private Vector3 force;
     private Vector3 angularTorque;
     private Vector3 gravity;
@@ -17,6 +17,7 @@ public class ApplyInversedForces : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+        rb.useGravity = false;
         targetRigidbody = target.GetComponent<Rigidbody>();
         force = Vector3.zero;
         lastVelocity = rb.velocity;
