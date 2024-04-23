@@ -5037,7 +5037,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6343193350542867736, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
       propertyPath: m_Name
-      value: Camera
+      value: AmbulanceCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 7674799859095961466, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
+      propertyPath: m_ClearFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7674799859095961466, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
+      propertyPath: m_NormalizedViewPortRect.width
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
