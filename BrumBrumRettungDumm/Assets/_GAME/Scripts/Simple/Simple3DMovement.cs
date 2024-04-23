@@ -45,7 +45,7 @@ public class Simple3DMovement : MonoBehaviour
     {
         if (isGrounded && context.performed)
         {
-            print("Jump");
+            //print("Jump");
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
     }
@@ -70,9 +70,9 @@ public class Simple3DMovement : MonoBehaviour
         if (movementX != 0 || movementZ != 0)
         {
             Vector3 movementDirection = transform.right * movementX + transform.forward * movementZ;
-            print(movementDirection);
+            //print(movementDirection);
             movementDirection = AdjustVelocityToSlope(movementDirection);
-            print(movementDirection);
+            //print(movementDirection);
             characterController.Move(movementDirection * movementSpeed * Time.deltaTime);
         }
 

@@ -47,19 +47,19 @@ public class ForceController : MonoBehaviour
             {
                 case 0:
                     force = Vector3.forward;
-                    StartCoroutine(TiltGameObject(ambulance, 1f, 30f, TiltDirection.forward));
+                    //StartCoroutine(TiltGameObject(ambulance, 1f, 30f, TiltDirection.forward));
                     break;
                 case 1:
                     force = Vector3.back;
-                    StartCoroutine(TiltGameObject(ambulance, 1f, -30f, TiltDirection.back));
+                    //StartCoroutine(TiltGameObject(ambulance, 1f, -30f, TiltDirection.back));
                     break;
                 case 2:
                     force = Vector3.left;
-                    StartCoroutine(TiltGameObject(ambulance, 1f, 30f, TiltDirection.left));
+                    //StartCoroutine(TiltGameObject(ambulance, 1f, 30f, TiltDirection.left));
                     break;
                 case 3:
                     force = Vector3.right;
-                    StartCoroutine(TiltGameObject(ambulance, 1f, -30f, TiltDirection.right));
+                    //StartCoroutine(TiltGameObject(ambulance, 1f, -30f, TiltDirection.right));
                     break;
                 default:
                     break;

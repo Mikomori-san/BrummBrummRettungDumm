@@ -5,7 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ambulance
-  - Draggable
+  - Pill
+  - Patient
   layers:
   - Default
   - TransparentFX
@@ -13,7 +14,7 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
+  - Draggable
   - 
   - 
   - 

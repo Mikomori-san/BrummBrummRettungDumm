@@ -8,11 +8,24 @@ using UnityEngine.Serialization;
 
 public class ObjectDragging : MonoBehaviour
 {
-    public Camera cam;
+    [SerializeField] private Camera cam;
 
-    private bool isDragging = false;
-    private GameObject grabbedObject;
+    [HideInInspector] public bool isDragging = false;
+    [HideInInspector] public GameObject grabbedObject;
     private ForceObjectLogic dragObjectForceObjectLogic;
+    public static ObjectDragging Instance { get; private set; }
+    
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
     
     // Start is called before the first frame update
     void Start()
@@ -37,7 +50,7 @@ public class ObjectDragging : MonoBehaviour
 
             Quaternion cameraRotation = cam.transform.rotation;
 
-            Vector3 objectPosition = cam.transform.position + cam.transform.forward * 2f;
+            Vector3 objectPosition = cam.transform.position + cam.transform.forward;
 
             grabbedObject.transform.position = objectPosition;
             grabbedObject.transform.rotation = cameraRotation;
@@ -52,11 +65,11 @@ public class ObjectDragging : MonoBehaviour
             Vector3 screenMiddle = new Vector3(Screen.width / 2f, Screen.height / 2f, cam.nearClipPlane);
             Ray ray = cam.ScreenPointToRay(screenMiddle);
 
-            float maxRange = 100f;
+            float maxRange = 1.5f;
 
             if (Physics.Raycast(ray, out hit, maxRange))
             {
-                if (hit.collider != null && hit.collider.CompareTag("Draggable"))
+                if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Draggable"))
                 {
                     grabbedObject = hit.collider.gameObject;
                     isDragging = true;
