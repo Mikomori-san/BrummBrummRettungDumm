@@ -30,12 +30,7 @@ public class IneriorSceneLoader : MonoBehaviour
             }
             else
             {
-                List<GameObject> rbGameObjects = GetAllGameObjectsWithRigidbodyInScene(SceneManager.GetSceneByName("InteriorScene"));
-                foreach (GameObject go in rbGameObjects)
-                {
-                    ApplyInversedForces applyInversedComp = go.AddComponent<ApplyInversedForces>();
-                    applyInversedComp.target = ambulanceBody;
-                }
+                GameObject.Find("ForceController").GetComponent<ForceController>().target = ambulanceBody;
             }
         }
     }
@@ -50,34 +45,5 @@ public class IneriorSceneLoader : MonoBehaviour
     }
     void Update()
     {
-    }
-    private static List<GameObject> GetAllGameObjectsWithRigidbodyInScene(Scene scene)
-    {
-        List<GameObject> allObjectsWithRigidbody = new List<GameObject>();
-
-        // Get all root GameObjects in the scene
-        var rootObjects = scene.GetRootGameObjects();
-
-        foreach (var rootObject in rootObjects)
-        {
-            // Check if the root GameObject has a Rigidbody
-            if (rootObject.GetComponent<Rigidbody>() != null)
-            {
-                allObjectsWithRigidbody.Add(rootObject);
-            }
-
-            // Check all child GameObjects
-            var childObjects = rootObject.GetComponentsInChildren<Transform>(true);
-            foreach (var child in childObjects)
-            {
-                if (child.gameObject.GetComponent<Rigidbody>() != null)
-                {
-                    if(!allObjectsWithRigidbody.Contains(child.gameObject))
-                        allObjectsWithRigidbody.Add(child.gameObject);
-                }
-            }
-        }
-
-        return allObjectsWithRigidbody;
     }
 }

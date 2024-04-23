@@ -3,22 +3,17 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using UnityEngine;
 
-enum TiltDirection
-{
-    left,
-    right,
-    forward,
-    back
-}
+
 public class ForceController : MonoBehaviour
 {
     public static ForceController Instance { get; private set; }
 
-    private List<GameObject> forceObjects = new List<GameObject>();
-
-    private GameObject ambulance;
-
-    private float timer = 0;
+    public GameObject target;
+    private Rigidbody targetRigidbody;
+    private Vector3 gravity;
+    private Vector3 lastVelocity;
+    private Vector3 lastAngularVelocity;
+    private List<ForceObjectLogic> forceObjects = new List<ForceObjectLogic>();
 
     private void Awake()
     {
@@ -34,110 +29,47 @@ public class ForceController : MonoBehaviour
 
     void Start()
     {
-        ambulance = GameObject.FindGameObjectWithTag("Ambulance");
+        foreach (ForceObjectLogic forceObject in forceObjects)
+        {
+            forceObject.GetComponent<Rigidbody>().useGravity = false;
+        }
+        targetRigidbody = target.GetComponent<Rigidbody>();
+        lastVelocity = targetRigidbody.velocity;
+        lastAngularVelocity = targetRigidbody.angularVelocity;
     }
 
     void FixedUpdate()
     {
-        if (timer > 1.5f)
+        Vector3 deltaVelocity = targetRigidbody.velocity - lastVelocity;
+        Vector3 deltaAngularVelocity = targetRigidbody.angularVelocity - lastAngularVelocity;
+
+        //determine in which direction the gravity affects the object from the object's perspective
+        gravity = target.transform.InverseTransformDirection(Physics.gravity);
+
+        Vector3 acceleration = deltaVelocity / Time.fixedDeltaTime;
+        Vector3 angularAcceleration = deltaAngularVelocity / Time.fixedDeltaTime;
+
+        foreach (ForceObjectLogic forceObject in forceObjects)
         {
-            int randomNr = Random.Range(0, 4);
-            Vector3 force = Vector3.zero;
-            switch (randomNr)
-            {
-                case 0:
-                    force = Vector3.forward;
-                    //StartCoroutine(TiltGameObject(ambulance, 1f, 30f, TiltDirection.forward));
-                    break;
-                case 1:
-                    force = Vector3.back;
-                    //StartCoroutine(TiltGameObject(ambulance, 1f, -30f, TiltDirection.back));
-                    break;
-                case 2:
-                    force = Vector3.left;
-                    //StartCoroutine(TiltGameObject(ambulance, 1f, 30f, TiltDirection.left));
-                    break;
-                case 3:
-                    force = Vector3.right;
-                    //StartCoroutine(TiltGameObject(ambulance, 1f, -30f, TiltDirection.right));
-                    break;
-                default:
-                    break;
-            }
+            Rigidbody rb = forceObject.GetComponent<Rigidbody>();
+            Vector3 totalForce = rb.mass * acceleration * forceObject.forceMultiplier;
+            Vector3 totalTorque = Vector3.Scale(rb.inertiaTensor, angularAcceleration) * forceObject.torqueMultiplier;
 
-            for (int i = 0; i < forceObjects.Count; i++)
-            {
-                Vector3 position = forceObjects[i].transform.position;
-                Ray ray = new Ray(position, Vector3.down);
-                float maxDistance = 1f;
-
-                if (Physics.Raycast(ray, maxDistance, LayerMask.GetMask("Ground")))
-                {
-                    forceObjects[i].GetComponent<Rigidbody>().AddForce(force * 2, ForceMode.Impulse);
-                }
-
-                Vector3 lastPosition = forceObjects[i].GetComponent<ForceObjectLogic>().lastPosition;
-                Ray correctionRay = new Ray(position, lastPosition - position);
-                maxDistance = Vector3.Distance(lastPosition, position);
-
-                if (Physics.Raycast(correctionRay, maxDistance, LayerMask.GetMask("Ground")))
-                {
-                    forceObjects[i].transform.position = lastPosition;
-                }
-
-                forceObjects[i].GetComponent<ForceObjectLogic>().lastPosition = forceObjects[i].transform.position;
-            }
-            timer = 0;
+            rb.AddForce(-totalForce);
+            rb.AddForce(gravity * forceObject.gravityMultiplier, ForceMode.Acceleration);   //the gravity applied may be a bit to strong
+            rb.AddTorque(-totalTorque);   //this works but i think the torque doesnt need to be applied
         }
-        timer += Time.deltaTime;
+
+        lastVelocity = targetRigidbody.velocity;
+        lastAngularVelocity = targetRigidbody.angularVelocity;
     }
 
-    private IEnumerator TiltGameObject(GameObject gameObject, float tiltDuration, float tiltAngle, TiltDirection dir)
-    {
-        Quaternion startRotation = gameObject.transform.rotation;
-        Quaternion targetRotation;
-        switch (dir)
-        {
-            case TiltDirection.left:
-            case TiltDirection.right:
-                targetRotation = Quaternion.Euler(0f, 0f, tiltAngle);
-                break;
-            case TiltDirection.forward:
-            case TiltDirection.back:
-                targetRotation = Quaternion.Euler(tiltAngle, 0f, 0f);
-                break;
-            default:
-                targetRotation = Quaternion.Euler(0f, 0f, 0f);
-                break;
-        }
-
-
-        float elapsedTime = 0f;
-        while (elapsedTime < tiltDuration / 2)
-        {
-            float t = elapsedTime / tiltDuration;
-            gameObject.transform.rotation = Quaternion.Lerp(startRotation, targetRotation, t);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        while (elapsedTime < tiltDuration)
-        {
-            float t = elapsedTime / tiltDuration;
-            gameObject.transform.rotation = Quaternion.Lerp(targetRotation, startRotation, t);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        gameObject.transform.rotation = startRotation;
-    }
-
-    public void AddForceObject(GameObject forceObject)
+    public void AddForceObject(ForceObjectLogic forceObject)
     {
         forceObjects.Add(forceObject);
     }
 
-    public void RemoveForceObject(GameObject forceObject)
+    public void RemoveForceObject(ForceObjectLogic forceObject)
     {
         forceObjects.Remove(forceObject);
     }
