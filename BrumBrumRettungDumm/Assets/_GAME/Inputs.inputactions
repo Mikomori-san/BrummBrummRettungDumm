@@ -40,6 +40,42 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CarDrive",
+                    "type": "Value",
+                    "id": "a218dc01-61ab-489a-8338-87ca524e63c8",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "CarRespawn",
+                    "type": "Button",
+                    "id": "166adf23-6f82-457a-8929-96757b53600e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CarBoost",
+                    "type": "Button",
+                    "id": "4912411d-238b-474a-b3f5-93511663adb7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CarHandbrake",
+                    "type": "Button",
+                    "id": "42b012a4-d4a6-4ab4-96aa-b60da387deb2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -67,30 +103,8 @@
                 },
                 {
                     "name": "up",
-                    "id": "e2062cb9-1b15-46a2-838c-2f8d72a0bdd9",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "up",
                     "id": "8180e8bd-4097-4f4e-ab88-4523101a6ce9",
                     "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "320bffee-a40b-4347-ac70-c210eb8bc73a",
-                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -111,30 +125,8 @@
                 },
                 {
                     "name": "left",
-                    "id": "d2581a9b-1d11-4566-b27d-b92aff5fabbc",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
                     "id": "2e46982e-44cc-431b-9f0b-c11910bf467a",
                     "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "fcfe95b8-67b9-4526-84b5-5d0bc98d6400",
-                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -211,7 +203,7 @@
                 {
                     "name": "",
                     "id": "2a153894-32e1-4db4-8f52-357389c9535a",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/rightCtrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -249,6 +241,94 @@
                     "processors": "",
                     "groups": "",
                     "action": "Grab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "WASD",
+                    "id": "f90a4a44-443c-4db8-ad90-4d904863c220",
+                    "path": "Dpad",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CarDrive",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "f05bad64-1c83-41a0-b791-962f2e77ab44",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "CarDrive",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "ed597609-3a89-430d-b065-c0e1380635f1",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "CarDrive",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "daf663d7-c9e8-476d-8a08-d1843d01ccdd",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "CarDrive",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "fff3064c-7329-4a83-b2ea-7206398c264f",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "CarDrive",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "e98b8b05-603d-41b3-8365-7e01e7c03140",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "CarRespawn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e44bb172-2c71-4fea-810b-c5af83ce0f0c",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "CarBoost",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e1677dab-2d69-47f8-b0e2-16c451f7b8c3",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "CarHandbrake",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -775,7 +855,7 @@
             "id": "7d3ddcf8-eee9-429a-ad81-65b7de8c404b",
             "actions": [
                 {
-                    "name": "Move",
+                    "name": "CarDrive",
                     "type": "Value",
                     "id": "745c0686-06eb-47ed-a5c8-4064e2ef2fa4",
                     "expectedControlType": "Vector2",
@@ -784,7 +864,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Respawn",
+                    "name": "CarRespawn",
                     "type": "Button",
                     "id": "efeded57-b6cf-441c-8168-d1d160bd5286",
                     "expectedControlType": "Button",
@@ -793,7 +873,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Boost",
+                    "name": "CarBoost",
                     "type": "Button",
                     "id": "c7405b03-8b6d-4010-89a9-45a8b363b227",
                     "expectedControlType": "Button",
@@ -802,7 +882,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Handbrake",
+                    "name": "CarHandbrake",
                     "type": "Button",
                     "id": "26469513-beb0-4813-8662-51df4fbf843b",
                     "expectedControlType": "Button",
@@ -819,7 +899,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Respawn",
+                    "action": "CarRespawn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -830,7 +910,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Boost",
+                    "action": "CarBoost",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -841,7 +921,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "CarDrive",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -852,7 +932,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "CarDrive",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -863,7 +943,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "CarDrive",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -874,7 +954,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "CarDrive",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -885,7 +965,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "CarDrive",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -896,7 +976,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Handbrake",
+                    "action": "CarHandbrake",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(PlayerInput))]
-
 public class CarInputForTCCA : MonoBehaviour
 {
     public TCCAPlayer carController;
@@ -13,15 +11,15 @@ public class CarInputForTCCA : MonoBehaviour
     [Tooltip("Whether to let this script control the vehicle.")]
     public bool enableInput = true;
 
-    private float movementX = 0f;
-    private float movementZ = 0f;
+    private float steering = 0f;
+    private float motor = 0f;
     private float boostInput = 0f;
     private bool handbrake = false;
 
     public void Input_Movement(InputAction.CallbackContext context)
     {
-        movementX = context.ReadValue<Vector2>().x;
-        movementZ = context.ReadValue<Vector2>().y;
+        steering = context.ReadValue<Vector2>().x;
+        motor = context.ReadValue<Vector2>().y;
     }
 
     public void Input_Respawn(InputAction.CallbackContext context)
@@ -61,8 +59,8 @@ public class CarInputForTCCA : MonoBehaviour
     {
         if (enableInput && carController != null)
         {
-            float motorDelta = movementZ;
-            float steeringDelta = movementX;
+            float motorDelta = motor;
+            float steeringDelta = steering;
 
             carController.setMotor(motorDelta);
             carController.setSteering(steeringDelta);
