@@ -16,10 +16,13 @@ public class CarInputForTCCA : MonoBehaviour
     private float boostInput = 0f;
     private bool handbrake = false;
 
-    public void Input_Movement(InputAction.CallbackContext context)
+    public void Input_Throttle(InputAction.CallbackContext context)
     {
-        steering = context.ReadValue<Vector2>().x;
-        motor = context.ReadValue<Vector2>().y;
+        motor = context.ReadValue<float>();
+    }
+    public void Input_Steering(InputAction.CallbackContext context)
+    {
+        steering = context.ReadValue<float>();
     }
 
     public void Input_Respawn(InputAction.CallbackContext context)

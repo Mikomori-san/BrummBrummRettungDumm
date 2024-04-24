@@ -1506,8 +1506,8 @@ MonoBehaviour:
   steeringDelta: 0
   boostDelta: 0
   applyHandbrake: 0
-  boostMaxSpeedMultiplier: 1.2
-  boostAccelerationMultiplier: 1.5
+  boostMaxSpeedMultiplier: 10
+  boostAccelerationMultiplier: 10
 --- !u!114 &855290374706964418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1549,22 +1549,6 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: f59b2b24-34f6-4302-85f9-e406f7f6ef9f
     m_ActionName: Player/Grab[/Mouse/leftButton,/DualShock4GamepadHID/buttonWest]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6880856022612412501}
-        m_TargetAssemblyTypeName: CarInputForTCCA, Assembly-CSharp
-        m_MethodName: Input_Movement
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: a218dc01-61ab-489a-8338-87ca524e63c8
-    m_ActionName: Player/CarDrive[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6880856022612412501}
@@ -1658,21 +1642,37 @@ MonoBehaviour:
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 745c0686-06eb-47ed-a5c8-4064e2ef2fa4
-    m_ActionName: CarControls/CarDrive[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+      m_Calls:
+      - m_Target: {fileID: 6880856022612412501}
+        m_TargetAssemblyTypeName: CarInputForTCCA, Assembly-CSharp
+        m_MethodName: Input_Throttle
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 952c5da6-803d-42f1-96d8-54b403394e44
+    m_ActionName: Player/CarThrottle[/Keyboard/s,/Keyboard/w,/DualShock4GamepadHID/rightTrigger]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: efeded57-b6cf-441c-8168-d1d160bd5286
-    m_ActionName: CarControls/CarRespawn[/Keyboard/r]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c7405b03-8b6d-4010-89a9-45a8b363b227
-    m_ActionName: CarControls/CarBoost[/Keyboard/leftShift]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 26469513-beb0-4813-8662-51df4fbf843b
-    m_ActionName: CarControls/CarHandbrake[/Keyboard/space]
+      m_Calls:
+      - m_Target: {fileID: 6880856022612412501}
+        m_TargetAssemblyTypeName: CarInputForTCCA, Assembly-CSharp
+        m_MethodName: Input_Steering
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9d0c5183-a89b-494b-b524-9816c2acc94c
+    m_ActionName: Player/CarSteering[/Keyboard/a,/Keyboard/d,/DualShock4GamepadHID/leftStick/left,/DualShock4GamepadHID/leftStick/right]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
