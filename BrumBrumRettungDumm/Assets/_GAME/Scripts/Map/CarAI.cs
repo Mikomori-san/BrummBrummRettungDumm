@@ -18,7 +18,9 @@ public class CarAI : MonoBehaviour
     [SerializeField] private float maxSteerAngle = 50;
     [SerializeField] private WheelCollider wheel_F_L;
     [SerializeField] private WheelCollider wheel_F_R;
-    [SerializeField] private float speed = 10;
+    [SerializeField] private float acceleration = 10;
+    private float curspeed;
+    [SerializeField] private float maxSpeed = 30;
     [SerializeField] private float waypointDetectionRadius = 0.3f;
     [SerializeField] private float AntiRoll = 5000f;
 
@@ -33,7 +35,7 @@ public class CarAI : MonoBehaviour
     private void FixedUpdate()
     {
         navi.Goal = target.position;
-        BalanceVehicle();
+        //BalanceVehicle(); <- Currently makes things worse
         SteerTowardsPath();
         Drive();
         CheckWaypoints();
@@ -75,8 +77,17 @@ public class CarAI : MonoBehaviour
 
     private void Drive()
     {
-        wheel_F_L.motorTorque = speed;
-        wheel_F_R.motorTorque = speed;
+        curspeed = 2 * MathF.PI * wheel_F_L.radius * wheel_F_L.rpm * 60 / 1000f;
+        if(curspeed < maxSpeed) 
+        { 
+            wheel_F_L.motorTorque = acceleration;
+            wheel_F_R.motorTorque = acceleration;
+        }
+        else
+        {
+            wheel_F_L.motorTorque = 0;
+            wheel_F_R.motorTorque = 0;
+        }
     }
 
     private void SteerTowardsPath()
