@@ -48,8 +48,13 @@ public class PatientLifespan : MonoBehaviour
     
     public void IncreasePatientHealth(int healthIncrease)
     {
-        if(patientHealth > 0)
+        if (patientHealth > 0)
+        {
             patientHealth += healthIncrease;
+        }
+        
+        if(patientHealth > 100)
+            patientHealth = 100;
     }
     
     public void IncreaseSeverity(int severityIncrease)
