@@ -30,7 +30,7 @@ public class IneriorSceneLoader : MonoBehaviour
             }
             else
             {
-                GameObject.Find("ForceController").GetComponent<ForceController>().target = ambulanceBody;
+                GameObject.Find("ForceController").GetComponent<ForceController>().SetTarget(ambulanceBody);
                 GameObject.FindGameObjectWithTag("Ambulance").GetComponent<InteriorOrientation>().target = ambulanceBody;
             }
         }

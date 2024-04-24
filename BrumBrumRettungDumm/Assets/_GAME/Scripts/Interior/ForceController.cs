@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 public class ForceController : MonoBehaviour
 {
     public static ForceController Instance { get; private set; }
 
-    public GameObject target;
+    [SerializeField] private GameObject target;
     private Rigidbody targetRigidbody;
     private Vector3 gravity;
     private Vector3 lastVelocity;
@@ -33,13 +34,18 @@ public class ForceController : MonoBehaviour
         {
             forceObject.GetComponent<Rigidbody>().useGravity = true;
         }
-        targetRigidbody = target.GetComponent<Rigidbody>();
-        lastVelocity = targetRigidbody.velocity;
-        lastAngularVelocity = targetRigidbody.angularVelocity;
+        if(target != null)
+            SetTarget(target);
     }
 
     void FixedUpdate()
     {
+        if (target == null)
+            return;
+        if (targetRigidbody == null)
+            targetRigidbody = target.GetComponent<Rigidbody>();
+        if (targetRigidbody == null) return;
+
         Vector3 deltaVelocity = targetRigidbody.velocity - lastVelocity;
         Vector3 deltaAngularVelocity = targetRigidbody.angularVelocity - lastAngularVelocity;
 
@@ -72,5 +78,12 @@ public class ForceController : MonoBehaviour
     public void RemoveForceObject(ForceObjectLogic forceObject)
     {
         forceObjects.Remove(forceObject);
+    }
+    public void SetTarget(GameObject newTarget)
+    {
+        target = newTarget;
+        targetRigidbody = target.GetComponent<Rigidbody>();
+        lastVelocity = targetRigidbody.velocity;
+        lastAngularVelocity = targetRigidbody.angularVelocity;
     }
 }
