@@ -2137,7 +2137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1023003228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2528,7 +2528,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1194632631}
-  - component: {fileID: 1194632630}
+  - component: {fileID: 1194632633}
   - component: {fileID: 1194632632}
   m_Layer: 0
   m_Name: Standard Input
@@ -2537,48 +2537,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1194632630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1194632629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c66af5663b031764f92ba92ae154884b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  carController: {fileID: 905672420601027972}
-  enableInput: 1
-  forwardInput:
-    type: 2
-    name: Vertical
-    invert: 0
-  reverseInput:
-    type: 2
-    name: Vertical
-    invert: 1
-  steerRightInput:
-    type: 2
-    name: Horizontal
-    invert: 0
-  steerLeftInput:
-    type: 2
-    name: Horizontal
-    invert: 1
-  handbrakeInput:
-    type: 3
-    name: space
-    invert: 0
-  boostInput:
-    type: 3
-    name: left shift
-    invert: 0
-  respawnInput:
-    type: 3
-    name: r
-    invert: 0
 --- !u!4 &1194632631
 Transform:
   m_ObjectHideFlags: 0
@@ -2675,11 +2633,89 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1194632633}
+        m_TargetAssemblyTypeName: CarInputForTCCA, Assembly-CSharp
+        m_MethodName: Input_Movement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 745c0686-06eb-47ed-a5c8-4064e2ef2fa4
+    m_ActionName: CarControls/Forward[/Keyboard/upArrow]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1194632633}
+        m_TargetAssemblyTypeName: CarInputForTCCA, Assembly-CSharp
+        m_MethodName: Input_Respawn
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: efeded57-b6cf-441c-8168-d1d160bd5286
+    m_ActionName: CarControls/Respawn[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1194632633}
+        m_TargetAssemblyTypeName: CarInputForTCCA, Assembly-CSharp
+        m_MethodName: Input_Boost
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c7405b03-8b6d-4010-89a9-45a8b363b227
+    m_ActionName: CarControls/Boost[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1194632633}
+        m_TargetAssemblyTypeName: CarInputForTCCA, Assembly-CSharp
+        m_MethodName: Input_Handbrake
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 26469513-beb0-4813-8662-51df4fbf843b
+    m_ActionName: CarControls/Handbrake[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: CarControls
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1194632633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194632629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01585f25f9062fc4684fea614c5ad60f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carController: {fileID: 905672420601027972}
+  enableInput: 1
 --- !u!1 &1234683266
 GameObject:
   m_ObjectHideFlags: 0
@@ -4607,8 +4643,8 @@ Transform:
   m_GameObject: {fileID: 1884858805}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -80, y: 0, z: -80}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalPosition: {x: -80, y: 0, z: -209.8}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 123484675}
