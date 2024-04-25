@@ -133,7 +133,7 @@
                 {
                     "name": "",
                     "id": "2a153894-32e1-4db4-8f52-357389c9535a",
-                    "path": "<Keyboard>/rightCtrl",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -144,7 +144,7 @@
                 {
                     "name": "",
                     "id": "ee747f8b-25a2-423a-9fa3-c3101734e8ae",
-                    "path": "<Keyboard>/space",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
