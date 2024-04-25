@@ -6,6 +6,11 @@ using UnityEngine.InputSystem;
 
 public class SpawnChanger : MonoBehaviour
 {
+    public GameObject interior;
+    public GameObject forceController;
+    public GameObject gameController;
+
+
     public GameObject ambulancePrefab;
     public GameObject paramedicPrefab;
 
@@ -28,10 +33,7 @@ public class SpawnChanger : MonoBehaviour
             ambulancePlayer = playerInput.gameObject;
             playerInputManager.playerPrefab = paramedicPrefab;
 
-            GameObject interior = GameObject.FindGameObjectWithTag("Interior");
             interior.GetComponent<InteriorOrientation>().target = GameObject.FindGameObjectWithTag("AmbulanceBody");
-
-            GameObject forceController = GameObject.Find("ForceController");
             forceController.GetComponent<ForceController>().SetTarget(GameObject.FindGameObjectWithTag("AmbulanceBody"));
 
             Debug.Log("Ambulance Joined");
@@ -39,8 +41,8 @@ public class SpawnChanger : MonoBehaviour
         else if(paramedicPlayer == null)
         {
             paramedicPlayer = playerInput.gameObject;
-            GameObject interior = GameObject.FindGameObjectWithTag("Interior");
             paramedicPlayer.transform.parent = interior.transform;
+
             Debug.Log("Paramedic Joined");
         }
         else
