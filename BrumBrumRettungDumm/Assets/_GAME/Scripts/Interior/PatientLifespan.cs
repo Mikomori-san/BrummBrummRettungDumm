@@ -8,20 +8,6 @@ public class PatientLifespan : MonoBehaviour
     [SerializeField] private int healthSeverity = 2;
     [SerializeField] private int patientHealthDecreaseRate = 1;
     
-    public static PatientLifespan Instance { get; private set; }
-    
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
-    
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +25,7 @@ public class PatientLifespan : MonoBehaviour
         while (patientHealth > 0)
         {
             patientHealth -= healthSeverity;
-            print("Patient Health: " + patientHealth);
+            print(gameObject.name + " Health: " + patientHealth);
             
             // ReSharper disable once PossibleLossOfFraction
             yield return new WaitForSeconds(1.0f * (1 / patientHealthDecreaseRate));

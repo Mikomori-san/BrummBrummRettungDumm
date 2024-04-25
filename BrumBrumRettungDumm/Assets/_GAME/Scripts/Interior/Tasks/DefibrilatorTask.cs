@@ -8,8 +8,8 @@ public class DefibrilatorTask : MonoBehaviour
     private float progress = 0f;
     private bool isMakingProgress = false;
     private float timer = 0;
+    private bool patientRevived = false;
     
-    [SerializeField] private GameObject torso;
     [SerializeField] private Camera cam;
     [SerializeField] private GameObject defibrilator;
     [SerializeField] private float chargeModifier = 1f;
@@ -38,7 +38,7 @@ public class DefibrilatorTask : MonoBehaviour
                 // ProgressBar Load
                 if (progress >= 100)
                 {
-                
+                    patientRevived = false;
                     Vector3 screenMiddle = new Vector3(Screen.width / 2f, Screen.height / 2f, cam.nearClipPlane);
                     float maxRange = 5f;
                     Ray ray = cam.ScreenPointToRay(screenMiddle);
@@ -48,19 +48,22 @@ public class DefibrilatorTask : MonoBehaviour
                     {
                         for(int i = 0; i < size; i++)
                         {
-                            if (results[i].collider && results[i].collider.gameObject.name == torso.name)
+                            if (results[i].collider && results[i].collider.gameObject.name == "Torso")
                             {   
-                                PatientLifespan.Instance.IncreasePatientHealth(healthIncrease);
-                                print("Patient revived");
-                            }
-                            else
-                            {
-                                print("Rip, missed");
+                                // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
+                                results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().IncreasePatientHealth(healthIncrease);
+                                patientRevived = true;
+                                break;
                             }
                         }
                     }
                     progress = 0;
                     timer = 2;
+                    
+                    if(patientRevived)
+                        print("Patient revived");
+                    else
+                        print("Patient not revived");
                 }
                 print("Progress: " + progress);
             }

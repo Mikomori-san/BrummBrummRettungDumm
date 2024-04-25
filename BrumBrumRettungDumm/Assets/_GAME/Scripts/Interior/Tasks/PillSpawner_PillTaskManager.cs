@@ -13,8 +13,6 @@ public class PillManager : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private GameObject pillPrefab;
     [SerializeField] private int pillAmount = 5;
-
-    [SerializeField] private GameObject head;
     
     // Start is called before the first frame update
     void Start()
@@ -51,9 +49,9 @@ public class PillManager : MonoBehaviour
                 {
                     for(int i = 0; i < size; i++)
                     {
-                        if (results[i].collider != null && results[i].collider.gameObject.name == head.name)
+                        if (results[i].collider != null && results[i].collider.gameObject.name == "Head")
                         {
-                            PatientLifespan.Instance.IncreasePatientHealth(20);
+                            results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().IncreasePatientHealth(20);
                             selectedPill.SetActive(false);
                             AvailablePills.Enqueue(selectedPill);
                             ObjectDragging.Instance.grabbedObject = null;

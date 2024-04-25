@@ -55,7 +55,10 @@ public class ObjectDragging : MonoBehaviour
         {
             if(grabbedObject.GetComponent<ForceObjectLogic>())
                 dragObjectForceObjectLogic.DisableForce();
-
+            
+            if(grabbedObject.GetComponent<Collider>())
+                grabbedObject.GetComponent<Collider>().enabled = false;
+            
             Quaternion cameraRotation = cam.transform.rotation;
 
             Vector3 objectPosition = cam.transform.position + cam.transform.forward;
@@ -111,6 +114,9 @@ public class ObjectDragging : MonoBehaviour
                 
                     grabbedObject.GetComponent<Rigidbody>().AddForce(cam.transform.forward * 1.5f, ForceMode.Impulse);
                 }
+                
+                if(grabbedObject.GetComponent<Collider>())
+                    grabbedObject.GetComponent<Collider>().enabled = true;
             }
             
             grabbedObject = null;
