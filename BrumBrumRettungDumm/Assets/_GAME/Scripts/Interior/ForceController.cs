@@ -82,8 +82,5 @@ public class ForceController : MonoBehaviour
     public void SetTarget(GameObject newTarget)
     {
         target = newTarget;
-        targetRigidbody = target.GetComponent<Rigidbody>();
-        lastVelocity = targetRigidbody.velocity;
-        lastAngularVelocity = targetRigidbody.angularVelocity;
     }
 }
