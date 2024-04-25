@@ -260,7 +260,6 @@ public class CarAI : MonoBehaviour
         if (Vector3.Distance(transform.position, nextTargetPoint) < waypointDetectionRadius) 
         {
             curWayPoint++;
-            print(curWayPoint);
         }
     }
 

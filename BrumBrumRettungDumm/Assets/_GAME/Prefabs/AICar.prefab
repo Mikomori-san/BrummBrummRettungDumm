@@ -677,7 +677,7 @@ MonoBehaviour:
   acceleration: 10
   brakeSpeed: 15
   maxSpeed: 30
-  waypointDetectionRadius: 1.2
+  waypointDetectionRadius: 1.5
   antiRoll: 5000
   carBody: {fileID: 3603553681643931708}
   textureBraking: {fileID: 0}
