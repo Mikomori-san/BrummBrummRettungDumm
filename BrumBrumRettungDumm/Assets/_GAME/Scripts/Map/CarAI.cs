@@ -42,7 +42,7 @@ public class CarAI : MonoBehaviour
     private bool isBraking;
     private bool isAvoiding;
     private Texture mainTexture;
-
+    private Vector3 nextTargetPoint;
     void Start()
     {
         navi = this.GetComponent<RoadSystemNavigator>();
@@ -257,7 +257,7 @@ public class CarAI : MonoBehaviour
     private void CheckWaypoints()
     {
         if (navi.CurrentPoints.Count == 0) { return; }
-        if (Vector3.Distance(transform.position, navi.CurrentPoints[0].position) < waypointDetectionRadius) 
+        if (Vector3.Distance(transform.position, nextTargetPoint) < waypointDetectionRadius) 
         {
             curWayPoint++;
             print(curWayPoint);
@@ -282,14 +282,19 @@ public class CarAI : MonoBehaviour
     private void SteerTowardsPath()
     {
         if(navi.CurrentPoints.Count == 0 || isAvoiding) { return; }
-        Vector3 targetPoint;
+        
         if(navi.CurrentPoints.Count > 1) 
         {
-            targetPoint = navi.CurrentPoints[0].position - navi.CurrentPoints[1].position;
-            targetPoint = Quaternion.AngleAxis(90, this.transform.up) * targetPoint;
+            nextTargetPoint = navi.CurrentPoints[0].position - navi.CurrentPoints[1].position;
+            nextTargetPoint = Quaternion.AngleAxis(-90, this.transform.up) * nextTargetPoint;
+            nextTargetPoint += navi.CurrentPoints[0].position;
+        }
+        else
+        {
+            nextTargetPoint = navi.CurrentPoints[0].position;
         }
 
-        Vector3 relativeVector = transform.InverseTransformPoint(navi.CurrentPoints[0].position);
+        Vector3 relativeVector = transform.InverseTransformPoint(nextTargetPoint);
         float newSteer = (relativeVector.x / relativeVector.magnitude) * maxSteerAngle;
         wheel_F_L.steerAngle = newSteer;
         wheel_F_R.steerAngle = newSteer;
@@ -301,7 +306,7 @@ public class CarAI : MonoBehaviour
 
         Gizmos.DrawLine(this.transform.position + this.transform.forward + mainSensorOffset , this.transform.position + this.transform.forward + mainSensorOffset + transform.forward * sensorLength);
 
-        Gizmos.DrawSphere(targetPoint, 1);
+        Gizmos.DrawSphere(nextTargetPoint, 0.6f);
         //Vector3 rightSensorOffset = mainSensorOffset;
         //rightSensorOffset += this.transform.right * sideSensorsXOffset;
         //Gizmos.DrawLine(this.transform.position + this.transform.forward + rightSensorOffset, this.transform.position + this.transform.forward + rightSensorOffset + transform.forward * sensorLength);
