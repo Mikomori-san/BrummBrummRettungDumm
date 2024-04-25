@@ -75,6 +75,98 @@ public class CarAI : MonoBehaviour
         isBraking = false;
         isAvoiding = false;
         float avoidanceMultipier = 0;
+        int pressure = 0;
+
+        
+
+
+
+
+
+
+        //Sensor Right
+        if (Physics.Raycast(this.transform.position + this.transform.forward + rightSensorOffset, this.transform.forward, out hit, sensorLength, objectLayer))
+        {
+            if (hit.collider.CompareTag(playerTag))
+            {
+                isBraking = true;
+                Debug.DrawLine(this.transform.position + this.transform.forward + rightSensorOffset, hit.point, Color.red);
+            }
+            else
+            {
+                Debug.DrawLine(this.transform.position + this.transform.forward + rightSensorOffset, hit.point, Color.green);
+            }
+
+            pressure++;
+            avoidanceMultipier -= 1;
+        }
+        else
+        {
+            Debug.DrawLine(this.transform.position + this.transform.forward + rightSensorOffset, this.transform.position + this.transform.forward + rightSensorOffset + transform.forward * sensorLength);
+        }
+
+        //Sensor Right Angled
+        if (Physics.Raycast(this.transform.position + this.transform.forward + rightSensorOffset, Quaternion.AngleAxis(sideSensorsAngle, this.transform.up) * transform.forward, out hit, sensorLength, objectLayer))
+        {
+            if (hit.collider.CompareTag(playerTag))
+            {
+                isBraking = true;
+                Debug.DrawLine(this.transform.position + this.transform.forward + rightSensorOffset, hit.point, Color.red);
+            }
+            else
+            {
+                Debug.DrawLine(this.transform.position + this.transform.forward + rightSensorOffset, hit.point, Color.green);
+            }
+
+            pressure++;
+            avoidanceMultipier -= 0.5f;
+        }
+        else
+        {
+            Debug.DrawLine(this.transform.position + this.transform.forward + rightSensorOffset, (this.transform.position + this.transform.forward + rightSensorOffset) + Quaternion.AngleAxis(sideSensorsAngle, this.transform.up) * transform.forward * sensorLength);
+        }
+
+        //Sensor Left
+        if (Physics.Raycast(this.transform.position + this.transform.forward + leftSensorOffset, this.transform.forward, out hit, sensorLength, objectLayer))
+        {
+            if (hit.collider.CompareTag(playerTag))
+            {
+                isBraking = true;
+                Debug.DrawLine(this.transform.position + this.transform.forward + leftSensorOffset, hit.point, Color.red);
+            }
+            else
+            {
+                Debug.DrawLine(this.transform.position + this.transform.forward + leftSensorOffset, hit.point, Color.green);
+            }
+
+            pressure++;
+            avoidanceMultipier += 1;
+        }
+        else
+        {
+            Debug.DrawLine(this.transform.position + this.transform.forward + leftSensorOffset, this.transform.position + this.transform.forward + leftSensorOffset + transform.forward * sensorLength);
+        }
+
+        //Sensor Left Angled
+        if (Physics.Raycast(this.transform.position + this.transform.forward + leftSensorOffset, Quaternion.AngleAxis(-sideSensorsAngle, this.transform.up) * transform.forward, out hit, sensorLength, objectLayer))
+        {
+            if (hit.collider.CompareTag(playerTag))
+            {
+                isBraking = true;
+                Debug.DrawLine(this.transform.position + this.transform.forward + leftSensorOffset, hit.point, Color.red);
+            }
+            else
+            {
+                Debug.DrawLine(this.transform.position + this.transform.forward + leftSensorOffset, hit.point, Color.green);
+            }
+
+            pressure++;
+            avoidanceMultipier += 0.5f;
+        }
+        else
+        {
+            Debug.DrawLine(this.transform.position + this.transform.forward + leftSensorOffset, (this.transform.position + this.transform.forward + leftSensorOffset) + Quaternion.AngleAxis(-sideSensorsAngle, this.transform.up) * transform.forward * sensorLength);
+        }
 
         //Main Sensor
         if (Physics.Raycast(basePos, this.transform.forward, out hit, sensorLength, objectLayer))
@@ -84,69 +176,36 @@ public class CarAI : MonoBehaviour
                 isBraking = true;
             }
 
-            isAvoiding = true;
+            pressure++;
+
+            if (avoidanceMultipier == 0)
+            {
+                isBraking = true;
+            }
+            if (avoidanceMultipier > 0)
+            {
+                avoidanceMultipier -= 0.5f;
+            }
+            if (avoidanceMultipier < 0)
+            {
+                avoidanceMultipier += 0.5f;
+            }
 
             Debug.DrawLine(this.transform.position + this.transform.forward + mainSensorOffset, hit.point, Color.red);
         }
-
-        //Sensor Right
-        if (Physics.Raycast(this.transform.position + this.transform.forward + rightSensorOffset, this.transform.forward, out hit, sensorLength, objectLayer))
+        else
         {
-            if (hit.collider.CompareTag(playerTag))
-            {
-                isBraking = true;
-            }
-
-            isAvoiding = true;
-            avoidanceMultipier += 1;
-
-            Debug.DrawLine(this.transform.position + this.transform.forward + rightSensorOffset, hit.point, Color.green);
+            Debug.DrawLine(this.transform.position + this.transform.forward + mainSensorOffset, this.transform.position + this.transform.forward + mainSensorOffset + transform.forward * sensorLength);
         }
 
-        //Sensor Right Angled
-        if (Physics.Raycast(this.transform.position + this.transform.forward + rightSensorOffset, Quaternion.AngleAxis(sideSensorsAngle, this.transform.up) * transform.forward, out hit, sensorLength, objectLayer))
+        if(pressure >= 4)
         {
-            if (hit.collider.CompareTag(playerTag))
-            {
-                isBraking = true;
-            }
-
-            isAvoiding = true;
-            avoidanceMultipier += 0.5f;
-
-            Debug.DrawLine(this.transform.position + this.transform.forward + rightSensorOffset, hit.point, Color.magenta);
+            isBraking = true;
         }
 
-        //Sensor Left
-        if (Physics.Raycast(this.transform.position + this.transform.forward + leftSensorOffset, this.transform.forward, out hit, sensorLength, objectLayer))
+        if (pressure > 0)
         {
-            if (hit.collider.CompareTag(playerTag))
-            {
-                isBraking = true;
-            }
-
             isAvoiding = true;
-            avoidanceMultipier -= 1;
-
-            Debug.DrawLine(this.transform.position + this.transform.forward + leftSensorOffset, hit.point, Color.green);
-        }
-
-        //Sensor Left Angled
-        if (Physics.Raycast(this.transform.position + this.transform.forward + leftSensorOffset, Quaternion.AngleAxis(-sideSensorsAngle, this.transform.up) * transform.forward, out hit, sensorLength, objectLayer))
-        {
-            if (hit.collider.CompareTag(playerTag))
-            {
-                isBraking = true;
-            }
-
-            isAvoiding = true;
-            avoidanceMultipier -= 0.5f;
-
-            Debug.DrawLine(this.transform.position + this.transform.forward + leftSensorOffset, hit.point, Color.magenta);
-        }
-
-        if(isAvoiding)
-        {
             wheel_F_L.steerAngle = maxSteerAngle * avoidanceMultipier;
             wheel_F_R.steerAngle = maxSteerAngle * avoidanceMultipier;
         }
@@ -222,7 +281,14 @@ public class CarAI : MonoBehaviour
 
     private void SteerTowardsPath()
     {
-        if(navi.CurrentPoints.Count == 0) { return; }
+        if(navi.CurrentPoints.Count == 0 || isAvoiding) { return; }
+        Vector3 targetPoint;
+        if(navi.CurrentPoints.Count > 1) 
+        {
+            targetPoint = navi.CurrentPoints[0].position - navi.CurrentPoints[1].position;
+            targetPoint = Quaternion.AngleAxis(90, this.transform.up) * targetPoint;
+        }
+
         Vector3 relativeVector = transform.InverseTransformPoint(navi.CurrentPoints[0].position);
         float newSteer = (relativeVector.x / relativeVector.magnitude) * maxSteerAngle;
         wheel_F_L.steerAngle = newSteer;
@@ -232,16 +298,18 @@ public class CarAI : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(this.transform.position, waypointDetectionRadius);
+
         Gizmos.DrawLine(this.transform.position + this.transform.forward + mainSensorOffset , this.transform.position + this.transform.forward + mainSensorOffset + transform.forward * sensorLength);
+
+        Gizmos.DrawSphere(targetPoint, 1);
+        //Vector3 rightSensorOffset = mainSensorOffset;
+        //rightSensorOffset += this.transform.right * sideSensorsXOffset;
+        //Gizmos.DrawLine(this.transform.position + this.transform.forward + rightSensorOffset, this.transform.position + this.transform.forward + rightSensorOffset + transform.forward * sensorLength);
+        //Gizmos.DrawLine(this.transform.position + this.transform.forward + rightSensorOffset, (this.transform.position + this.transform.forward + rightSensorOffset) + Quaternion.AngleAxis(sideSensorsAngle, this.transform.up) * transform.forward * sensorLength);
         
-        Vector3 rightSensorOffset = mainSensorOffset;
-        rightSensorOffset += this.transform.right * sideSensorsXOffset;
-        Gizmos.DrawLine(this.transform.position + this.transform.forward + rightSensorOffset, this.transform.position + this.transform.forward + rightSensorOffset + transform.forward * sensorLength);
-        Gizmos.DrawLine(this.transform.position + this.transform.forward + rightSensorOffset, (this.transform.position + this.transform.forward + rightSensorOffset) + Quaternion.AngleAxis(sideSensorsAngle, this.transform.up) * transform.forward * sensorLength);
-        
-        Vector3 leftSensorOffset = mainSensorOffset;
-        leftSensorOffset -= this.transform.right * sideSensorsXOffset;
-        Gizmos.DrawLine(this.transform.position + this.transform.forward + leftSensorOffset, this.transform.position + this.transform.forward + leftSensorOffset + transform.forward * sensorLength);
-        Gizmos.DrawLine(this.transform.position + this.transform.forward + leftSensorOffset, (this.transform.position + this.transform.forward + leftSensorOffset) + Quaternion.AngleAxis(-sideSensorsAngle, this.transform.up) * transform.forward * sensorLength);
+        //Vector3 leftSensorOffset = mainSensorOffset;
+        //leftSensorOffset -= this.transform.right * sideSensorsXOffset;
+        //Gizmos.DrawLine(this.transform.position + this.transform.forward + leftSensorOffset, this.transform.position + this.transform.forward + leftSensorOffset + transform.forward * sensorLength);
+        //Gizmos.DrawLine(this.transform.position + this.transform.forward + leftSensorOffset, (this.transform.position + this.transform.forward + leftSensorOffset) + Quaternion.AngleAxis(-sideSensorsAngle, this.transform.up) * transform.forward * sensorLength);
     }
 }
