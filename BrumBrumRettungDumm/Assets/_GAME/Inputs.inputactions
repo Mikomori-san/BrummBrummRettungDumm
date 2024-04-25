@@ -387,7 +387,7 @@
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "Keyboard&Mouse;Gamepad",
                     "action": "Join",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -398,7 +398,7 @@
                     "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "Keyboard&Mouse;Gamepad",
                     "action": "Join",
                     "isComposite": false,
                     "isPartOfComposite": false
