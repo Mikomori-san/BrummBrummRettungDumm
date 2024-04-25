@@ -1,8 +1,10 @@
 using DavidJalbert.TinyCarControllerAdvance;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 public class CarInputForTCCA : MonoBehaviour
 {
@@ -11,7 +13,7 @@ public class CarInputForTCCA : MonoBehaviour
     public InputDevice device
     {
         get;
-        set;
+        private set;
     }
     public TCCAPlayer carController;
 
@@ -22,6 +24,8 @@ public class CarInputForTCCA : MonoBehaviour
     private float motor = 0f;
     private float boostInput = 0f;
     private bool handbrake = false;
+
+    private InputUser inputUser;
 
     private void Awake()
     {
@@ -123,5 +127,28 @@ public class CarInputForTCCA : MonoBehaviour
             return;
 
         boostInput = context.ReadValue<float>();
+    }
+    public void SetUser(InputDevice device)
+    {
+        this.device = device;
+        var controlScheme = InputControlScheme.FindControlSchemeForDevice(device, inputs.controlSchemes);
+        InputControlScheme inputControlScheme;
+        if (controlScheme == null)
+        {
+            Debug.Log("Control scheme not found");
+            inputControlScheme = inputs.KeyboardMouseScheme;
+        }
+        else
+        {
+            inputControlScheme = controlScheme.Value;
+        }
+        if (!inputControlScheme.SupportsDevice(device))
+        {
+            Debug.Log("Device not supported");
+            return;
+        }
+        inputUser = InputUser.PerformPairingWithDevice(device, inputUser);
+        inputUser.AssociateActionsWithUser(inputs);
+        inputUser.ActivateControlScheme(inputControlScheme).AndPairRemainingDevices();
     }
 }

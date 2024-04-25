@@ -42,7 +42,7 @@ public class JoinPlayers : MonoBehaviour
 
         if (carController.device == null)
         {
-            carController.device = context.control.device;
+            carController.SetUser(context.control.device);
             Debug.Log("Car joined");
             if(playerController.device != null)
             {
@@ -51,7 +51,7 @@ public class JoinPlayers : MonoBehaviour
         }
         else if(playerController.device == null)
         {
-            playerController.device = context.control.device;
+            playerController.SetUser(context.control.device);
             Debug.Log("Paramedic joined");
             if(carController.device != null)
             {
@@ -69,14 +69,14 @@ public class JoinPlayers : MonoBehaviour
         if(playerController.device == context.control.device)
         {
             playerController.enableInput = false;
-            playerController.device = null;
+            playerController.SetUser(null);
             Debug.Log("Paramedic left");
             StopCoroutine(startGameCoroutine);
         }
         if(carController.device == context.control.device)
         {
             carController.enableInput = false;
-            carController.device = null;
+            carController.SetUser(null);
             Debug.Log("Car left");
             StopCoroutine(startGameCoroutine);
         }

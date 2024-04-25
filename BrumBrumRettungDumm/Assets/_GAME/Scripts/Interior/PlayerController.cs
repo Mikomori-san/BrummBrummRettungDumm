@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class PlayerController : MonoBehaviour
     public InputDevice device
     {
         get;
-        set;
+        private set;
     }
 
     [Header("Movement")]
@@ -42,6 +43,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("GameObjects")]
     public GameObject gameController;
+
+    private InputUser inputUser;
 
     private void Awake()
     {
@@ -176,5 +179,28 @@ public class PlayerController : MonoBehaviour
             //print("Jump");
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
+    }
+    public void SetUser(InputDevice device)
+    {
+        this.device = device;
+        var controlScheme = InputControlScheme.FindControlSchemeForDevice(device, inputs.controlSchemes);
+        InputControlScheme inputControlScheme;
+        if (controlScheme == null)
+        {
+            Debug.Log("Control scheme not found");
+            inputControlScheme = inputs.KeyboardMouseScheme;
+        }
+        else
+        {
+            inputControlScheme = controlScheme.Value;
+        }
+        if (!inputControlScheme.SupportsDevice(device))
+        {
+            Debug.Log("Device not supported");
+            return;
+        }
+        inputUser = InputUser.PerformPairingWithDevice(device, inputUser);
+        inputUser.AssociateActionsWithUser(inputs);
+        inputUser.ActivateControlScheme(inputControlScheme).AndPairRemainingDevices();
     }
 }
