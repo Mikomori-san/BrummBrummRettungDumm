@@ -15,6 +15,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Leave",
+                    "type": "Button",
+                    "id": "e339d752-e9a3-412a-a082-5fd7e18a0f38",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Move",
                     "type": "Value",
                     "id": "351f2ccd-1f9f-44bf-9bec-d62ac5c5f408",
@@ -396,7 +405,7 @@
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "Keyboard&Mouse;Gamepad",
                     "action": "Join",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -407,7 +416,7 @@
                     "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "Keyboard&Mouse;Gamepad",
                     "action": "Join",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -524,12 +533,12 @@
                 },
                 {
                     "name": "",
-                    "id": "ec608c75-f0c2-479e-a02b-4436d3a7909b",
-                    "path": "<Keyboard>/q",
+                    "id": "0a24ce46-5c3c-4ad5-8a8a-c9d53c755561",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "SpawnPatient",
+                    "groups": "Gamepad",
+                    "action": "Leave",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
