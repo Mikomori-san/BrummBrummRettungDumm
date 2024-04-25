@@ -32,7 +32,7 @@ public class Simple3DMovement : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         cam = GetComponentInChildren<Camera>();
-        Cursor.lockState = CursorLockMode.Locked;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void Input_Movement(InputAction.CallbackContext context)
