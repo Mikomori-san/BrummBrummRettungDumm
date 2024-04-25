@@ -668,12 +668,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 858aabae0ce53ed448328f30e1a68bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  maxSteerAngle: 30
+  targetOffset: 50
+  updateTargetTime: 3
   wheel_F_L: {fileID: 6294509338284882974}
   wheel_F_R: {fileID: 9051182015579926232}
   wheel_R_L: {fileID: 6402195469723606484}
   wheel_R_R: {fileID: 4136007165467823021}
+  maxSteerAngle: 30
   acceleration: 10
   brakeSpeed: 15
   maxSpeed: 30

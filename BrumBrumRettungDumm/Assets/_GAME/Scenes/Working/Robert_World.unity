@@ -451,8 +451,8 @@ Transform:
   m_GameObject: {fileID: 85956145}
   serializedVersion: 2
   m_LocalRotation: {x: -0.087810844, y: -0.49443263, z: 0.15316796, w: 0.8510965}
-  m_LocalPosition: {x: -61.11, y: -10.3, z: -85.34}
-  m_LocalScale: {x: 19.495504, y: 28.798843, z: 25.026943}
+  m_LocalPosition: {x: -58.7733, y: -9.1071, z: -82.9733}
+  m_LocalScale: {x: 26.350124, y: 28.798843, z: 23.310095}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1435313902}
@@ -671,7 +671,7 @@ Transform:
   m_GameObject: {fileID: 121902558}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -20.72, y: 12.35, z: -21.91}
+  m_LocalPosition: {x: -22, y: 12.35, z: -20}
   m_LocalScale: {x: 13.197266, y: 28.798841, z: 13.783968}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1596,10 +1596,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AICar (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 3541644153690357310, guid: ed124de9a9a913440933fe95cbdb6ffe, type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 1999614897}
     - target: {fileID: 6660159574341974054, guid: ed124de9a9a913440933fe95cbdb6ffe, type: 3}
       propertyPath: currentRoadSystem
       value: 
@@ -3426,10 +3422,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AICar
       objectReference: {fileID: 0}
-    - target: {fileID: 3541644153690357310, guid: ed124de9a9a913440933fe95cbdb6ffe, type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 1999614897}
     - target: {fileID: 6660159574341974054, guid: ed124de9a9a913440933fe95cbdb6ffe, type: 3}
       propertyPath: currentRoadSystem
       value: 
@@ -5786,8 +5778,8 @@ Transform:
   m_GameObject: {fileID: 996867807}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -47.18, y: 12.35, z: -40.190002}
-  m_LocalScale: {x: 27.097616, y: 28.798841, z: 16.070728}
+  m_LocalPosition: {x: -44.5, y: 12.35, z: -34.886}
+  m_LocalScale: {x: 27.097616, y: 28.798841, z: 19.042206}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1435313902}
@@ -5805,9 +5797,13 @@ PrefabInstance:
       value: AICar (3)
       objectReference: {fileID: 0}
     - target: {fileID: 3541644153690357310, guid: ed124de9a9a913440933fe95cbdb6ffe, type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 1999614897}
+      propertyPath: targetOffset
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541644153690357310, guid: ed124de9a9a913440933fe95cbdb6ffe, type: 3}
+      propertyPath: updateTargetTime
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6660159574341974054, guid: ed124de9a9a913440933fe95cbdb6ffe, type: 3}
       propertyPath: currentRoadSystem
       value: 
@@ -6123,8 +6119,8 @@ Transform:
   m_GameObject: {fileID: 1039828994}
   serializedVersion: 2
   m_LocalRotation: {x: -0.03645586, y: -0.16964696, z: 0.19989155, w: 0.96433103}
-  m_LocalPosition: {x: -52.239998, y: -10.5, z: -95.16}
-  m_LocalScale: {x: 19.495502, y: 28.798841, z: 25.026945}
+  m_LocalPosition: {x: -50.4157, y: -9.6585, z: -94.4988}
+  m_LocalScale: {x: 23.726027, y: 28.798841, z: 25.026945}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1435313902}
@@ -6927,7 +6923,7 @@ Transform:
   m_GameObject: {fileID: 1161757470}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.7, y: 9.3, z: -43.3}
+  m_LocalPosition: {x: 13.2, y: 9.3, z: -38.6}
   m_LocalScale: {x: 15.484352, y: 23.692518, z: 16.070728}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9970,7 +9966,7 @@ Transform:
   m_GameObject: {fileID: 1941271373}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.2, y: 12, z: -77.4}
+  m_LocalPosition: {x: -5.2, y: 12, z: -68}
   m_LocalScale: {x: 27.097616, y: 28.798841, z: 16.070728}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10043,37 +10039,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 491618, guid: c2c402e99a56ad749b560bee7cdc6b2a, type: 3}
   m_PrefabInstance: {fileID: 677219867}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1999614896
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1999614897}
-  m_Layer: 0
-  m_Name: target
-  m_TagString: Untagged
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1999614897
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1999614896}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 49.52, y: 3.26, z: -50.1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2023621723
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10086,10 +10051,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AICar (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 3541644153690357310, guid: ed124de9a9a913440933fe95cbdb6ffe, type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 1999614897}
     - target: {fileID: 6660159574341974054, guid: ed124de9a9a913440933fe95cbdb6ffe, type: 3}
       propertyPath: currentRoadSystem
       value: 
@@ -12567,7 +12528,6 @@ SceneRoots:
   - {fileID: 2064728537}
   - {fileID: 1435313902}
   - {fileID: 920275440}
-  - {fileID: 1999614897}
   - {fileID: 772654168}
   - {fileID: 322736980}
   - {fileID: 2023621723}

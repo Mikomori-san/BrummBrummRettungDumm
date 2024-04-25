@@ -12,12 +12,18 @@ using UnityEngine.InputSystem.HID;
 
 public class CarAI : MonoBehaviour
 {
-    [SerializeField] private Transform target;
-    [SerializeField] private float maxSteerAngle = 50;
+    [Header("Target")]
+    private Transform target;
+    [SerializeField] private float targetOffset = 10;
+    [SerializeField] private float updateTargetTime = 5;
+    private float resetUpdateTargetTime = 5;
+
+    [Header("Car Behaviour")]
     [SerializeField] private WheelCollider wheel_F_L;
     [SerializeField] private WheelCollider wheel_F_R;
     [SerializeField] private WheelCollider wheel_R_L;
     [SerializeField] private WheelCollider wheel_R_R;
+    [SerializeField] private float maxSteerAngle = 50;
     [SerializeField] private float acceleration = 10;
     [SerializeField] private float brakeSpeed = 20;
     [SerializeField] private float maxSpeed = 30;
@@ -45,6 +51,9 @@ public class CarAI : MonoBehaviour
     private Vector3 nextTargetPoint;
     void Start()
     {
+        resetUpdateTargetTime = updateTargetTime;
+        target = new GameObject(this.gameObject.name + "_target").transform;
+        target.position = this.transform.position + this.transform.forward * targetOffset;
         navi = this.GetComponent<RoadSystemNavigator>();
         navi.Goal = target.position;
         rb = this.GetComponent<Rigidbody>();
@@ -54,7 +63,16 @@ public class CarAI : MonoBehaviour
 
     private void FixedUpdate()
     {
+        updateTargetTime -= Time.fixedDeltaTime;
+
+        if (updateTargetTime <= 0)
+        {
+            target.position = this.transform.position + this.transform.forward * targetOffset;
+            updateTargetTime = resetUpdateTargetTime;
+        }
+
         navi.Goal = target.position;
+
         //BalanceVehicle(); <- Currently makes things worse
         Sensors();
         SteerTowardsPath();
