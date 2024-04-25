@@ -1,18 +1,37 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 public class ObjectDragging : MonoBehaviour
 {
-    public Camera cam;
-
-    private bool isDragging = false;
-    private GameObject grabbedObject;
+    [SerializeField] private Camera cam;
+    [SerializeField] private GameObject defibrilator;
+    
+    [HideInInspector] public bool isDragging = false;
+    [HideInInspector] public GameObject grabbedObject;
     private ForceObjectLogic dragObjectForceObjectLogic;
+    public static ObjectDragging Instance { get; private set; }
+
+    private Vector3 oldPositionDefi;
+    private Quaternion oldRotationDefi;
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
     
     // Start is called before the first frame update
     void Start()
@@ -28,16 +47,18 @@ public class ObjectDragging : MonoBehaviour
             DragObject();
         }
     }
-
+    
+    // ReSharper disable Unity.PerformanceAnalysis
     private void DragObject()
     {
         if (grabbedObject)
         {
-            dragObjectForceObjectLogic.DisableForce();
+            if(grabbedObject.GetComponent<ForceObjectLogic>())
+                dragObjectForceObjectLogic.DisableForce();
 
             Quaternion cameraRotation = cam.transform.rotation;
 
-            Vector3 objectPosition = cam.transform.position + cam.transform.forward * 2f;
+            Vector3 objectPosition = cam.transform.position + cam.transform.forward;
 
             grabbedObject.transform.position = objectPosition;
             grabbedObject.transform.rotation = cameraRotation;
@@ -52,15 +73,23 @@ public class ObjectDragging : MonoBehaviour
             Vector3 screenMiddle = new Vector3(Screen.width / 2f, Screen.height / 2f, cam.nearClipPlane);
             Ray ray = cam.ScreenPointToRay(screenMiddle);
 
-            float maxRange = 100f;
+            float maxRange = 1.5f;
 
             if (Physics.Raycast(ray, out hit, maxRange))
             {
-                if (hit.collider != null && hit.collider.CompareTag("Draggable"))
+                if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Draggable"))
                 {
+                    if (hit.collider.gameObject.name == defibrilator.name)
+                    {
+                        oldPositionDefi = hit.collider.transform.position;
+                        oldRotationDefi = hit.collider.transform.rotation;
+                    }
+                    
                     grabbedObject = hit.collider.gameObject;
                     isDragging = true;
-                    dragObjectForceObjectLogic = grabbedObject.GetComponent<ForceObjectLogic>();
+                    if(grabbedObject.GetComponent<ForceObjectLogic>())
+                        dragObjectForceObjectLogic = grabbedObject.GetComponent<ForceObjectLogic>();
+                    
                     print("Dragging!");
                 }
             }
@@ -68,11 +97,22 @@ public class ObjectDragging : MonoBehaviour
         else if (context.canceled)
         {
             isDragging = false;
-            if(grabbedObject != null)
+            if(grabbedObject)
             {
-                grabbedObject.GetComponent<ForceObjectLogic>().EnableForce();
-                grabbedObject.GetComponent<Rigidbody>().AddForce(cam.transform.forward * 1.5f, ForceMode.Impulse);
+                if(grabbedObject.name == defibrilator.name)
+                {
+                    grabbedObject.transform.position = oldPositionDefi;
+                    grabbedObject.transform.rotation = oldRotationDefi;
+                }
+                
+                if (grabbedObject.GetComponent<ForceObjectLogic>())
+                {
+                    grabbedObject.GetComponent<ForceObjectLogic>().EnableForce();
+                
+                    grabbedObject.GetComponent<Rigidbody>().AddForce(cam.transform.forward * 1.5f, ForceMode.Impulse);
+                }
             }
+            
             grabbedObject = null;
         }
     }

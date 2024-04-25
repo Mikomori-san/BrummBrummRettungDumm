@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ambulance
+  - Pill
+  - Patient
   - Draggable
   - AmbulanceBody
   - PlayerManager
@@ -16,8 +18,8 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
-  - 
+  - Draggable
+  - Ragdoll
   - 
   - 
   - 

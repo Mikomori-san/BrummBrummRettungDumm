@@ -51,6 +51,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Give",
+                    "type": "Button",
+                    "id": "ddc2c17a-143c-483b-9f92-41d639e58909",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "CarRespawn",
                     "type": "Button",
                     "id": "166adf23-6f82-457a-8929-96757b53600e",
@@ -479,6 +488,28 @@
                     "processors": "",
                     "groups": "Joystick",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "185b4ac4-d200-4f41-8eb2-990082414c2c",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Give",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cf925f8c-0286-463d-88a6-80cb4d5b3ad8",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Give",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
