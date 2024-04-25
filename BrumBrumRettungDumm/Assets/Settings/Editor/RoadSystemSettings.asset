@@ -21,4 +21,4 @@ MonoBehaviour:
     newIntersectionPrefab: {fileID: 0}
   drawNavigatorDebug: 1
   drawNavigatorDebugPoints: 1
-  autoCalculateNavigator: 0
+  autoCalculateNavigator: 1
