@@ -39,6 +39,15 @@ namespace UnityEngine.InputSystem
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Leave"",
+                    ""type"": ""Button"",
+                    ""id"": ""e339d752-e9a3-412a-a082-5fd7e18a0f38"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Move"",
                     ""type"": ""Value"",
                     ""id"": ""351f2ccd-1f9f-44bf-9bec-d62ac5c5f408"",
@@ -127,15 +136,6 @@ namespace UnityEngine.InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Leave"",
-                    ""type"": ""Button"",
-                    ""id"": ""e339d752-e9a3-412a-a082-5fd7e18a0f38"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1153,6 +1153,7 @@ namespace UnityEngine.InputSystem
             // Player
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Join = m_Player.FindAction("Join", throwIfNotFound: true);
+            m_Player_Leave = m_Player.FindAction("Leave", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
@@ -1163,7 +1164,6 @@ namespace UnityEngine.InputSystem
             m_Player_CarHandbrake = m_Player.FindAction("CarHandbrake", throwIfNotFound: true);
             m_Player_CarThrottle = m_Player.FindAction("CarThrottle", throwIfNotFound: true);
             m_Player_CarSteering = m_Player.FindAction("CarSteering", throwIfNotFound: true);
-            m_Player_Leave = m_Player.FindAction("Leave", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1238,6 +1238,7 @@ namespace UnityEngine.InputSystem
         private readonly InputActionMap m_Player;
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
         private readonly InputAction m_Player_Join;
+        private readonly InputAction m_Player_Leave;
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Look;
         private readonly InputAction m_Player_Jump;
@@ -1248,12 +1249,12 @@ namespace UnityEngine.InputSystem
         private readonly InputAction m_Player_CarHandbrake;
         private readonly InputAction m_Player_CarThrottle;
         private readonly InputAction m_Player_CarSteering;
-        private readonly InputAction m_Player_Leave;
         public struct PlayerActions
         {
             private @Inputs m_Wrapper;
             public PlayerActions(@Inputs wrapper) { m_Wrapper = wrapper; }
             public InputAction @Join => m_Wrapper.m_Player_Join;
+            public InputAction @Leave => m_Wrapper.m_Player_Leave;
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Look => m_Wrapper.m_Player_Look;
             public InputAction @Jump => m_Wrapper.m_Player_Jump;
@@ -1264,7 +1265,6 @@ namespace UnityEngine.InputSystem
             public InputAction @CarHandbrake => m_Wrapper.m_Player_CarHandbrake;
             public InputAction @CarThrottle => m_Wrapper.m_Player_CarThrottle;
             public InputAction @CarSteering => m_Wrapper.m_Player_CarSteering;
-            public InputAction @Leave => m_Wrapper.m_Player_Leave;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1277,6 +1277,9 @@ namespace UnityEngine.InputSystem
                 @Join.started += instance.OnJoin;
                 @Join.performed += instance.OnJoin;
                 @Join.canceled += instance.OnJoin;
+                @Leave.started += instance.OnLeave;
+                @Leave.performed += instance.OnLeave;
+                @Leave.canceled += instance.OnLeave;
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
@@ -1307,9 +1310,6 @@ namespace UnityEngine.InputSystem
                 @CarSteering.started += instance.OnCarSteering;
                 @CarSteering.performed += instance.OnCarSteering;
                 @CarSteering.canceled += instance.OnCarSteering;
-                @Leave.started += instance.OnLeave;
-                @Leave.performed += instance.OnLeave;
-                @Leave.canceled += instance.OnLeave;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -1317,6 +1317,9 @@ namespace UnityEngine.InputSystem
                 @Join.started -= instance.OnJoin;
                 @Join.performed -= instance.OnJoin;
                 @Join.canceled -= instance.OnJoin;
+                @Leave.started -= instance.OnLeave;
+                @Leave.performed -= instance.OnLeave;
+                @Leave.canceled -= instance.OnLeave;
                 @Move.started -= instance.OnMove;
                 @Move.performed -= instance.OnMove;
                 @Move.canceled -= instance.OnMove;
@@ -1347,9 +1350,6 @@ namespace UnityEngine.InputSystem
                 @CarSteering.started -= instance.OnCarSteering;
                 @CarSteering.performed -= instance.OnCarSteering;
                 @CarSteering.canceled -= instance.OnCarSteering;
-                @Leave.started -= instance.OnLeave;
-                @Leave.performed -= instance.OnLeave;
-                @Leave.canceled -= instance.OnLeave;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -1533,6 +1533,7 @@ namespace UnityEngine.InputSystem
         public interface IPlayerActions
         {
             void OnJoin(InputAction.CallbackContext context);
+            void OnLeave(InputAction.CallbackContext context);
             void OnMove(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
@@ -1543,7 +1544,6 @@ namespace UnityEngine.InputSystem
             void OnCarHandbrake(InputAction.CallbackContext context);
             void OnCarThrottle(InputAction.CallbackContext context);
             void OnCarSteering(InputAction.CallbackContext context);
-            void OnLeave(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

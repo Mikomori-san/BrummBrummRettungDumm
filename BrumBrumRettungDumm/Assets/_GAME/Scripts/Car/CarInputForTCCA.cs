@@ -28,13 +28,17 @@ public class CarInputForTCCA : MonoBehaviour
         inputs = new Inputs();
         inputs.Enable();
 
+        inputs.Player.CarThrottle.started += Input_Throttle;
         inputs.Player.CarThrottle.performed += Input_Throttle;
         inputs.Player.CarThrottle.canceled += Input_Throttle;
+        inputs.Player.CarSteering.started += Input_Steering;
         inputs.Player.CarSteering.performed += Input_Steering;
         inputs.Player.CarSteering.canceled += Input_Steering;
         inputs.Player.CarRespawn.performed += Input_Respawn;
+        inputs.Player.CarHandbrake.started += Input_Handbrake;
         inputs.Player.CarHandbrake.performed += Input_Handbrake;
         inputs.Player.CarHandbrake.canceled += Input_Handbrake;
+        inputs.Player.CarBoost.started += Input_Boost;
         inputs.Player.CarBoost.performed += Input_Boost;
         inputs.Player.CarBoost.canceled += Input_Boost;
     }

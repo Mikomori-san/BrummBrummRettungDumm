@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,8 @@ public class PlayerController : MonoBehaviour
 
     private float movementX = 0f;
     private float movementZ = 0f;
+    float mouseX;
+    float mouseY;
     private Vector3 velocity;
     private bool isGrounded = false;
 
@@ -49,19 +52,32 @@ public class PlayerController : MonoBehaviour
         cam = GetComponentInChildren<Camera>();
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
 
+        inputs.Player.Look.started += Input_Look;
+        inputs.Player.Look.performed += Input_Look;
+        inputs.Player.Look.canceled += Input_Look;
+
+        inputs.Player.Move.started += Input_Movement;
         inputs.Player.Move.performed += Input_Movement;
-        inputs.Player.Jump.performed += Input_Jump;
         inputs.Player.Move.canceled += Input_Movement;
 
+        inputs.Player.Jump.started += Input_Jump;
+        inputs.Player.Jump.performed += Input_Jump;
+        inputs.Player.Jump.canceled += Input_Jump;
+
+        inputs.Player.Grab.started += gameController.GetComponent<ObjectDragging>().Input_Grab;
         inputs.Player.Grab.performed += gameController.GetComponent<ObjectDragging>().Input_Grab;
         inputs.Player.Grab.canceled += gameController.GetComponent<ObjectDragging>().Input_Grab;
+        inputs.Player.Grab.started += gameController.GetComponent<Minimap>().Input_SetMarker;
         inputs.Player.Grab.performed += gameController.GetComponent<Minimap>().Input_SetMarker;
         inputs.Player.Grab.canceled += gameController.GetComponent<Minimap>().Input_SetMarker;
 
+        inputs.Player.Give.started += gameController.GetComponent<PillManager>().Input_GivePill;
         inputs.Player.Give.performed += gameController.GetComponent<PillManager>().Input_GivePill;
         inputs.Player.Give.canceled += gameController.GetComponent<PillManager>().Input_GivePill;
+        inputs.Player.Give.started += gameController.GetComponent<DefibrilatorTask>().Input_GiveDefi;
         inputs.Player.Give.performed += gameController.GetComponent<DefibrilatorTask>().Input_GiveDefi;
         inputs.Player.Give.canceled += gameController.GetComponent<DefibrilatorTask>().Input_GiveDefi;
+        inputs.Player.Give.started += gameController.GetComponent<Minimap>().Input_InteractWithMinimap;
         inputs.Player.Give.performed += gameController.GetComponent<Minimap>().Input_InteractWithMinimap;
         inputs.Player.Give.canceled += gameController.GetComponent<Minimap>().Input_InteractWithMinimap;
     }
@@ -81,9 +97,6 @@ public class PlayerController : MonoBehaviour
             return;
 
         //Camera Look
-        float mouseX = Mouse.current.delta.x.ReadUnprocessedValue() * mouseSensitivity * Time.deltaTime;
-        float mouseY = Mouse.current.delta.y.ReadUnprocessedValue() * mouseSensitivity * Time.deltaTime;
-
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -cameraClamp, cameraClamp);
 
@@ -128,6 +141,21 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.DrawWireSphere(this.transform.position + groundCheckOffset, groundCheckSize);
         Gizmos.DrawLine(transform.position, transform.position - new Vector3(0, distanceToLookForSlope, 0));
+    }
+    private void Input_Look(InputAction.CallbackContext context)
+    {
+        if(!enableInput)
+            return;
+        if (device.displayName == "Keyboard" && context.control.device.displayName == "Mouse")
+        {
+            mouseX = context.ReadValue<Vector2>().x * mouseSensitivity * Time.deltaTime;
+            mouseY = context.ReadValue<Vector2>().y * mouseSensitivity * Time.deltaTime;
+        }
+        else if(context.control.device == device)
+        {
+            mouseX = context.ReadValue<Vector2>().x;
+            mouseY = context.ReadValue<Vector2>().y;
+        }
     }
     public void Input_Movement(InputAction.CallbackContext context)
     {
