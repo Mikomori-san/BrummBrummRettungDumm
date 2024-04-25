@@ -45,7 +45,8 @@ enum Name
     Natalia,
     Kev, 
     Kevin,
-    KevinsonCruso
+    KevinsonCruso,
+    Wilson
 }
 
 public class RandomNameGiver : MonoBehaviour
