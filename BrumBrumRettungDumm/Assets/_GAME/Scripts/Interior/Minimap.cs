@@ -11,7 +11,7 @@ public class Minimap : MonoBehaviour
     [SerializeField] private GameObject minimapSocket;
     [SerializeField] private GameObject minimapCursor;
     [SerializeField] private GameObject markerPrefab;
-    [SerializeField] private GameObject ground;
+    [SerializeField] private LayerMask ground;
     
     private bool minimapActive = false;
     private GameObject marker;
@@ -22,8 +22,8 @@ public class Minimap : MonoBehaviour
     {
         minimapCursor.SetActive(false);
         UnityEngine.Cursor.visible = false;
-        marker = Instantiate(markerPrefab, ground.transform);
-        marker.SetActive(false);   
+        marker = Instantiate(markerPrefab);
+        marker.SetActive(false);
         
         playerMovement = playerCamera.gameObject.GetComponentInParent<Simple3DMovement>();
     }
@@ -92,9 +92,9 @@ public class Minimap : MonoBehaviour
 
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit, ground))
             {
-                if (hit.collider && hit.collider.gameObject.name == ground.name)
+                if (hit.collider)
                 {
                     marker.transform.position = hit.point;
                     marker.SetActive(true);

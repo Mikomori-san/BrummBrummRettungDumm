@@ -48,7 +48,7 @@ public class WorldManager : MonoBehaviour
         {
             int modelIndex = Random.Range(0, patientModels.Length);
             Transform spawnPosition = patientSpawnPositions[Random.Range(0, patientSpawnPositions.Length)];
-            spawnPosition.position += new Vector3(Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition), Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition), 0);
+            spawnPosition.position += new Vector3(Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition), 0, Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition));
             patients.Add(new Patient(
                 spawnPosition, 
                 Random.Range(minTime_PatientDeath, maxTime_PatientDeath), 
@@ -66,9 +66,7 @@ public class WorldManager : MonoBehaviour
 
             if (Vector3.Distance(ambulance.transform.position, patients[i].transform.position) < patientCollectionRange)
             {
-
-                //--------------------------------------------------------- CALL PATIENTMANAGER.PATIENTCOLLECTED HERE -------------------------------------------------------------------------------------------------------
-                
+                PatientManager.Instance.SpawnPatient();
                 print($"Patient {patients[i].transform.GetInstanceID()} collected");
                 patients.RemoveAt(i);
                 i--;
@@ -89,8 +87,10 @@ public class WorldManager : MonoBehaviour
             timeUntilNewPatient = Random.Range(minTime_NewPatient, maxTime_NewPatient);
 
             int modelIndex = Random.Range(0, patientModels.Length);
+            Transform spawnPosition = patientSpawnPositions[Random.Range(0, patientSpawnPositions.Length)];
+            spawnPosition.position += new Vector3(Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition), 0, Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition));
             Patient patient = new Patient(
-                patientSpawnPositions[Random.Range(0, patientSpawnPositions.Length)],
+                spawnPosition,
                 Random.Range(minTime_PatientDeath, maxTime_PatientDeath),
                 modelIndex, patientModels[modelIndex]);
             patients.Add(patient);
