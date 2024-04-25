@@ -22,21 +22,14 @@ public class WorldManager : MonoBehaviour
     private class Patient
     {
         public int modelId;
-        public Transform transform;
         public float timeUntilDeath;
-        private GameObject patientModel;
+        public GameObject gameObject;
 
-        public Patient(Transform position, float timeUntilDeath, int modelId, GameObject patientModel)
+        public Patient(float timeUntilDeath, int modelId, GameObject gameObjectInstance)
         {
-            this.transform = position;
             this.timeUntilDeath = timeUntilDeath;
             this.modelId = modelId;
-            this.patientModel = Instantiate(patientModel, position);
-        }
-
-        ~Patient()
-        {
-            Destroy(patientModel);
+            this.gameObject = gameObjectInstance;
         }
     }
 
@@ -47,12 +40,11 @@ public class WorldManager : MonoBehaviour
         for (int i = 0; i < startingPatients; i++)
         {
             int modelIndex = Random.Range(0, patientModels.Length);
-            Transform spawnPosition = patientSpawnPositions[Random.Range(0, patientSpawnPositions.Length)];
-            spawnPosition.position += new Vector3(Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition), 0, Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition));
-            patients.Add(new Patient(
-                spawnPosition, 
-                Random.Range(minTime_PatientDeath, maxTime_PatientDeath), 
-                modelIndex, patientModels[modelIndex]));
+            GameObject patientObject = Instantiate(patientModels[modelIndex]);
+            patientObject.transform.position = patientSpawnPositions[Random.Range(0, patientSpawnPositions.Length)].position +
+                                                new Vector3(Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition), 0, Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition));
+
+            patients.Add(new Patient(Random.Range(minTime_PatientDeath, maxTime_PatientDeath), modelIndex, patientObject));
         }
 
         timeUntilNewPatient = Random.Range(minTime_NewPatient, maxTime_NewPatient);
@@ -64,10 +56,11 @@ public class WorldManager : MonoBehaviour
         {
             patients[i].timeUntilDeath -= Time.deltaTime;
 
-            if (Vector3.Distance(ambulance.transform.position, patients[i].transform.position) < patientCollectionRange)
+            if (Vector3.Distance(ambulance.transform.position, patients[i].gameObject.transform.position) < patientCollectionRange)
             {
                 PatientManager.Instance.SpawnPatient();
-                print($"Patient {patients[i].transform.GetInstanceID()} collected");
+                print($"Patient {patients[i].gameObject.transform.GetInstanceID()} collected");
+                Destroy(patients[i].gameObject); 
                 patients.RemoveAt(i);
                 i--;
                 continue;
@@ -75,7 +68,8 @@ public class WorldManager : MonoBehaviour
             
             if (patients[i].timeUntilDeath < 0)
             {
-                print($"Patient {patients[i].transform.GetInstanceID()} died");
+                print($"Patient {patients[i].gameObject.transform.GetInstanceID()} died");
+                Destroy(patients[i].gameObject);
                 patients.RemoveAt(i);
                 i--;
             }
@@ -85,18 +79,14 @@ public class WorldManager : MonoBehaviour
         if(timeUntilNewPatient <= 0)
         {
             timeUntilNewPatient = Random.Range(minTime_NewPatient, maxTime_NewPatient);
-
+            
             int modelIndex = Random.Range(0, patientModels.Length);
-            Transform spawnPosition = patientSpawnPositions[Random.Range(0, patientSpawnPositions.Length)];
-            spawnPosition.position += new Vector3(Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition), 0, Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition));
-            Patient patient = new Patient(
-                spawnPosition,
-                Random.Range(minTime_PatientDeath, maxTime_PatientDeath),
-                modelIndex, patientModels[modelIndex]);
-            patients.Add(patient);
+            GameObject patientObject = Instantiate(patientModels[modelIndex]);
+            patientObject.transform.position = patientSpawnPositions[Random.Range(0, patientSpawnPositions.Length)].position +
+                                                new Vector3(Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition), 0, Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition));
 
-
-            print($"Patient {patient.transform.GetInstanceID()} created");
+            patients.Add(new Patient(Random.Range(minTime_PatientDeath, maxTime_PatientDeath), modelIndex, patientObject));
+            print($"Patient {patientObject.transform.GetInstanceID()} created");
         }
     }
 
@@ -114,7 +104,7 @@ public class WorldManager : MonoBehaviour
         for (int i = 0; i < patients.Count; i++)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(patients[i].transform.position, patientCollectionRange);
+            Gizmos.DrawWireSphere(patients[i].gameObject.transform.position, patientCollectionRange);
         }
     }
 }
