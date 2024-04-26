@@ -11,8 +11,8 @@ public class DragRigidbody : MonoBehaviour
     public float angularDrag = 5.0f; 
     public float distance = 0.2f; 
     public bool attachToCenterOfMass = false;
-    public Camera cam; 
- 
+    public Camera cam;
+    
     private SpringJoint springJoint; 
     
     void Update() 
@@ -21,9 +21,11 @@ public class DragRigidbody : MonoBehaviour
             return; 
         
         RaycastHit hit; 
-        if(!Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out hit, maxDistance, LayerMask.GetMask("Ragdoll"))) 
-            return; 
-        if(!hit.rigidbody || hit.rigidbody.isKinematic) 
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        
+        if(!Physics.Raycast(ray, out hit, maxDistance, LayerMask.GetMask("Ragdoll"))) 
+            return;
+        if(!hit.rigidbody || hit.rigidbody.isKinematic)
             return;
         
         if(!springJoint) 

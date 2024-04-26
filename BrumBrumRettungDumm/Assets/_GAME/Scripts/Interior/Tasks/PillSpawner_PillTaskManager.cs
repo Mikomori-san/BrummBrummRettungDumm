@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,6 +13,7 @@ public class PillManager : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private GameObject pillPrefab;
     [SerializeField] private int pillAmount = 5;
+    [SerializeField] private GameObject interior;
     
     // Start is called before the first frame update
     void Start()
@@ -39,10 +40,9 @@ public class PillManager : MonoBehaviour
             if (ObjectDragging.Instance.grabbedObject && ObjectDragging.Instance.grabbedObject.CompareTag("Pill"))
             {
                 selectedPill = ObjectDragging.Instance.grabbedObject;
-            
-                Vector3 screenMiddle = new Vector3(Screen.width / 2f, Screen.height / 2f, cam.nearClipPlane);
+                
                 float maxRange = 5f;
-                Ray ray = cam.ScreenPointToRay(screenMiddle);
+                Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
                 var size = Physics.RaycastNonAlloc(ray, results, maxRange);
 
                 if (results.Length > 0)
@@ -69,10 +69,11 @@ public class PillManager : MonoBehaviour
             if (AvailablePills.Count > 0)
             {
                 GameObject pill = AvailablePills.Dequeue();
-                
+
                 Vector3 randomSpawnPoint = GetRandomPoint();
-                
+
                 pill.transform.position = randomSpawnPoint;
+                pill.transform.SetParent(interior.transform); // Set the parent to the interior object
                 pill.SetActive(true);
             }
             print("Spawn");
@@ -97,7 +98,10 @@ public class PillManager : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
-                return hit.point + new Vector3(0, 3, 0);
+                if (hit.collider.gameObject.CompareTag("InteriorGround"))
+                { 
+                    return hit.point + new Vector3(0, 3, 0);
+                }
             }
         }
     }
