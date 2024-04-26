@@ -58,6 +58,7 @@ public class WorldManager : MonoBehaviour
 
             if (Vector3.Distance(ambulance.transform.position, patients[i].gameObject.transform.position) < patientCollectionRange)
             {
+                // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                 PatientManager.Instance.SpawnPatient();
                 print($"Patient {patients[i].gameObject.transform.GetInstanceID()} collected");
                 Destroy(patients[i].gameObject); 
