@@ -38,10 +38,11 @@ public class PatientManager : MonoBehaviour
         
     }
 
-    public void SpawnPatient()
+    public GameObject SpawnPatient()
     {
         GameObject patient = Instantiate(patientPrefab, spawnPoint.transform.position, Quaternion.identity);
         healthBarManager.HealthBarNumberPlus(patient);   
+        return patient;
     }
     
     public void RemovePatient(GameObject patient)

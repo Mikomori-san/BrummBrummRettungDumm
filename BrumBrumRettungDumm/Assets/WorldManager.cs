@@ -18,7 +18,11 @@ public class WorldManager : MonoBehaviour
     [SerializeField] private float patientCollectionRange = 3;
     private float timeUntilNewPatient;
     private List<Patient> patients = new List<Patient>();
-    
+    [Header("Hospital")]
+    [SerializeField] private Transform hospital;
+    [SerializeField] private float deliverPatientDistance;
+    private List<GameObject> ragdollPatients = new List<GameObject>();
+
     private class Patient
     {
         public int modelId;
@@ -88,10 +92,20 @@ public class WorldManager : MonoBehaviour
             patients.Add(new Patient(Random.Range(minTime_PatientDeath, maxTime_PatientDeath), modelIndex, patientObject));
             print($"Patient {patientObject.transform.GetInstanceID()} created");
         }
+
+        if(Vector3.Distance(hospital.position, ambulance.position) < deliverPatientDistance)
+        {
+            for(int i = 0; i < ragdollPatients.Count; i++)
+            {
+                PatientManager.Instance.RemovePatient(ragdollPatients[i]);
+            }
+        }
     }
 
     private void OnDrawGizmos()
     {
+        Gizmos.DrawWireSphere(hospital.position, deliverPatientDistance);
+
         if(patientSpawnPositions == null) { return; }
         for (int i = 0; i < patientSpawnPositions.Length; i++)
         {
