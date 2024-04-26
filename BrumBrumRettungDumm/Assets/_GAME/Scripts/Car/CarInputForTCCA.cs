@@ -151,4 +151,57 @@ public class CarInputForTCCA : MonoBehaviour
         inputUser.AssociateActionsWithUser(inputs);
         inputUser.ActivateControlScheme(inputControlScheme).AndPairRemainingDevices();
     }
+    //public void SetUser(InputDevice device)
+    //{
+    //    this.device = device;
+    //    InputDevice[] inputDevices = { device };
+    //    //var controlScheme = InputControlScheme.FindControlSchemeForDevice(device, inputs.controlSchemes);   //When the device is a KeyBoard , the control scheme is null, because the input mapping for KeyboardMouseScheme also contains mappings for the mouse. In order to get the correct control scheme this method needs to be passed an array of devices containing the Keyboard and Mouse device.
+    //    InputControlScheme? inputControlScheme = FindControlScheme(inputDevices);
+    //    if (inputControlScheme == null)
+    //    {
+    //        InputDevice secondInputDevice = InputSystem.GetDevice("Mouse");
+    //        inputDevices = new InputDevice[] { device, secondInputDevice };
+    //        inputControlScheme = FindControlScheme(inputDevices);
+    //    }
+    //    if (inputControlScheme == null)
+    //    {
+    //        Debug.Log("Control scheme not found");
+    //        return;
+    //    }
+    //    if (!inputControlScheme.Value.SupportsDevice(device))
+    //    {
+    //        Debug.Log("Device not supported");
+    //        return;
+    //    }
+    //    else
+    //    {
+    //        TryActivateControlScheme(inputControlScheme.Value, inputDevices);
+    //        inputUser.AssociateActionsWithUser(inputs);
+    //        inputUser.ActivateControlScheme(inputControlScheme.Value).AndPairRemainingDevices();
+    //    }
+    //}
+    //private InputControlScheme? FindControlScheme(InputDevice[] devices)
+    //{
+    //    var controlScheme = InputControlScheme.FindControlSchemeForDevices(devices, inputs.controlSchemes);
+    //    if(controlScheme == null)
+    //    {
+    //        Debug.Log("Control scheme not found");
+    //        return null;
+    //    }
+    //    else
+    //    {
+    //        return controlScheme.Value;
+    //    }
+    //}
+    //private bool TryActivateControlScheme(InputControlScheme controlScheme, InputDevice[] inputDevices)
+    //{
+    //    foreach (var device in inputDevices)
+    //    {
+    //        if (!controlScheme.SupportsDevice(device))
+    //            return false;
+
+    //        inputUser = InputUser.PerformPairingWithDevice(device, inputUser);
+    //    }
+    //    return true;
+    //}
 }
