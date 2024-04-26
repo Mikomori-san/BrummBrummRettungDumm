@@ -72,7 +72,8 @@ public class ForceController : MonoBehaviour
 
     public void AddForceObject(ForceObjectLogic forceObject)
     {
-        forceObjects.Add(forceObject);
+        if(!forceObjects.Contains(forceObject))
+            forceObjects.Add(forceObject);
     }
 
     public void RemoveForceObject(ForceObjectLogic forceObject)

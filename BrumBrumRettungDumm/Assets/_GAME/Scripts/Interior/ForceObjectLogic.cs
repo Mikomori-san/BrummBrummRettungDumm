@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,4 +31,19 @@ public class ForceObjectLogic : MonoBehaviour
     {
         ForceController.Instance.AddForceObject(this);
     }
+
+    public void OnDestroy()
+    {
+        ForceController.Instance.RemoveForceObject(this);
+    }
+
+    public void OnDisable()
+    {
+        ForceController.Instance.RemoveForceObject(this);
+    }
+
+    // public void OnEnable()
+    // {
+    //     ForceController.Instance.AddForceObject(this);
+    // }
 }

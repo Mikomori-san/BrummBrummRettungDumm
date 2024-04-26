@@ -10,6 +10,7 @@ public class PatientManager : MonoBehaviour
     [SerializeField] private GameObject patientPrefab;
     [SerializeField] private GameObject spawnPoint;
     [SerializeField] private GameObject canvasForHealthBarManager;
+    [SerializeField] private GameObject interior;
     
     private HealthBarManager healthBarManager;
     public static PatientManager Instance { get; private set; }
@@ -38,10 +39,12 @@ public class PatientManager : MonoBehaviour
         
     }
 
-    public void SpawnPatient()
+    public GameObject SpawnPatient()
     {
-        GameObject patient = Instantiate(patientPrefab, spawnPoint.transform.position, Quaternion.identity);
+        print("Spawn Patient in manager");
+        GameObject patient = Instantiate(patientPrefab, spawnPoint.transform.position, Quaternion.identity, interior.transform);
         healthBarManager.HealthBarNumberPlus(patient);   
+        return patient;
     }
     
     public void RemovePatient(GameObject patient)
