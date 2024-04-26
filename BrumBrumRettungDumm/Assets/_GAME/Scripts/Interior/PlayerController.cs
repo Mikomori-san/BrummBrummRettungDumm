@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
 
         characterController = GetComponent<CharacterController>();
         cam = GetComponentInChildren<Camera>();
-        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
 
         inputs.Player.Look.started += Input_Look;
         inputs.Player.Look.performed += Input_Look;

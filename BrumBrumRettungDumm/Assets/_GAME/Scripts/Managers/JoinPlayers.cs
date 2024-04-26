@@ -9,15 +9,16 @@ public class JoinPlayers : MonoBehaviour
     private Inputs inputs;
     public PlayerController playerController;
     public CarInputForTCCA carController;
-    Coroutine startGameCoroutine;
+
+    public static event Action<string> OnPlayerJoined;
 
     public void Awake()
     {
         inputs = new Inputs();
         inputs.Enable();
 
-        inputs.Player.Join.performed += JoinPlayer;
-        inputs.Player.Leave.performed += LeavePlayer;
+        inputs.Player.Join.started += JoinPlayer;
+        inputs.Player.Leave.started += LeavePlayer;
         playerController.enableInput = false;
         carController.enableInput = false;
     }
@@ -44,19 +45,13 @@ public class JoinPlayers : MonoBehaviour
         {
             carController.SetUser(context.control.device);
             Debug.Log("Car joined");
-            if(playerController.device != null)
-            {
-                startGameCoroutine = StartCoroutine(StartGame());
-            }
+            OnPlayerJoined?.Invoke("Car");
         }
         else if(playerController.device == null)
         {
             playerController.SetUser(context.control.device);
             Debug.Log("Paramedic joined");
-            if(carController.device != null)
-            {
-                startGameCoroutine = StartCoroutine(StartGame());
-            }
+            OnPlayerJoined?.Invoke("Paramedic");
         }
         else
         {
@@ -66,20 +61,19 @@ public class JoinPlayers : MonoBehaviour
     }
     void LeavePlayer(InputAction.CallbackContext context)
     {
-        if(playerController.device == context.control.device)
-        {
-            playerController.enableInput = false;
-            playerController.SetUser(null);
-            Debug.Log("Paramedic left");
-            StopCoroutine(startGameCoroutine);
-        }
-        if(carController.device == context.control.device)
-        {
-            carController.enableInput = false;
-            carController.SetUser(null);
-            Debug.Log("Car left");
-            StopCoroutine(startGameCoroutine);
-        }
+        //This is currently causing a bug as the Menu doesnt react to Leaving Players also SetUser Method doesnt support unbinding a device yet
+        //if(playerController.device == context.control.device)
+        //{
+        //    playerController.enableInput = false;
+        //    playerController.SetUser(null);
+        //    Debug.Log("Paramedic left");
+        //}
+        //if(carController.device == context.control.device)
+        //{
+        //    carController.enableInput = false;
+        //    carController.SetUser(null);
+        //    Debug.Log("Car left");
+        //}
     }
     void OnDisable()
     {
@@ -89,13 +83,15 @@ public class JoinPlayers : MonoBehaviour
     {
         inputs.Enable();
     }
-    IEnumerator StartGame()
+    public void EnableInput()
     {
-        Debug.Log("Game starting in 3 seconds");
-        yield return new WaitForSeconds(3);
         playerController.enableInput = true;
         carController.enableInput = true;
         enabled = false;
-        Debug.Log("Game started");
+        Debug.Log("Input enabled");
+    }
+    public bool PlayersJoined()
+    {
+        return playerController.device != null && carController.device != null;
     }
 }
