@@ -10,22 +10,20 @@ public class Minimap : MonoBehaviour
     [SerializeField] private Camera playerCamera;
     [SerializeField] private GameObject minimapSocket;
     [SerializeField] private GameObject minimapCursor;
-    [SerializeField] private GameObject markerPrefab;
+    [SerializeField] private GameObject marker;
     [SerializeField] private LayerMask ground;
-    
+    [SerializeField] private float minimapActivationRange = 1.5f;
+    [SerializeField] private float markerDeletionRange = 50;
+
     private bool minimapActive = false;
-    private GameObject marker;
-    private Simple3DMovement playerMovement;
+    private PlayerController playerMovement;
     
     // Start is called before the first frame update
     void Start()
     {
         minimapCursor.SetActive(false);
         UnityEngine.Cursor.visible = false;
-        marker = Instantiate(markerPrefab);
-        marker.SetActive(false);
-        
-        playerMovement = playerCamera.gameObject.GetComponentInParent<Simple3DMovement>();
+        playerMovement = playerCamera.gameObject.GetComponentInParent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -59,9 +57,7 @@ public class Minimap : MonoBehaviour
                 Vector3 screenMiddle = new Vector3(Screen.width / 2f, Screen.height / 2f, playerCamera.nearClipPlane);
                 Ray ray = playerCamera.ScreenPointToRay(screenMiddle);
 
-                float maxRange = 1.5f;
-
-                if (Physics.Raycast(ray, out hit, maxRange))
+                if (Physics.Raycast(ray, out hit, minimapActivationRange))
                 {
                     if (hit.collider != null && hit.collider.gameObject.name == minimapSocket.name)
                     {
@@ -96,8 +92,9 @@ public class Minimap : MonoBehaviour
             {
                 if (hit.collider)
                 {
-                    marker.transform.position = hit.point;
-                    marker.SetActive(true);
+                    GameObject newMarker = Instantiate(marker);
+                    newMarker.transform.position = hit.point;
+                    NavigationManager.Instance.AddMarker(ref marker);
                 }
             }
         }
