@@ -88,14 +88,10 @@ public class Minimap : MonoBehaviour
 
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, ground))
+            if (Physics.Raycast(ray, out hit, 10000, ground))
             {
-                if (hit.collider)
-                {
-                    GameObject newMarker = Instantiate(marker);
-                    newMarker.transform.position = hit.point;
-                    NavigationManager.Instance.AddMarker(ref marker);
-                }
+                GameObject newMarker = Instantiate(marker, hit.point,Quaternion.identity);
+                NavigationManager.Instance.AddMarker(ref newMarker);
             }
         }
     }
