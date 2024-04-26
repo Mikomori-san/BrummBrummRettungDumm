@@ -689,7 +689,7 @@ MonoBehaviour:
   objectLayer:
     serializedVersion: 2
     m_Bits: 32768
-  playerTag: Ambulance
+  playerTag: AmbulanceBody
 --- !u!114 &6660159574341974054
 MonoBehaviour:
   m_ObjectHideFlags: 0
