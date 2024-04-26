@@ -70,16 +70,20 @@ public class ObjectDragging : MonoBehaviour
 
     public void Input_Grab(InputAction.CallbackContext context)
     {
+        print("Hauns");
         if (context.started)
         {
+            print("Meow");
             RaycastHit hit;
-            Vector3 screenMiddle = new Vector3(Screen.width / 2f, Screen.height / 2f, cam.nearClipPlane);
-            Ray ray = cam.ScreenPointToRay(screenMiddle);
-
+            Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            
             float maxRange = 1.5f;
-
+            
+            Debug.DrawLine(ray.origin, ray.origin + ray.direction * 10, Color.red, 2f);
+            
             if (Physics.Raycast(ray, out hit, maxRange))
             {
+                
                 if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Draggable"))
                 {
                     if (hit.collider.gameObject.name == defibrilator.name)
@@ -87,12 +91,12 @@ public class ObjectDragging : MonoBehaviour
                         oldPositionDefi = hit.collider.transform.position;
                         oldRotationDefi = hit.collider.transform.rotation;
                     }
-                    
+
                     grabbedObject = hit.collider.gameObject;
                     isDragging = true;
                     if(grabbedObject.GetComponent<ForceObjectLogic>())
                         dragObjectForceObjectLogic = grabbedObject.GetComponent<ForceObjectLogic>();
-                    
+
                     print("Dragging!");
                 }
             }
@@ -107,18 +111,18 @@ public class ObjectDragging : MonoBehaviour
                     grabbedObject.transform.position = oldPositionDefi;
                     grabbedObject.transform.rotation = oldRotationDefi;
                 }
-                
+
                 if (grabbedObject.GetComponent<ForceObjectLogic>())
                 {
                     grabbedObject.GetComponent<ForceObjectLogic>().EnableForce();
-                
+
                     grabbedObject.GetComponent<Rigidbody>().AddForce(cam.transform.forward * 1.5f, ForceMode.Impulse);
                 }
-                
+
                 if(grabbedObject.GetComponent<Collider>())
                     grabbedObject.GetComponent<Collider>().enabled = true;
             }
-            
+
             grabbedObject = null;
         }
     }

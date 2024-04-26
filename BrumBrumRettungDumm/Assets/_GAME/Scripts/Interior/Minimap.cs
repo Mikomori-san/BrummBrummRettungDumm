@@ -56,8 +56,7 @@ public class Minimap : MonoBehaviour
             else
             {
                 RaycastHit hit;
-                Vector3 screenMiddle = new Vector3(Screen.width / 2f, Screen.height / 2f, playerCamera.nearClipPlane);
-                Ray ray = playerCamera.ScreenPointToRay(screenMiddle);
+                Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 
                 float maxRange = 1.5f;
 

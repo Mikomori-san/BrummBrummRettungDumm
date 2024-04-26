@@ -11,6 +11,7 @@ TagManager:
   - AmbulanceBody
   - PlayerManager
   - Interior
+  - InteriorGround
   layers:
   - Default
   - TransparentFX

@@ -39,9 +39,8 @@ public class DefibrilatorTask : MonoBehaviour
                 if (progress >= 100)
                 {
                     patientRevived = false;
-                    Vector3 screenMiddle = new Vector3(Screen.width / 2f, Screen.height / 2f, cam.nearClipPlane);
                     float maxRange = 5f;
-                    Ray ray = cam.ScreenPointToRay(screenMiddle);
+                    Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
                     var size = Physics.RaycastNonAlloc(ray, results, maxRange);
 
                     if (results.Length > 0)
