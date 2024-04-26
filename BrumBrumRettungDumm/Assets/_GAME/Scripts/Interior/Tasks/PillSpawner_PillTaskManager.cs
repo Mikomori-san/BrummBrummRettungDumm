@@ -13,14 +13,14 @@ public class PillManager : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private GameObject pillPrefab;
     [SerializeField] private int pillAmount = 5;
-    [SerializeField] private GameObject interior;
+    [SerializeField] private Transform pillSpawnPos;
     
     // Start is called before the first frame update
     void Start()
     {
         for (int i = 0; i < pillAmount; i++)
         {
-            GameObject pill = Instantiate(pillPrefab, transform);
+            GameObject pill = Instantiate(pillPrefab, pillSpawnPos.position, Quaternion.identity);
             pill.SetActive(false);
             AvailablePills.Enqueue(pill);
         }
@@ -66,16 +66,22 @@ public class PillManager : MonoBehaviour
     {
         while(true)
         {
-            if (AvailablePills.Count > 0)
+            GameObject pill;
+            if(AvailablePills.Count == 0)
             {
-                GameObject pill = AvailablePills.Dequeue();
-
-                Vector3 randomSpawnPoint = GetRandomPoint();
-
-                pill.transform.position = randomSpawnPoint;
-                pill.transform.SetParent(interior.transform); // Set the parent to the interior object
-                pill.SetActive(true);
+                pill = Instantiate(pillPrefab, pillSpawnPos.position, Quaternion.identity);
             }
+            else
+            {
+                pill = AvailablePills.Dequeue();
+            }
+
+            //Vector3 randomSpawnPoint = GetRandomPoint();
+
+            pill.transform.position = pillSpawnPos.position;
+            //pill.transform.SetParent(interior.transform); // Set the parent to the interior object
+            pill.SetActive(true);
+
             print("Spawn");
             yield return new WaitForSeconds(5f);
         }
@@ -87,7 +93,8 @@ public class PillManager : MonoBehaviour
 
         while (true)
         {
-            Vector3 randomPoint = new Vector3(
+            Vector3 randomPoint = new Vector3
+            (
                 UnityEngine.Random.Range(-areaSize / 2f, areaSize / 2f),
                 50f,
                 UnityEngine.Random.Range(-areaSize / 2f, areaSize / 2f)
