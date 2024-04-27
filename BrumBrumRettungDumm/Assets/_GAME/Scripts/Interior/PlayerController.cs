@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     }
 
     [Header("Movement")]
-    public bool enableInput = true;
+    private bool enableInput = false;
     [SerializeField] private float movementSpeed = 1f;
     [SerializeField] private float gravity = -9.81f;
     private CharacterController characterController;
@@ -53,7 +53,6 @@ public class PlayerController : MonoBehaviour
 
         characterController = GetComponent<CharacterController>();
         cam = GetComponentInChildren<Camera>();
-        //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
 
         inputs.Player.Look.started += Input_Look;
         inputs.Player.Look.performed += Input_Look;
@@ -202,5 +201,13 @@ public class PlayerController : MonoBehaviour
         inputUser = InputUser.PerformPairingWithDevice(device, inputUser);
         inputUser.AssociateActionsWithUser(inputs);
         inputUser.ActivateControlScheme(inputControlScheme).AndPairRemainingDevices();
+    }
+    public void SetEnable(bool enable)
+    {
+        enableInput = enable;
+        if(enableInput)
+        {
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 }

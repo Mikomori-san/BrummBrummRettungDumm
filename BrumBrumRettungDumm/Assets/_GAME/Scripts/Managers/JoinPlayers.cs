@@ -19,7 +19,7 @@ public class JoinPlayers : MonoBehaviour
 
         inputs.Player.Join.started += JoinPlayer;
         inputs.Player.Leave.started += LeavePlayer;
-        playerController.enableInput = false;
+        playerController.SetEnable(false);
         carController.enableInput = false;
     }
 
@@ -85,7 +85,7 @@ public class JoinPlayers : MonoBehaviour
     }
     public void EnableInput()
     {
-        playerController.enableInput = true;
+        playerController.SetEnable(true);
         carController.enableInput = true;
         enabled = false;
         Debug.Log("Input enabled");

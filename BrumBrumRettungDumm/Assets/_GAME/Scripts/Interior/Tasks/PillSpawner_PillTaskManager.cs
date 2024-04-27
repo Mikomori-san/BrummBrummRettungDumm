@@ -20,7 +20,7 @@ public class PillManager : MonoBehaviour
     {
         for (int i = 0; i < pillAmount; i++)
         {
-            GameObject pill = Instantiate(pillPrefab, pillSpawnPos.position, Quaternion.identity);
+            GameObject pill = Instantiate(pillPrefab, pillSpawnPos.position, Quaternion.identity, pillSpawnPos);
             pill.SetActive(false);
             AvailablePills.Enqueue(pill);
         }
@@ -69,7 +69,8 @@ public class PillManager : MonoBehaviour
             GameObject pill;
             if(AvailablePills.Count == 0)
             {
-                pill = Instantiate(pillPrefab, pillSpawnPos.position, Quaternion.identity);
+                pill = Instantiate(pillPrefab, pillSpawnPos.position, Quaternion.identity, pillSpawnPos);
+                //pill.transform.parent = pillSpawnPos;
             }
             else
             {
