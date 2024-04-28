@@ -35,21 +35,22 @@ public class JoinPlayers : MonoBehaviour
     }
     void JoinPlayer(InputAction.CallbackContext context)
     {
-        if (playerController.device == context.control.device || carController.device == context.control.device)
+        InputDevice[] inputDevices = { context.control.device };
+        if (playerController.devices.Contains(context.control.device) || carController.devices.Contains(context.control.device))
         {
             Debug.Log("Player already joined");
             return;
         }
 
-        if (carController.device == null)
+        if (carController.devices.Count == 0)
         {
-            carController.SetUser(context.control.device);
+            carController.SetUser(inputDevices);
             Debug.Log("Car joined");
             OnPlayerJoined?.Invoke("Car");
         }
-        else if(playerController.device == null)
+        else if(playerController.devices.Count == 0)
         {
-            playerController.SetUser(context.control.device);
+            playerController.SetUser(inputDevices);
             Debug.Log("Paramedic joined");
             OnPlayerJoined?.Invoke("Paramedic");
         }
@@ -92,6 +93,6 @@ public class JoinPlayers : MonoBehaviour
     }
     public bool PlayersJoined()
     {
-        return playerController.device != null && carController.device != null;
+        return playerController.IsDevicesNotEmpty() && carController.IsDevicesNotEmpty();
     }
 }

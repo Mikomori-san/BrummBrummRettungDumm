@@ -1,20 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : DeviceInput
 {
-    private Inputs inputs;
-    [HideInInspector]
-    public InputDevice device
-    {
-        get;
-        private set;
-    }
-
     [Header("Movement")]
     private bool enableInput = false;
     [SerializeField] private float movementSpeed = 1f;
@@ -44,12 +37,9 @@ public class PlayerController : MonoBehaviour
     [Header("GameObjects")]
     public GameObject gameController;
 
-    private InputUser inputUser;
-
-    private void Awake()
+    private new void Awake()
     {
-        inputs = new Inputs();
-        inputs.Enable();
+        base.Awake();
 
         characterController = GetComponent<CharacterController>();
         cam = GetComponentInChildren<Camera>();
@@ -95,7 +85,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!enableInput)
             return;
-        if(device == null)
+        if (devices.Count == 0)
             return;
 
         //Camera Look
@@ -148,12 +138,13 @@ public class PlayerController : MonoBehaviour
     {
         if(!enableInput)
             return;
-        if (device.displayName == "Keyboard" && context.control.device.displayName == "Mouse")
+        //if devices contains an element which displayName is "Keyboard" and context.control.device.displayName is "Mouse"
+        if (devices.Any(d => d.displayName == "Keyboard") && context.control.device.displayName == "Mouse")
         {
             mouseX = context.ReadValue<Vector2>().x * mouseSensitivity * Time.deltaTime;
             mouseY = context.ReadValue<Vector2>().y * mouseSensitivity * Time.deltaTime;
         }
-        else if(context.control.device == device)
+        else if(devices.Contains(context.control.device))
         {
             mouseX = context.ReadValue<Vector2>().x;
             mouseY = context.ReadValue<Vector2>().y;
@@ -163,7 +154,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!enableInput)
             return;
-        if (context.control.device == device)
+        if (devices.Contains(context.control.device))
         {
             movementX = context.ReadValue<Vector2>().x;
             movementZ = context.ReadValue<Vector2>().y;
@@ -173,34 +164,11 @@ public class PlayerController : MonoBehaviour
     {
         if (!enableInput)
             return;
-        if (isGrounded && context.performed && context.control.device == device)
+        if (isGrounded && context.performed && devices.Contains(context.control.device))
         {
             //print("Jump");
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
-    }
-    public void SetUser(InputDevice device)
-    {
-        this.device = device;
-        var controlScheme = InputControlScheme.FindControlSchemeForDevice(device, inputs.controlSchemes);
-        InputControlScheme inputControlScheme;
-        if (controlScheme == null)
-        {
-            Debug.Log("Control scheme not found");
-            inputControlScheme = inputs.KeyboardMouseScheme;
-        }
-        else
-        {
-            inputControlScheme = controlScheme.Value;
-        }
-        if (!inputControlScheme.SupportsDevice(device))
-        {
-            Debug.Log("Device not supported");
-            return;
-        }
-        inputUser = InputUser.PerformPairingWithDevice(device, inputUser);
-        inputUser.AssociateActionsWithUser(inputs);
-        inputUser.ActivateControlScheme(inputControlScheme).AndPairRemainingDevices();
     }
     public void SetEnable(bool enable)
     {
