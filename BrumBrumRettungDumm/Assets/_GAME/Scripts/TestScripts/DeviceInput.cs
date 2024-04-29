@@ -28,11 +28,6 @@ public class DeviceInput : MonoBehaviour
     {
         this.devices = devices.ToList();
 
-        if (devices[0].displayName == "Keyboard")
-        {
-            InputDevice secondInputDevice = InputSystem.GetDevice("Mouse");
-            this.devices.Add(secondInputDevice);
-        }
         InputControlScheme? inputControlScheme = FindControlScheme(this.devices.ToArray(), inputs);
         if (inputControlScheme == null)
         {

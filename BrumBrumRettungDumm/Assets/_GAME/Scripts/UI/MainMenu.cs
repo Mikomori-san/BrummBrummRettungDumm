@@ -6,11 +6,7 @@ using UnityEngine.InputSystem.Android.LowLevel;
 
 public class MainMenu : MonoBehaviour
 {
-    public JoinPlayers joinPlayers;
-    public TextMeshProUGUI ambulanceJoinText;
-    public TextMeshProUGUI paramedicJoinText;
-    public TextMeshProUGUI infoText;
-    public GameObject gameController;
+    public GameObject joinPlayerMenu;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,41 +21,19 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        if(joinPlayers.PlayersJoined())
-        {
-            joinPlayers.EnableInput();
-            this.gameObject.SetActive(false);
-        }
-        else
-        {
-            infoText.text = "Both players must join to start the game";
-        }
+        joinPlayerMenu.SetActive(true);
+        this.joinPlayerMenu.SetActive(false);
     }
     public void ExitGame()
     {
         Application.Quit();
     }
-    public void HandlePlayerJoined(string player)
-    {
-        if (player == "Car")
-        {
-            ambulanceJoinText.text = "Ambulance joined";
-            paramedicJoinText.enabled = true;
-        }
-        else if (player == "Paramedic")
-        {
-            paramedicJoinText.text = "Paramedic joined";
-        }
-    }
     private void OnEnable()
     {
-        gameController.SetActive(false);
-        paramedicJoinText.enabled = false;
-        JoinPlayers.OnPlayerJoined += HandlePlayerJoined;
+        joinPlayerMenu.SetActive(false);
     }
     private void OnDisable()
     {
-        gameController.SetActive(true);
-        JoinPlayers.OnPlayerJoined -= HandlePlayerJoined;
+        joinPlayerMenu.SetActive(true);
     }
 }
