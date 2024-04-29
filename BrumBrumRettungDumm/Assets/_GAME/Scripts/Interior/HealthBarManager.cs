@@ -7,41 +7,52 @@ using UnityEngine.UI;
 
 public class HealthBarManager : MonoBehaviour
 {
-    [SerializeField] private GameObject patientUIprefab;
+    #region This is a Singleton
+    private static HealthBarManager instance = null;
+    public static HealthBarManager Instance { get { return instance; } }
+
+    private void InitializeSingleton()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+    #endregion
+
+    [SerializeField] private GameObject patientUiPrefab;
     [SerializeField] private float healthBarHeight = 40f;
+    [SerializeField] private float yOffset = 15f;
     
-    private List<GameObject> patientHealthbars = new List<GameObject>();
+    public List<GameObject> allHealthbars = new List<GameObject>();
 
-    
-    
-    private float offset = 15f;
-    // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
-        
+        InitializeSingleton();
     }
 
-    // Update is called once per frame
-    void Update()
+    public GameObject HealthBarNumberPlus(PatientManager.Patient patient)
     {
-        
-    }
-
-    public void HealthBarNumberPlus(GameObject patient)
-    {
-        GameObject patientHealthbar = Instantiate(patientUIprefab, transform);
-        patientHealthbars.Add(patientHealthbar);
+        GameObject patientHealthbar = Instantiate(patientUiPrefab, transform);
+        allHealthbars.Add(patientHealthbar);
         StartCoroutine(UpdateHealthbar(patientHealthbar, patient));
         UpdateHealthBarPositions();
+        return patientHealthbar;
     }
     
-    private void UpdateHealthBarPositions()
+    public void UpdateHealthBarPositions()
     {
         try
         {
-            for (int i = 0; i < patientHealthbars.Count; i++)
+            for (int i = 0; i < allHealthbars.Count; i++)
             {
-                patientHealthbars[i].transform.position = new Vector3(90, i * healthBarHeight + offset, 0);
+                allHealthbars[i].transform.position = new Vector3(90, i * healthBarHeight + yOffset, 0);
             }
         }
         catch (Exception e)
@@ -50,14 +61,14 @@ public class HealthBarManager : MonoBehaviour
         }
     }
 
-    private IEnumerator UpdateHealthbar(GameObject patientHealthbar, GameObject patient)
+    private IEnumerator UpdateHealthbar(GameObject patientHealthbar, PatientManager.Patient patient)
     {
-        float deathTimeAccumulator = 1f;
+        float deathTimer = 1f;
         
-        PatientLifespan patientLifespan = patient.GetComponent<PatientLifespan>();
+        PatientLifespan patientLifespan = patient.ragdoll.GetComponent<PatientLifespan>();
         Slider healthSlider = patientHealthbar.GetComponentInChildren<Slider>();
         TextMeshProUGUI name = patientHealthbar.GetComponentInChildren<TextMeshProUGUI>();
-        name.SetText(patient.name);
+        name.SetText(patient.ragdoll.name);
         
         while(true)
         {
@@ -65,14 +76,11 @@ public class HealthBarManager : MonoBehaviour
             
             if (patientLifespan.GetPatientHealth() <= 0)
             {
-                deathTimeAccumulator -= Time.deltaTime;
-                if (deathTimeAccumulator <= 0)
+                deathTimer -= Time.deltaTime;
+                if (deathTimer <= 0)
                 {
-                    patientHealthbars.Remove(patientHealthbar);
-                    Destroy(patientHealthbar);
-                    Destroy(patient);
                     
-                    UpdateHealthBarPositions();
+                    PatientManager.Instance.RemovePatient(patient);                        
                     break;
                 }
             }

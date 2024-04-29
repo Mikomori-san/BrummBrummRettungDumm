@@ -6,50 +6,54 @@ using UnityEngine.InputSystem;
 
 public class PatientManager : MonoBehaviour
 {
-    
+    #region This is a Singleton
+    private static PatientManager instance = null;
+    public static PatientManager Instance { get { return instance; } }
+
+    private void InitializeSingleton()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+    #endregion
+
     [SerializeField] private GameObject patientPrefab;
     [SerializeField] private GameObject spawnPoint;
-    [SerializeField] private GameObject canvasForHealthBarManager;
     [SerializeField] private GameObject interior;
-    
-    private HealthBarManager healthBarManager;
-    public static PatientManager Instance { get; private set; }
-    
+
+    public class Patient
+    {
+        public GameObject ragdoll;
+        public GameObject lifeBar;
+    }
+
     void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        healthBarManager = canvasForHealthBarManager.GetComponent<HealthBarManager>();
+        InitializeSingleton();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public GameObject SpawnPatient()
+    public Patient SpawnPatient()
     {
         print("Spawn Patient in manager");
-        GameObject patient = Instantiate(patientPrefab, spawnPoint.transform.position, Quaternion.identity, interior.transform);
-        healthBarManager.HealthBarNumberPlus(patient);   
+        Patient patient = new Patient();
+        patient.ragdoll = Instantiate(patientPrefab, spawnPoint.transform.position, Quaternion.identity, interior.transform);
+        patient.lifeBar = HealthBarManager.Instance.HealthBarNumberPlus(patient);
         return patient;
     }
     
-    public void RemovePatient(GameObject patient)
+    public void RemovePatient(Patient patient)
     {
-        Destroy(patient);
+        HealthBarManager.Instance.allHealthbars.Remove(patient.lifeBar);
+        Destroy(patient.ragdoll);
+        Destroy(patient.lifeBar);
+        HealthBarManager.Instance.UpdateHealthBarPositions();
     }
     
     public void Input_SpawnPatient(InputAction.CallbackContext context)

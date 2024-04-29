@@ -17,19 +17,18 @@ public class WorldManager : MonoBehaviour
     [SerializeField] private int startingPatients = 3;
     [SerializeField] private float patientCollectionRange = 3;
     private float timeUntilNewPatient;
-    private List<Patient> patients = new List<Patient>();
+    private List<DummyPatient> patients = new List<DummyPatient>();
     [Header("Hospital")]
     [SerializeField] private Transform hospital;
     [SerializeField] private float deliverPatientDistance;
-    private List<GameObject> ragdollPatients = new List<GameObject>();
 
-    private class Patient
+    private class DummyPatient
     {
         public int modelId;
         public float timeUntilDeath;
         public GameObject gameObject;
 
-        public Patient(float timeUntilDeath, int modelId, GameObject gameObjectInstance)
+        public DummyPatient(float timeUntilDeath, int modelId, GameObject gameObjectInstance)
         {
             this.timeUntilDeath = timeUntilDeath;
             this.modelId = modelId;
@@ -48,7 +47,7 @@ public class WorldManager : MonoBehaviour
             patientObject.transform.position = patientSpawnPositions[Random.Range(0, patientSpawnPositions.Length)].position +
                                                 new Vector3(Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition), 0, Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition));
 
-            patients.Add(new Patient(Random.Range(minTime_PatientDeath, maxTime_PatientDeath), modelIndex, patientObject));
+            patients.Add(new DummyPatient(Random.Range(minTime_PatientDeath, maxTime_PatientDeath), modelIndex, patientObject));
         }
 
         timeUntilNewPatient = Random.Range(minTime_NewPatient, maxTime_NewPatient);
@@ -63,7 +62,6 @@ public class WorldManager : MonoBehaviour
             if (Vector3.Distance(ambulance.transform.position, patients[i].gameObject.transform.position) < patientCollectionRange)
             {
                 // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-                PatientManager.Instance.SpawnPatient();
                 print($"Patient {patients[i].gameObject.transform.GetInstanceID()} collected");
                 Destroy(patients[i].gameObject); 
                 patients.RemoveAt(i);
@@ -90,16 +88,14 @@ public class WorldManager : MonoBehaviour
             patientObject.transform.position = patientSpawnPositions[Random.Range(0, patientSpawnPositions.Length)].position +
                                                 new Vector3(Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition), 0, Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition));
 
-            patients.Add(new Patient(Random.Range(minTime_PatientDeath, maxTime_PatientDeath), modelIndex, patientObject));
+            patients.Add(new DummyPatient(Random.Range(minTime_PatientDeath, maxTime_PatientDeath), modelIndex, patientObject));
             print($"Patient {patientObject.transform.GetInstanceID()} created");
         }
 
         if(Vector3.Distance(hospital.position, ambulance.position) < deliverPatientDistance)
         {
-            for(int i = 0; i < ragdollPatients.Count; i++)
-            {
-                PatientManager.Instance.RemovePatient(ragdollPatients[i]);
-            }
+            print("Delivery");
+            //Make Ragdolls Destroyable HERE
         }
     }
 
