@@ -6,7 +6,7 @@ using UnityEngine.InputSystem.Android.LowLevel;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject joinPlayerMenu;
+    public GameObject joinMenu;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,8 +21,8 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        joinPlayerMenu.SetActive(true);
-        this.joinPlayerMenu.SetActive(false);
+        joinMenu.SetActive(true);
+        gameObject.SetActive(false);
     }
     public void ExitGame()
     {
@@ -30,10 +30,10 @@ public class MainMenu : MonoBehaviour
     }
     private void OnEnable()
     {
-        joinPlayerMenu.SetActive(false);
+        joinMenu.SetActive(false);
     }
     private void OnDisable()
     {
-        joinPlayerMenu.SetActive(true);
+        joinMenu.SetActive(true);
     }
 }
