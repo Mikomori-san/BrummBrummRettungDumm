@@ -29,7 +29,7 @@ public class HealthBarManager : MonoBehaviour
     [SerializeField] private float healthBarHeight = 40f;
     [SerializeField] private float yOffset = 15f;
     
-    public List<GameObject> allHealthbars = new List<GameObject>();
+    [HideInInspector] public List<GameObject> allHealthbars = new List<GameObject>();
 
 
     private void Awake()

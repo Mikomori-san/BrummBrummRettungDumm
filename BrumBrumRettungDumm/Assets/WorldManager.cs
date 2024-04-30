@@ -18,17 +18,15 @@ public class WorldManager : MonoBehaviour
     [SerializeField] private float patientCollectionRange = 3;
     private float timeUntilNewPatient;
     private List<DummyPatient> patients = new List<DummyPatient>();
-    [Header("Hospital")]
-    [SerializeField] private Transform hospital;
-    [SerializeField] private float deliverPatientDistance;
+
 
     private class DummyPatient
     {
-        public int modelId;
+        public uint modelId;
         public float timeUntilDeath;
         public GameObject gameObject;
 
-        public DummyPatient(float timeUntilDeath, int modelId, GameObject gameObjectInstance)
+        public DummyPatient(float timeUntilDeath, uint modelId, GameObject gameObjectInstance)
         {
             this.timeUntilDeath = timeUntilDeath;
             this.modelId = modelId;
@@ -42,7 +40,7 @@ public class WorldManager : MonoBehaviour
     {
         for (int i = 0; i < startingPatients; i++)
         {
-            int modelIndex = Random.Range(0, patientModels.Length);
+            uint modelIndex = (uint)Random.Range(0, patientModels.Length);
             GameObject patientObject = Instantiate(patientModels[modelIndex]);
             patientObject.transform.position = patientSpawnPositions[Random.Range(0, patientSpawnPositions.Length)].position +
                                                 new Vector3(Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition), 0, Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition));
@@ -59,16 +57,20 @@ public class WorldManager : MonoBehaviour
         {
             patients[i].timeUntilDeath -= Time.deltaTime;
 
+            //Collect Patients
             if (Vector3.Distance(ambulance.transform.position, patients[i].gameObject.transform.position) < patientCollectionRange)
             {
-                // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                 print($"Patient {patients[i].gameObject.transform.GetInstanceID()} collected");
+
+                PatientManager.Instance.SpawnPatient(patients[i].modelId);
+                
                 Destroy(patients[i].gameObject); 
                 patients.RemoveAt(i);
                 i--;
                 continue;
             }
             
+            //Patient Time Limit
             if (patients[i].timeUntilDeath < 0)
             {
                 print($"Patient {patients[i].gameObject.transform.GetInstanceID()} died");
@@ -78,12 +80,13 @@ public class WorldManager : MonoBehaviour
             }
         }
 
+        //Spawn New Patient after a certain amount of Time
         timeUntilNewPatient -= Time.deltaTime;
         if(timeUntilNewPatient <= 0)
         {
             timeUntilNewPatient = Random.Range(minTime_NewPatient, maxTime_NewPatient);
             
-            int modelIndex = Random.Range(0, patientModels.Length);
+            uint modelIndex = (uint)Random.Range(0, patientModels.Length);
             GameObject patientObject = Instantiate(patientModels[modelIndex]);
             patientObject.transform.position = patientSpawnPositions[Random.Range(0, patientSpawnPositions.Length)].position +
                                                 new Vector3(Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition), 0, Random.Range(-maxOffsetFromSpawnPosition, maxOffsetFromSpawnPosition));
@@ -91,18 +94,10 @@ public class WorldManager : MonoBehaviour
             patients.Add(new DummyPatient(Random.Range(minTime_PatientDeath, maxTime_PatientDeath), modelIndex, patientObject));
             print($"Patient {patientObject.transform.GetInstanceID()} created");
         }
-
-        if(Vector3.Distance(hospital.position, ambulance.position) < deliverPatientDistance)
-        {
-            print("Delivery");
-            //Make Ragdolls Destroyable HERE
-        }
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(hospital.position, deliverPatientDistance);
-
         if(patientSpawnPositions == null) { return; }
         for (int i = 0; i < patientSpawnPositions.Length; i++)
         {

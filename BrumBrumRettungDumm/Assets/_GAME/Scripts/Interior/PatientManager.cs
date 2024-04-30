@@ -24,9 +24,10 @@ public class PatientManager : MonoBehaviour
     }
     #endregion
 
-    [SerializeField] private GameObject patientPrefab;
+    [SerializeField] private GameObject[] patientPrefabs;
     [SerializeField] private GameObject spawnPoint;
     [SerializeField] private GameObject interior;
+    public List<Patient> allPatients = new List<Patient>();
 
     public class Patient
     {
@@ -39,13 +40,13 @@ public class PatientManager : MonoBehaviour
         InitializeSingleton();
     }
 
-    public Patient SpawnPatient()
+    public void SpawnPatient(uint modelId)
     {
         print("Spawn Patient in manager");
-        Patient patient = new Patient();
-        patient.ragdoll = Instantiate(patientPrefab, spawnPoint.transform.position, Quaternion.identity, interior.transform);
-        patient.lifeBar = HealthBarManager.Instance.HealthBarNumberPlus(patient);
-        return patient;
+        Patient newPatient = new Patient();
+        newPatient.ragdoll = Instantiate(patientPrefabs[modelId], spawnPoint.transform.position, Quaternion.identity, interior.transform);
+        newPatient.lifeBar = HealthBarManager.Instance.HealthBarNumberPlus(newPatient);
+        allPatients.Add(newPatient);
     }
     
     public void RemovePatient(Patient patient)
@@ -55,12 +56,24 @@ public class PatientManager : MonoBehaviour
         Destroy(patient.lifeBar);
         HealthBarManager.Instance.UpdateHealthBarPositions();
     }
-    
+
+    public void RemovePatient(GameObject patientObject)
+    {
+        for (int i = 0; i < allPatients.Count; i++)
+        {
+            if (allPatients[i].ragdoll == patientObject)
+            {
+                RemovePatient(allPatients[i]);
+                return;
+            }
+        }
+    }
+
     public void Input_SpawnPatient(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            SpawnPatient();
+            SpawnPatient(0);
         }
     }
 }
