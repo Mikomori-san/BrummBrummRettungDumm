@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class HealthBarManager : MonoBehaviour
@@ -80,7 +81,8 @@ public class HealthBarManager : MonoBehaviour
                 if (deathTimer <= 0)
                 {
                     
-                    PatientManager.Instance.RemovePatient(patient);                        
+                    PatientManager.Instance.RemovePatient(patient);
+                    ScoreSystem.Instance.AddScorePatientDeath();
                     break;
                 }
             }

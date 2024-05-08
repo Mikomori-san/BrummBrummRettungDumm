@@ -52,6 +52,7 @@ public class DefibrilatorTask : MonoBehaviour
                                 // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                                 results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().IncreasePatientHealth(healthIncrease);
                                 patientRevived = true;
+                                ScoreSystem.Instance.AddScoreDefibrilator();
                                 break;
                             }
                         }

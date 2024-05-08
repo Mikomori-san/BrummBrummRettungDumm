@@ -12,6 +12,7 @@ public class DeliverObject : MonoBehaviour
         if (other.CompareTag(patientTag))
         {
             PatientManager.Instance.RemovePatient(other.GetComponentInParent<RandomNameGiver>().gameObject);
+            ScoreSystem.Instance.AddScoreDelivery((float)1 / other.GetComponentInParent<PatientLifespan>().GetPatientHealth());
         }
     }
 }
