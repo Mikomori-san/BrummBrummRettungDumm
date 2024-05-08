@@ -44,6 +44,10 @@ public class JoinMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (players.Length == 0)
+        {
+            Debug.LogError("No players have been assigned!");
+        }
     }
 
     // Update is called once per frame
@@ -119,6 +123,7 @@ public class JoinMenu : MonoBehaviour
             if (players[i].inputDevices.Contains(inputDevice))
             {
                 players[i].ready = !players[i].ready;
+                break;
             }
         }
 
@@ -144,6 +149,8 @@ public class JoinMenu : MonoBehaviour
             if (players[i].inputDevices.Contains(inputDevice))
             {
                 players[i].image.sprite = players[i].image.sprite == driverSprite ? paramedicSprite : driverSprite;
+                players[i].ready = false;
+                return;
             }
         }
     }
@@ -153,13 +160,14 @@ public class JoinMenu : MonoBehaviour
     }
     void UpdatePlayerText(int playerIndex)
     {
-        if (PlayerJoined(playerIndex))
+        if (!PlayerJoined(playerIndex))
         {
             players[playerIndex].text.text = "Press X to join";
         }
         else
         {
             players[playerIndex].text.text = players[playerIndex].image.sprite == driverSprite ? "< Driver >" : "< Paramedic >";
+            players[playerIndex].text.text += players[playerIndex].ready ? "\n- Ready!" : "\n- Not Ready!";
         }
     }
     bool PlayerJoined(int playerIndex)
