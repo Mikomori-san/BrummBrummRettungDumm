@@ -1,0 +1,146 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7745587385318825530
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8437444516800697428}
+  - component: {fileID: 2762099385013220671}
+  - component: {fileID: 7912074199588251593}
+  - component: {fileID: 522012032077492920}
+  - component: {fileID: 7751763080567847463}
+  - component: {fileID: 8290927808770213505}
+  - component: {fileID: 4725853963421793267}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8437444516800697428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7745587385318825530}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.933656, y: 6.2895937, z: 11.515405}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2762099385013220671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7745587385318825530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8066a4480003f66449077bf335cef374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 0}
+  defibrilator: {fileID: 0}
+  isDragging: 0
+  grabbedObject: {fileID: 0}
+--- !u!114 &7912074199588251593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7745587385318825530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fd54bdbef6f941418f5fe4644e01fc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 0}
+  pillPrefab: {fileID: 2269839056021117832, guid: fbea7909944b8654eac042ee34a071f8, type: 3}
+  pillAmount: 10
+  pillSpawnPos: {fileID: 0}
+--- !u!114 &522012032077492920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7745587385318825530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d41e60b8c75941448bee5ac6b8f068ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 0}
+  defibrilator: {fileID: 0}
+  chargeModifier: 1
+  healthIncrease: 30
+--- !u!114 &7751763080567847463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7745587385318825530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2c58be1fdf148c45850fb179f0042f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimapCamera: {fileID: 0}
+  playerCamera: {fileID: 0}
+  minimapSocket: {fileID: 0}
+  minimapCursor: {fileID: 0}
+  marker: {fileID: 6519918578350661308, guid: a87241913df4bb74db2fe7127baae658, type: 3}
+  ground:
+    serializedVersion: 2
+    m_Bits: 32776
+  minimapActivationRange: 1.5
+  markerDeletionRange: 50
+--- !u!114 &8290927808770213505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7745587385318825530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab873b7c692da584db50c1ffd96d6660, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patientPrefabs:
+  - {fileID: 4766840818752399297, guid: 8bdf3a33d5a42a74e983b9af2c5820b1, type: 3}
+  - {fileID: 4766840818752399297, guid: 372519349ba712048b64d02d353c9cc9, type: 3}
+  spawnPoint: {fileID: 0}
+  interior: {fileID: 0}
+--- !u!114 &4725853963421793267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7745587385318825530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dd297dfbd530c64cad0e112dac1dd97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 100
+  spring: 50
+  damper: 5
+  drag: 10
+  angularDrag: 5
+  distance: 0.1
+  attachToCenterOfMass: 0
+  cam: {fileID: 0}
