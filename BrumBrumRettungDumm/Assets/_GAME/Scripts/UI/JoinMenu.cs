@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Windows;
 
 public class JoinMenu : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class JoinMenu : MonoBehaviour
         inputs.Enable();
 
         inputs.UI.Submit.started += JoinPlayer;
+        inputs.UI.Submit.started += StartGame;
         inputs.UI.Cancel.started += LeavePlayer;
         inputs.UI.Switch.started += ChangeRole;
     }
