@@ -412,13 +412,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ba51a81e43b28a46b70d00d90bcc617, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player0Image: {fileID: 1460305479}
-  player1Image: {fileID: 1218341044}
+  players:
+  - image: {fileID: 1460305479}
+    text: {fileID: 1727279688}
+    ready: 0
+  - image: {fileID: 1218341044}
+    text: {fileID: 1301739547}
+    ready: 0
   driverSprite: {fileID: 21300000, guid: b99656d066dd861499148c1200dd0e71, type: 3}
   paramedicSprite: {fileID: 21300000, guid: 2c1fac6e5b5897c46b6dbedf778a3cd9, type: 3}
   infoText: {fileID: 1850445248}
-  player0Text: {fileID: 1727279688}
-  player1Text: {fileID: 1301739547}
+  notJoinedColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  joinedColor: {r: 1, g: 1, b: 1, a: 1}
+  sceneToLoad: GameScene
 --- !u!1 &522572297
 GameObject:
   m_ObjectHideFlags: 0
