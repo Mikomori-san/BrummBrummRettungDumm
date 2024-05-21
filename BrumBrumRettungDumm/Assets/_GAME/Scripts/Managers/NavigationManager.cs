@@ -26,7 +26,8 @@ public class NavigationManager : MonoBehaviour
 
     [SerializeField] private GameObject arrow;
     [SerializeField] private Material[] colors;
-    [SerializeField] private GameObject ambulance;
+    [SerializeField] private string ambulanceBodyTag = "AmbulanceBody";
+    private GameObject ambulance;
     [SerializeField] private float distanceFromAmbulance = 1;
     [SerializeField] private float distanceBetweenArrows = 0.5f;
     [SerializeField] private float markerDeleteDistance = 5;
@@ -44,6 +45,10 @@ public class NavigationManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        ambulance = GameObject.FindGameObjectWithTag(ambulanceBodyTag);
+    }
 
     void Update()
     {

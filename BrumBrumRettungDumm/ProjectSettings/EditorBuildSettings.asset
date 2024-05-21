@@ -6,17 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_GAME/Scenes/_FinalGame/MainMenu.unity
+    guid: dae0179d4b9abdf4c813701d2b20072a
+  - enabled: 0
     path: Assets/_GAME/Scenes/_FinalGame/GameScene_Playtesting.unity
     guid: 0e9e67014a948244d98308d89119965b
-  - enabled: 0
-    path: Assets/_GAME/Scenes/_FinalGame/MainMenu.unity
-    guid: fb33edb5082faad458d61377afd28baf
+  - enabled: 1
+    path: Assets/_GAME/Scenes/_FinalGame/GameScene.unity
+    guid: 83d75a8111131dd49b3967c66790f22b
   - enabled: 0
     path: Assets/_GAME/Scenes/_FinalGame/Game.unity
     guid: 4606cae15cd6a1a4c8abe80d81ef4e0b
   - enabled: 0
     path: Assets/_GAME/Scenes/Working/Stefan.unity
-    guid: 2ce7f99d490a09e488238a4b286d120e
+    guid: 9b80c284a921a234392b6ebe730dec42
   - enabled: 0
     path: Assets/_GAME/Scenes/Working/Kevin.unity
     guid: b87e689eeaf912d4cb30f739bc8b4fc3

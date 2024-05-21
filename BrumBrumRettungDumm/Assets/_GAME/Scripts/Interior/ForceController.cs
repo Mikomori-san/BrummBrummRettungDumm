@@ -9,7 +9,8 @@ public class ForceController : MonoBehaviour
 {
     public static ForceController Instance { get; private set; }
 
-    [SerializeField] private GameObject target;
+    [SerializeField] private string ambulanceBodyTag = "AmbulanceBody";
+    private GameObject target;
     private Rigidbody targetRigidbody;
     private Vector3 gravity;
     private Vector3 lastVelocity;
@@ -30,7 +31,7 @@ public class ForceController : MonoBehaviour
 
     void Start()
     {
-        target = GameObject.FindGameObjectWithTag("AmbulanceBody");
+        target = GameObject.FindGameObjectWithTag(ambulanceBodyTag);
         foreach (ForceObjectLogic forceObject in forceObjects)
         {
             forceObject.GetComponent<Rigidbody>().useGravity = true;

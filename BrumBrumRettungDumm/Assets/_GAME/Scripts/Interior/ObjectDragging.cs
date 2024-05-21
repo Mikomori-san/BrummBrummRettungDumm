@@ -11,7 +11,7 @@ using Vector3 = UnityEngine.Vector3;
 
 public class ObjectDragging : MonoBehaviour
 {
-    [SerializeField] private Camera cam;
+    private Camera paramedicCamera;
     [SerializeField] private GameObject defibrilator;
     
     [HideInInspector] public bool isDragging = false;
@@ -36,7 +36,10 @@ public class ObjectDragging : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerInput playerInput = InputSafe.instance.GetParamedic().GetComponent<PlayerInput>();
+        playerInput.onActionTriggered += Input_Grab;
 
+        paramedicCamera = InputSafe.instance.GetParamedic().GetComponentInChildren<Camera>();
     }
 
     // Update is called once per frame
@@ -59,9 +62,9 @@ public class ObjectDragging : MonoBehaviour
             if(grabbedObject.GetComponent<Collider>())
                 grabbedObject.GetComponent<Collider>().enabled = false;
             
-            Quaternion cameraRotation = cam.transform.rotation;
+            Quaternion cameraRotation = paramedicCamera.transform.rotation;
 
-            Vector3 objectPosition = cam.transform.position + cam.transform.forward;
+            Vector3 objectPosition = paramedicCamera.transform.position + paramedicCamera.transform.forward;
 
             grabbedObject.transform.position = objectPosition;
             grabbedObject.transform.rotation = cameraRotation;
@@ -70,12 +73,15 @@ public class ObjectDragging : MonoBehaviour
 
     public void Input_Grab(InputAction.CallbackContext context)
     {
+        if(context.action.name != "Grab")
+            return;
+
         print("Hauns");
         if (context.started)
         {
             print("Meow");
             RaycastHit hit;
-            Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            Ray ray = paramedicCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             
             float maxRange = 1.5f;
             
@@ -116,7 +122,7 @@ public class ObjectDragging : MonoBehaviour
                 {
                     grabbedObject.GetComponent<ForceObjectLogic>().EnableForce();
 
-                    grabbedObject.GetComponent<Rigidbody>().AddForce(cam.transform.forward * 1.5f, ForceMode.Impulse);
+                    grabbedObject.GetComponent<Rigidbody>().AddForce(paramedicCamera.transform.forward * 1.5f, ForceMode.Impulse);
                 }
 
                 if(grabbedObject.GetComponent<Collider>())

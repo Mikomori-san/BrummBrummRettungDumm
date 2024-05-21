@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class Minimap : MonoBehaviour
 {
     [SerializeField] private Camera minimapCamera;
-    [SerializeField] private Camera playerCamera;
+    private Camera playerCamera;
     [SerializeField] private GameObject minimapSocket;
     [SerializeField] private GameObject minimapCursor;
     [SerializeField] private GameObject marker;
@@ -21,6 +21,11 @@ public class Minimap : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerInput playerInput = InputSafe.instance.GetParamedic().GetComponent<PlayerInput>();
+        playerInput.onActionTriggered += Input_SetMarker;
+        playerInput.onActionTriggered += Input_InteractWithMinimap;
+
+        playerCamera = InputSafe.instance.GetParamedic().GetComponentInChildren<Camera>();
         minimapCursor.SetActive(false);
         UnityEngine.Cursor.visible = false;
         playerMovement = playerCamera.gameObject.GetComponentInParent<Simple3DMovement>();
@@ -34,6 +39,9 @@ public class Minimap : MonoBehaviour
 
     public void Input_InteractWithMinimap(InputAction.CallbackContext context)
     {
+        if(context.action.name != "Give")
+            return;
+
         if (context.started)
         {
             if (minimapActive)
@@ -80,6 +88,9 @@ public class Minimap : MonoBehaviour
 
     public void Input_SetMarker(InputAction.CallbackContext context)
     {
+        if(context.action.name != "Grab")
+            return;
+
         if (context.started && minimapActive)
         {
             Vector2 mousePosition = Mouse.current.position.ReadValue();

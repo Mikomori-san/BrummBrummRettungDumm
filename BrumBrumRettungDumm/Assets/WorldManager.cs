@@ -5,7 +5,8 @@ using UnityEngine.InputSystem;
 
 public class WorldManager : MonoBehaviour
 {
-    [SerializeField] private Transform ambulance;
+    [SerializeField] private string ambulanceBodyTag = "AmbulanceBody";
+    private Transform ambulanceBody;
     [Header("Patients")]
     [SerializeField] private GameObject[] patientModels;
     [SerializeField] private Transform[] patientSpawnPositions;
@@ -38,6 +39,8 @@ public class WorldManager : MonoBehaviour
 
     void Start()
     {
+        ambulanceBody = GameObject.FindGameObjectWithTag(ambulanceBodyTag).transform;
+
         for (int i = 0; i < startingPatients; i++)
         {
             uint modelIndex = (uint)Random.Range(0, patientModels.Length);
@@ -58,7 +61,7 @@ public class WorldManager : MonoBehaviour
             patients[i].timeUntilDeath -= Time.deltaTime;
 
             //Collect Patients
-            if (Vector3.Distance(ambulance.transform.position, patients[i].gameObject.transform.position) < patientCollectionRange)
+            if (Vector3.Distance(ambulanceBody.transform.position, patients[i].gameObject.transform.position) < patientCollectionRange)
             {
                 print($"Patient {patients[i].gameObject.transform.GetInstanceID()} collected");
 

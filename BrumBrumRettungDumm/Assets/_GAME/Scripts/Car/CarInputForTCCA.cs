@@ -15,6 +15,16 @@ public class CarInputForTCCA : MonoBehaviour
     private float boostInput = 0f;
     private bool handbrake = false;
 
+
+    private void Start()
+    {
+        PlayerInput playerInput = GetComponent<PlayerInput>();
+        playerInput.onActionTriggered += Input_Throttle;
+        playerInput.onActionTriggered += Input_Steering;
+        playerInput.onActionTriggered += Input_Respawn;
+        playerInput.onActionTriggered += Input_Handbrake;
+        playerInput.onActionTriggered += Input_Boost;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -32,14 +42,23 @@ public class CarInputForTCCA : MonoBehaviour
 
     public void Input_Throttle(InputAction.CallbackContext context)
     {
+        if(context.action.name != "CarThrottle")
+            return;
+
         motor = context.ReadValue<float>();
     }
     public void Input_Steering(InputAction.CallbackContext context)
     {
+        if(context.action.name != "CarSteering")
+            return;
+
         steering = context.ReadValue<float>();
     }
     public void Input_Respawn(InputAction.CallbackContext context)
     {
+        if(context.action.name != "CarRespawn")
+            return;
+
         if (context.started)
         {
             carController.immobilize();
@@ -54,6 +73,9 @@ public class CarInputForTCCA : MonoBehaviour
     }
     public void Input_Handbrake(InputAction.CallbackContext context)
     {
+        if(context.action.name != "CarHandbrake")
+            return;
+
         if (context.performed)
         {
             handbrake = true;
@@ -65,6 +87,9 @@ public class CarInputForTCCA : MonoBehaviour
     }
     public void Input_Boost(InputAction.CallbackContext context)
     {
+        if (context.action.name != "CarBoost")
+            return;
+
         boostInput = context.ReadValue<float>();
     }
 }

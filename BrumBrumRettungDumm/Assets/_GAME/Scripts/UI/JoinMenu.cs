@@ -36,11 +36,6 @@ public class JoinMenu : MonoBehaviour
     {
         inputs = new Inputs();
         inputs.Enable();
-
-        inputs.UI.Submit.canceled += JoinPlayer;
-        inputs.UI.Submit.started += ReadyUp;
-        inputs.UI.Cancel.started += LeavePlayer;
-        inputs.UI.Switch.started += ChangeRole;
     }
 
     // Start is called before the first frame update
@@ -231,10 +226,22 @@ public class JoinMenu : MonoBehaviour
     }
     private void OnEnable()
     {
+        inputs.UI.Submit.canceled += JoinPlayer;
+        inputs.UI.Submit.started += ReadyUp;
+        inputs.UI.Cancel.started += LeavePlayer;
+        inputs.UI.Switch.started += ChangeRole;
+
         foreach (Player player in players)
         {
             player.ready = false;
             player.inputDevices = new List<InputDevice>();
         }
+    }
+    private void OnDisable()
+    {
+        inputs.UI.Submit.canceled -= JoinPlayer;
+        inputs.UI.Submit.started -= ReadyUp;
+        inputs.UI.Cancel.started -= LeavePlayer;
+        inputs.UI.Switch.started -= ChangeRole;
     }
 }

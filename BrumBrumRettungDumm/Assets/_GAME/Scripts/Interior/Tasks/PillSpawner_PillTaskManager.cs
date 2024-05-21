@@ -10,7 +10,7 @@ public class PillManager : MonoBehaviour
     private GameObject selectedPill;
     private RaycastHit[] results = new RaycastHit[10];
     
-    [SerializeField] private Camera cam;
+    private Camera paramedicCamera;
     [SerializeField] private GameObject pillPrefab;
     [SerializeField] private int pillAmount = 5;
     [SerializeField] private Transform pillSpawnPos;
@@ -18,6 +18,10 @@ public class PillManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerInput playerInput = InputSafe.instance.GetParamedic().GetComponent<PlayerInput>();
+        playerInput.onActionTriggered += Input_GivePill;
+
+        paramedicCamera = InputSafe.instance.GetParamedic().GetComponentInChildren<Camera>();
         for (int i = 0; i < pillAmount; i++)
         {
             GameObject pill = Instantiate(pillPrefab, pillSpawnPos.position, Quaternion.identity, pillSpawnPos);
@@ -35,6 +39,9 @@ public class PillManager : MonoBehaviour
 
     public void Input_GivePill(InputAction.CallbackContext context)
     {
+        if(context.action.name != "Give") 
+            return;
+
         if (context.performed)
         {
             if (ObjectDragging.Instance.grabbedObject && ObjectDragging.Instance.grabbedObject.CompareTag("Pill"))
@@ -42,7 +49,7 @@ public class PillManager : MonoBehaviour
                 selectedPill = ObjectDragging.Instance.grabbedObject;
                 
                 float maxRange = 5f;
-                Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+                Ray ray = paramedicCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
                 var size = Physics.RaycastNonAlloc(ray, results, maxRange);
 
                 if (results.Length > 0)

@@ -5,11 +5,13 @@ using UnityEngine.InputSystem;
 
 public class InteriorOrientation : MonoBehaviour
 {
-    public GameObject target;
+    GameObject target;
+    [SerializeField] private string ambulanceBodyTag = "AmbulanceBody";
 
     // Start is called before the first frame update
     void Start()
     {
+        target = GameObject.FindGameObjectWithTag(ambulanceBodyTag);
     }
 
     // Update is called once per frame

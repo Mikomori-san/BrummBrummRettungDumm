@@ -10,7 +10,7 @@ public class DefibrilatorTask : MonoBehaviour
     private float timer = 0;
     private bool patientRevived = false;
     
-    [SerializeField] private Camera cam;
+    private Camera paramedicCamera;
     [SerializeField] private GameObject defibrilator;
     [SerializeField] private float chargeModifier = 1f;
     [SerializeField] private int healthIncrease = 30;
@@ -19,7 +19,9 @@ public class DefibrilatorTask : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        paramedicCamera = InputSafe.instance.GetParamedic().GetComponentInChildren<Camera>();
+        PlayerInput playerInput = InputSafe.instance.GetParamedic().GetComponent<PlayerInput>();
+        playerInput.onActionTriggered += Input_GiveDefi;
     }
 
     // Update is called once per frame
@@ -40,7 +42,7 @@ public class DefibrilatorTask : MonoBehaviour
                 {
                     patientRevived = false;
                     float maxRange = 5f;
-                    Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+                    Ray ray = paramedicCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
                     var size = Physics.RaycastNonAlloc(ray, results, maxRange);
 
                     if (results.Length > 0)
@@ -97,6 +99,9 @@ public class DefibrilatorTask : MonoBehaviour
 
     public void Input_GiveDefi(InputAction.CallbackContext context)
     {
+        if (context.action.name != "Give")
+            return;
+
         if (context.started)
         {
             isMakingProgress = true;

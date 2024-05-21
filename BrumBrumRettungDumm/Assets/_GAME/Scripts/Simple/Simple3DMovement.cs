@@ -1,5 +1,7 @@
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(CharacterController))]
 public class Simple3DMovement : MonoBehaviour
@@ -18,6 +20,8 @@ public class Simple3DMovement : MonoBehaviour
 
     private float movementX = 0f;
     private float movementZ = 0f;
+    float mouseX;
+    float mouseY;
     private Vector3 velocity;
     private bool isGrounded = false;
 
@@ -33,29 +37,42 @@ public class Simple3DMovement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         cam = GetComponentInChildren<Camera>();
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        PlayerInput playerInput = GetComponent<PlayerInput>();
+        playerInput.onActionTriggered += Input_Look;
+        playerInput.onActionTriggered += Input_Movement;
+        playerInput.onActionTriggered += Input_Jump;
+    }
+    private void Input_Look(InputAction.CallbackContext context)
+    {
+        if(context.action.name != "Look") 
+            return;
+
+        mouseX = context.ReadValue<Vector2>().x;
+        mouseY = context.ReadValue<Vector2>().y;
     }
 
     public void Input_Movement(InputAction.CallbackContext context)
     {
+        if (context.action.name != "Move")
+            return;
+
         movementX = context.ReadValue<Vector2>().x;
         movementZ = context.ReadValue<Vector2>().y;
     }
 
     public void Input_Jump(InputAction.CallbackContext context)
     {
+        if(context.action.name != "Jump")
+            return;
+
         if (isGrounded && context.performed)
         {
-            //print("Jump");
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
     }
 
     void Update()
     {
-        //Camera Look
-        float mouseX = Mouse.current.delta.x.ReadUnprocessedValue() * mouseSensitivity * Time.deltaTime;
-        float mouseY = Mouse.current.delta.y.ReadUnprocessedValue() * mouseSensitivity * Time.deltaTime;
-
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -cameraClamp, cameraClamp);
 

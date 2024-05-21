@@ -5,17 +5,18 @@ using UnityEngine;
 public class HighlightSelf : MonoBehaviour
 {
     private Color startcolor;
-    [SerializeField] private Camera cam;
+    private Camera paramedicCamera;
 
     void Start()
     {
         Renderer objectRenderer = GetComponent<Renderer>();
         startcolor = objectRenderer.material.color;
+        paramedicCamera = InputSafe.instance.GetParamedic().GetComponentInChildren<Camera>();
     }
 
     void OnMouseOver()
     {
-        float distance = Vector3.Distance(cam.transform.position, transform.position);
+        float distance = Vector3.Distance(paramedicCamera.transform.position, transform.position);
 
         if (distance <= 1.5f)
         {

@@ -11,17 +11,23 @@ public class DragRigidbody : MonoBehaviour
     public float angularDrag = 5.0f; 
     public float distance = 0.2f; 
     public bool attachToCenterOfMass = false;
-    public Camera cam;
+    [HideInInspector]
+    public Camera paramedicCamera;
     
-    private SpringJoint springJoint; 
-    
+    private SpringJoint springJoint;
+
+    private void Start()
+    {
+        paramedicCamera = InputSafe.instance.GetParamedic().GetComponentInChildren<Camera>();
+    }
+
     void Update() 
     { 
         if(!Input.GetMouseButtonDown(0)) 
             return; 
         
         RaycastHit hit; 
-        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Ray ray = paramedicCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         
         if(!Physics.Raycast(ray, out hit, maxDistance, LayerMask.GetMask("Ragdoll"))) 
             return;
@@ -66,7 +72,7 @@ public class DragRigidbody : MonoBehaviour
         
         while(Input.GetMouseButton(0)) 
         { 
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition); 
+            Ray ray = paramedicCamera.ScreenPointToRay(Input.mousePosition); 
             springJoint.transform.position = ray.GetPoint(distance); 
             yield return null; 
         } 
