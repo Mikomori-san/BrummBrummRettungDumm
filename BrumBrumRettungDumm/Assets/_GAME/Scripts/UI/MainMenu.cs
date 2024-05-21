@@ -19,7 +19,7 @@ public class MainMenu : MonoBehaviour
 
     }
 
-    public void StartGame()
+    public void GoToJoinMenu()
     {
         joinMenu.SetActive(true);
         gameObject.SetActive(false);
@@ -31,9 +31,5 @@ public class MainMenu : MonoBehaviour
     private void OnEnable()
     {
         joinMenu.SetActive(false);
-    }
-    private void OnDisable()
-    {
-        joinMenu.SetActive(true);
     }
 }
