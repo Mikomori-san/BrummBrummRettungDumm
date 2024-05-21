@@ -16,14 +16,14 @@ public class Minimap : MonoBehaviour
     [SerializeField] private float markerDeletionRange = 50;
 
     private bool minimapActive = false;
-    private PlayerController playerMovement;
+    private Simple3DMovement playerMovement;
     
     // Start is called before the first frame update
     void Start()
     {
         minimapCursor.SetActive(false);
         UnityEngine.Cursor.visible = false;
-        playerMovement = playerCamera.gameObject.GetComponentInParent<PlayerController>();
+        playerMovement = playerCamera.gameObject.GetComponentInParent<Simple3DMovement>();
     }
 
     // Update is called once per frame

@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class JoinMenu : MonoBehaviour
 {
+    public string sceneToLoad = "Game";
+
     private Inputs inputs;
     public List<InputDevice> player0Input = new List<InputDevice>();
     public List<InputDevice> player1Input = new List<InputDevice>();
@@ -124,7 +126,23 @@ public class JoinMenu : MonoBehaviour
             return;
         }
         Debug.Log("Game started");
-        SceneManager.LoadScene("Game");
+        GameObject inputSafeGO = new GameObject("InputSafe");
+        InputSafe inputSafe = inputSafeGO.AddComponent<InputSafe>();
+        if (player0Image.sprite == driverSprite)
+        {
+            inputSafe.ambulanceInput.devices = player0Input.ToArray();
+            inputSafe.ambulanceInput.controlScheme = InputControlScheme.FindControlSchemeForDevices(player0Input.ToArray(), inputs.controlSchemes).Value;
+            inputSafe.paramedicInput.devices = player1Input.ToArray();
+            inputSafe.paramedicInput.controlScheme = InputControlScheme.FindControlSchemeForDevices(player1Input.ToArray(), inputs.controlSchemes).Value;
+        }
+        else
+        {
+            inputSafe.ambulanceInput.devices = player1Input.ToArray();
+            inputSafe.ambulanceInput.controlScheme = InputControlScheme.FindControlSchemeForDevices(player1Input.ToArray(), inputs.controlSchemes).Value;
+            inputSafe.paramedicInput.devices = player0Input.ToArray();
+            inputSafe.paramedicInput.controlScheme = InputControlScheme.FindControlSchemeForDevices(player0Input.ToArray(), inputs.controlSchemes).Value;
+        }
+        SceneManager.LoadScene(sceneToLoad);
     }
     void ChangeRole(InputAction.CallbackContext context)
     {

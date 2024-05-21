@@ -412,6 +412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ba51a81e43b28a46b70d00d90bcc617, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneToLoad: Stefan
   player0Image: {fileID: 1460305479}
   player1Image: {fileID: 1218341044}
   driverSprite: {fileID: 21300000, guid: b99656d066dd861499148c1200dd0e71, type: 3}
