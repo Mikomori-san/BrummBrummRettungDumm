@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.UI;
 
 public class HealthBarManager : MonoBehaviour
@@ -52,6 +53,7 @@ public class HealthBarManager : MonoBehaviour
         {
             for (int i = 0; i < allHealthbars.Count; i++)
             {
+                if (allHealthbars[i] == null) { continue; }
                 allHealthbars[i].transform.position = new Vector3(90, i * healthBarHeight + yOffset, 0);
             }
         }
