@@ -12,6 +12,7 @@ TagManager:
   - PlayerManager
   - Interior
   - InteriorGround
+  - Paramedic
   layers:
   - Default
   - TransparentFX

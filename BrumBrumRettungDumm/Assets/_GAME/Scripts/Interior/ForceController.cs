@@ -30,12 +30,11 @@ public class ForceController : MonoBehaviour
 
     void Start()
     {
+        target = GameObject.FindGameObjectWithTag("AmbulanceBody");
         foreach (ForceObjectLogic forceObject in forceObjects)
         {
             forceObject.GetComponent<Rigidbody>().useGravity = true;
         }
-        if(target != null)
-            SetTarget(target);
     }
 
     void FixedUpdate()
