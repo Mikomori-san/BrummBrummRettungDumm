@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731713, g: 0.13414736, b: 0.12107852, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -418,8 +418,9 @@ MonoBehaviour:
   driverSprite: {fileID: 21300000, guid: b99656d066dd861499148c1200dd0e71, type: 3}
   paramedicSprite: {fileID: 21300000, guid: 2c1fac6e5b5897c46b6dbedf778a3cd9, type: 3}
   infoText: {fileID: 1850445248}
-  player0Text: {fileID: 1727279688}
-  player1Text: {fileID: 1301739547}
+  notJoinedColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  joinedColor: {r: 1, g: 1, b: 1, a: 1}
+  sceneToLoad: GameScene
 --- !u!1 &522572297
 GameObject:
   m_ObjectHideFlags: 0
@@ -1074,7 +1075,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 112.33331}
+  m_SizeDelta: {x: 0, y: 190}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1218341043
 MonoBehaviour:
@@ -1432,7 +1433,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 112.33331}
+  m_SizeDelta: {x: 0, y: 190}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1460305478
 MonoBehaviour:
