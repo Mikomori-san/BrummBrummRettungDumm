@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1266728998137784554}
   - component: {fileID: 7546266918558716068}
   - component: {fileID: 7477223737776454773}
-  - component: {fileID: 79421921632012128}
   - component: {fileID: 4114699867764834893}
+  - component: {fileID: 3862692658374750959}
   - component: {fileID: 7562590860785857865}
   m_Layer: 0
   m_Name: Paramedic
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 1417700028933930227}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: -96.78, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -111,7 +111,33 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &79421921632012128
+--- !u!143 &4114699867764834893
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417700028933930227}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3862692658374750959
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 69c3c8ce6455e0f46b4d157364921653, type: 3}
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -137,101 +163,65 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7562590860785857865}
-        m_TargetAssemblyTypeName: Simple3DMovement, Assembly-CSharp
-        m_MethodName: Input_Movement
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
-    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+    m_ActionName: Player/Move[/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7562590860785857865}
-        m_TargetAssemblyTypeName: Simple3DMovement, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 6b444451-8a00-4d00-a97e-f47457f736a8
-    m_ActionName: Player/Look[/Mouse/delta]
+    m_ActionName: Player/Look[/XInputControllerWindows/rightStick,/Mouse/delta]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7562590860785857865}
-        m_TargetAssemblyTypeName: Simple3DMovement, Assembly-CSharp
-        m_MethodName: Input_Jump
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 85d0dbd4-cc9b-4ae5-a997-f56bdaef9b05
-    m_ActionName: Player/Jump[/Keyboard/space]
+    m_ActionName: Player/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: f59b2b24-34f6-4302-85f9-e406f7f6ef9f
-    m_ActionName: Player/Grab[/Mouse/leftButton]
+    m_ActionName: Player/Grab[/Mouse/leftButton,/XInputControllerWindows/buttonWest]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: ddc2c17a-143c-483b-9f92-41d639e58909
-    m_ActionName: Player/Give[/Keyboard/e]
+    m_ActionName: Player/Give[/Keyboard/e,/XInputControllerWindows/rightShoulder]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 166adf23-6f82-457a-8929-96757b53600e
-    m_ActionName: Player/CarRespawn[/Keyboard/r]
+    m_ActionName: Player/CarRespawn[/Keyboard/r,/XInputControllerWindows/buttonNorth]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 4912411d-238b-474a-b3f5-93511663adb7
-    m_ActionName: Player/CarBoost[/Keyboard/leftShift]
+    m_ActionName: Player/CarBoost[/Keyboard/leftShift,/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 42b012a4-d4a6-4ab4-96aa-b60da387deb2
-    m_ActionName: Player/CarHandbrake[/Keyboard/space]
+    m_ActionName: Player/CarHandbrake[/Keyboard/space,/XInputControllerWindows/buttonEast]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 952c5da6-803d-42f1-96d8-54b403394e44
-    m_ActionName: Player/CarThrottle[/Keyboard/s,/Keyboard/w]
+    m_ActionName: Player/CarThrottle[/Keyboard/s,/Keyboard/w,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/rightTrigger]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 9d0c5183-a89b-494b-b524-9816c2acc94c
-    m_ActionName: Player/CarSteering[/Keyboard/a,/Keyboard/d]
+    m_ActionName: Player/CarSteering[/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/right]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: b962ac99-cd12-49a3-89bb-1401f519ebb0
-    m_ActionName: Player/SpawnPatient
+    m_ActionName: Player/SpawnPatient[/XInputControllerWindows/buttonNorth]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: c95b2375-e6d9-4b88-9c4c-c5e76515df4b
-    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+    m_ActionName: UI/Navigate[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/rightStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/rightStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 6b66d857-e5c8-4d76-b893-b44908ceb479
-    m_ActionName: UI/Switch[/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+    m_ActionName: UI/Switch[/XInputControllerWindows/leftStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows/dpad,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 7607c7b6-cd76-4816-beef-bd0341cfe950
-    m_ActionName: UI/Submit[/Keyboard/enter]
+    m_ActionName: UI/Submit[/Keyboard/enter,/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 15cef263-9014-4fd5-94d9-4e4a6234a6ef
-    m_ActionName: UI/Cancel[/Keyboard/escape]
+    m_ActionName: UI/Cancel[/Keyboard/escape,/XInputControllerWindows/buttonEast]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 32b35790-4ed0-4e9a-aa41-69ac6d629449
@@ -265,32 +255,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 3354289525236010696}
---- !u!143 &4114699867764834893
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1417700028933930227}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7562590860785857865
 MonoBehaviour:
   m_ObjectHideFlags: 0

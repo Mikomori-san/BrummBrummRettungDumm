@@ -19,6 +19,8 @@ public class JoinMenu : MonoBehaviour
         [HideInInspector] public bool ready = false;
     }
 
+    public InputActionAsset inputActions;
+
     private Inputs inputs;
 
     public Player[] players;
@@ -142,16 +144,16 @@ public class JoinMenu : MonoBehaviour
                 if (players[0].image.sprite == driverSprite)
                 {
                     inputSafe.ambulanceInput.devices = players[0].inputDevices.ToArray();
-                    inputSafe.ambulanceInput.controlScheme = InputControlScheme.FindControlSchemeForDevices(players[0].inputDevices.ToArray(), inputs.controlSchemes).Value;
+                    inputSafe.ambulanceInput.controlScheme = InputControlScheme.FindControlSchemeForDevices(players[0].inputDevices.ToArray(), inputActions.controlSchemes).Value;
                     inputSafe.paramedicInput.devices = players[1].inputDevices.ToArray();
-                    inputSafe.paramedicInput.controlScheme = InputControlScheme.FindControlSchemeForDevices(players[1].inputDevices.ToArray(), inputs.controlSchemes).Value;
+                    inputSafe.paramedicInput.controlScheme = InputControlScheme.FindControlSchemeForDevices(players[1].inputDevices.ToArray(), inputActions.controlSchemes).Value;
                 }
                 else
                 {
                     inputSafe.ambulanceInput.devices = players[1].inputDevices.ToArray();
-                    inputSafe.ambulanceInput.controlScheme = InputControlScheme.FindControlSchemeForDevices(players[1].inputDevices.ToArray(), inputs.controlSchemes).Value;
+                    inputSafe.ambulanceInput.controlScheme = InputControlScheme.FindControlSchemeForDevices(players[1].inputDevices.ToArray(), inputActions.controlSchemes).Value;
                     inputSafe.paramedicInput.devices = players[0].inputDevices.ToArray();
-                    inputSafe.paramedicInput.controlScheme = InputControlScheme.FindControlSchemeForDevices(players[0].inputDevices.ToArray(), inputs.controlSchemes).Value;
+                    inputSafe.paramedicInput.controlScheme = InputControlScheme.FindControlSchemeForDevices(players[0].inputDevices.ToArray(), inputActions.controlSchemes).Value;
                 }
 
                 SceneManager.LoadScene(sceneToLoad);

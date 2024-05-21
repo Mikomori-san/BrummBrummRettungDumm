@@ -5,16 +5,27 @@ using UnityEngine.InputSystem;
 
 public class InputSafe : MonoBehaviour
 {
+    public class InputInstance
+    {
+        public InputDevice[] devices;
+        public InputControlScheme controlScheme;
+    }
+
     public static InputSafe instance;
 
     public InputInstance ambulanceInput;
     public InputInstance paramedicInput;
+
+    private GameObject ambulance;
+    private GameObject paramedic;
 
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
+            ambulanceInput = new InputInstance();
+            paramedicInput = new InputInstance();
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -22,35 +33,34 @@ public class InputSafe : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-
-    // Start is called before the first frame update
-    void Start()
+    public void OnPlayerJoined(PlayerInput playerInput)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    public class InputInstance
-    {
-        public InputDevice[] devices;
-        public InputControlScheme controlScheme;
-        public static InputControlScheme? FindControlScheme(InputDevice[] devices, Inputs inputs)
+        if (playerInput.gameObject.tag == "Ambulance")
         {
-            var controlScheme = InputControlScheme.FindControlSchemeForDevices(devices, inputs.controlSchemes);
-            if (controlScheme == null)
-            {
-                Debug.Log("Control scheme not found");
-                return null;
-            }
-            else
-            {
-                return controlScheme.Value;
-            }
+            ambulance = playerInput.gameObject;
         }
+        else if (playerInput.gameObject.tag == "Paramedic")
+        {
+            paramedic = playerInput.gameObject;
+        }
+    }
+    public void OnPlayerLeft(PlayerInput playerInput)
+    {
+        if (playerInput.gameObject.tag == "Ambulance")
+        {
+            ambulance = null;
+        }
+        else if (playerInput.gameObject.tag == "Paramedic")
+        {
+            paramedic = null;
+        }
+    }
+    public GameObject GetAmbulance()
+    {
+        return ambulance;
+    }
+    public GameObject GetParamedic()
+    {
+        return paramedic;
     }
 }
