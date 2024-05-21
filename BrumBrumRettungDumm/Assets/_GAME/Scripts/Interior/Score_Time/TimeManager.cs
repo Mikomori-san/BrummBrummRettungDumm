@@ -10,6 +10,7 @@ public class TimeManager : MonoBehaviour
     private const float MAX_TIME = 120;
     private const short ADDED_TIME = 30;
     private float time = MAX_TIME;
+    private bool isOver = false;
     
     [SerializeField] private TMPro.TextMeshProUGUI timeText;
     void Awake()
@@ -35,7 +36,12 @@ public class TimeManager : MonoBehaviour
         if (time <= 0)
         {
             time = 0;
-            // End the game
+            if(!isOver)
+            {
+                isOver = true;
+                ScoreSystem.Instance.AddScoreRemainingPatient(PatientManager.Instance.allPatients.Count);
+                // End the game
+            }
         }
         else
         {

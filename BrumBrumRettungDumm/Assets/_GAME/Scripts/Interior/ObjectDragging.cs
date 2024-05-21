@@ -70,16 +70,12 @@ public class ObjectDragging : MonoBehaviour
 
     public void Input_Grab(InputAction.CallbackContext context)
     {
-        print("Hauns");
         if (context.started)
         {
-            print("Meow");
             RaycastHit hit;
             Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             
             float maxRange = 1.5f;
-            
-            Debug.DrawLine(ray.origin, ray.origin + ray.direction * 10, Color.red, 2f);
             
             if (Physics.Raycast(ray, out hit, maxRange))
             {

@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class HealthBarManager : MonoBehaviour
 {
-    #region This is a Singleton
     private static HealthBarManager instance = null;
     public static HealthBarManager Instance { get { return instance; } }
 
@@ -24,18 +23,25 @@ public class HealthBarManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
     }
-    #endregion
 
     [SerializeField] private GameObject patientUiPrefab;
     [SerializeField] private float healthBarHeight = 40f;
     [SerializeField] private float yOffset = 15f;
+    [SerializeField] private float deathTime = 10f;
     
     [HideInInspector] public List<GameObject> allHealthbars = new List<GameObject>();
+    // private float deathTimer;
+    // private bool timerReset = true;
 
 
     private void Awake()
     {
         InitializeSingleton();
+    }
+
+    private void Update()
+    {
+
     }
 
     public GameObject HealthBarNumberPlus(PatientManager.Patient patient)
@@ -64,11 +70,12 @@ public class HealthBarManager : MonoBehaviour
 
     private IEnumerator UpdateHealthbar(GameObject patientHealthbar, PatientManager.Patient patient)
     {
-        float deathTimer = 1f;
+        float deathTimer = deathTime;
         
         PatientLifespan patientLifespan = patient.ragdoll.GetComponent<PatientLifespan>();
         Slider healthSlider = patientHealthbar.GetComponentInChildren<Slider>();
         TextMeshProUGUI name = patientHealthbar.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI reviveTimer = patientHealthbar.GetComponentsInChildren<TextMeshProUGUI>(true)[1];
         name.SetText(patient.ragdoll.name);
         
         while(true)
@@ -78,13 +85,21 @@ public class HealthBarManager : MonoBehaviour
             if (patientLifespan.GetPatientHealth() <= 0)
             {
                 deathTimer -= Time.deltaTime;
-                if (deathTimer <= 0)
+                
+                reviveTimer.gameObject.SetActive(true);
+                reviveTimer.SetText("Revive! " + (int)deathTimer);
+                
+                if (deathTimer <= 0 && patientLifespan.GetPatientHealth() <= 0)
                 {
-                    
                     PatientManager.Instance.RemovePatient(patient);
                     ScoreSystem.Instance.AddScorePatientDeath();
                     break;
                 }
+            }
+            
+            if(patientLifespan.GetPatientHealth() > 0)
+            {
+                reviveTimer.gameObject.SetActive(false);
             }
             
             yield return new WaitForEndOfFrame();

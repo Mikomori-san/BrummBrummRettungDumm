@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Scripts.Interior;
 
 public class DefibrilatorTask : MonoBehaviour
 {
@@ -9,11 +10,14 @@ public class DefibrilatorTask : MonoBehaviour
     private bool isMakingProgress = false;
     private float timer = 0;
     private bool patientRevived = false;
+    public float radius = 5.0F;
+    public float power = 100.0F;
     
     [SerializeField] private Camera cam;
     [SerializeField] private GameObject defibrilator;
     [SerializeField] private float chargeModifier = 1f;
     [SerializeField] private int healthIncrease = 30;
+    [SerializeField] private DefibrilatorUI defiUI;
     RaycastHit[] results = new RaycastHit[10];
     
     // Start is called before the first frame update
@@ -34,10 +38,12 @@ public class DefibrilatorTask : MonoBehaviour
         {
             if (isMakingProgress)
             {
+                defiUI.ShowDefibrilatorUI();
                 progress += 10f * chargeModifier * Time.deltaTime;
                 // ProgressBar Load
                 if (progress >= 100)
                 {
+                    defiUI.HideDefibrilatorUI();
                     patientRevived = false;
                     float maxRange = 5f;
                     Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
@@ -53,19 +59,16 @@ public class DefibrilatorTask : MonoBehaviour
                                 results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().IncreasePatientHealth(healthIncrease);
                                 patientRevived = true;
                                 ScoreSystem.Instance.AddScoreDefibrilator();
+                                
+                                // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
+                                EmitShockWave();
                                 break;
                             }
                         }
                     }
                     progress = 0;
                     timer = 2;
-                    
-                    if(patientRevived)
-                        print("Patient revived");
-                    else
-                        print("Patient not revived");
                 }
-                print("Progress: " + progress);
             }
             else if(progress != 0)
             {
@@ -73,6 +76,7 @@ public class DefibrilatorTask : MonoBehaviour
                 if (progress < 0)
                 {
                     progress = 0;
+                    defiUI.HideDefibrilatorUI();
                 }
                 else
                 {
@@ -87,6 +91,7 @@ public class DefibrilatorTask : MonoBehaviour
             if (progress < 0)
             {
                 progress = 0;
+                defiUI.HideDefibrilatorUI();
             }
             else
             {
@@ -105,6 +110,24 @@ public class DefibrilatorTask : MonoBehaviour
         else if(context.canceled)
         {
             isMakingProgress = false;
+        }
+    }
+
+    public float GetProgress()
+    {
+        return this.progress;
+    }
+
+    void EmitShockWave()
+    {
+        Vector3 explosionPos = defibrilator.transform.position;
+        Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
+        foreach (Collider hit in colliders)
+        {
+            Rigidbody rb = hit.GetComponent<Rigidbody>();
+
+            if (rb != null)
+                rb.AddExplosionForce(power, explosionPos, radius, 3.0F);
         }
     }
 }

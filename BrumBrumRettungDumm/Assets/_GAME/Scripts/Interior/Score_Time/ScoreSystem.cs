@@ -37,8 +37,8 @@ public class ScoreSystem : MonoBehaviour
 
     void Update()
     {
-        scoreText.text = score.ToString(CultureInfo.CurrentCulture);
-        multiplierText.text = "x" + multiplier;
+        scoreText.text = score.ToString("F0");
+        multiplierText.text = "x" + multiplier.ToString("F2");
     }
 
     public float GetScore()
@@ -58,8 +58,8 @@ public class ScoreSystem : MonoBehaviour
     
     public void AddScoreDelivery(float patientHealthPercent)
     {
-        score += DELIVERY_SCORE * multiplier;
         multiplier += patientHealthPercent;
+        score += DELIVERY_SCORE * multiplier;
     }
     
     public void AddScoreRemainingPatient(int remainingPatientCount)
