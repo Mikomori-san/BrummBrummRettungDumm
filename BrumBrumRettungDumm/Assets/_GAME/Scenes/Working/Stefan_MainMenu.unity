@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731713, g: 0.13414736, b: 0.12107852, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -409,7 +409,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 432760006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ba51a81e43b28a46b70d00d90bcc617, type: 3}
+  m_Script: {fileID: 11500000, guid: 55259f6cd1efe92499c3cf8dba6bce00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sceneToLoad: Stefan
@@ -418,9 +418,8 @@ MonoBehaviour:
   driverSprite: {fileID: 21300000, guid: b99656d066dd861499148c1200dd0e71, type: 3}
   paramedicSprite: {fileID: 21300000, guid: 2c1fac6e5b5897c46b6dbedf778a3cd9, type: 3}
   infoText: {fileID: 1850445248}
-  notJoinedColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
-  joinedColor: {r: 1, g: 1, b: 1, a: 1}
-  sceneToLoad: GameScene
+  player0Text: {fileID: 1727279688}
+  player1Text: {fileID: 1301739547}
 --- !u!1 &522572297
 GameObject:
   m_ObjectHideFlags: 0
