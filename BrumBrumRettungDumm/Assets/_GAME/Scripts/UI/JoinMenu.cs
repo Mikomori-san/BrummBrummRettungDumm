@@ -6,37 +6,35 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.Windows;
 
 public class JoinMenu : MonoBehaviour
 {
-    [Serializable]
-    public class Player
-    {
-        [HideInInspector]public List<InputDevice> inputDevices = new List<InputDevice>();
-        public Image image;
-        public TextMeshProUGUI text;
-        [HideInInspector]public bool ready = false;
-    }
+    public string sceneToLoad = "Game";
 
     private Inputs inputs;
-    
-    public Player[] players;
+    public List<InputDevice> player0Input = new List<InputDevice>();
+    public List<InputDevice> player1Input = new List<InputDevice>();
+
+    public Image player0Image;
+    public Image player1Image;
     public Sprite driverSprite;
     public Sprite paramedicSprite;
-    [SerializeField] private TextMeshProUGUI infoText;
+    public TextMeshProUGUI infoText;
+    public TextMeshProUGUI player0Text;
+    public TextMeshProUGUI player1Text;
 
-    public Color notJoinedColor = new Color(0.1f, 0.1f, 0.1f, 1f);
-    public Color joinedColor = new Color(1f, 1f, 1f, 1f);
+    private Color notJoinedColor = new Color(0.1f, 0.1f, 0.1f, 1f);
+    private Color joinedColor = new Color(1f, 1f, 1f, 1f);
 
-    public string sceneToLoad;
+    public static event Action<string> OnPlayerJoined;
+    public static event Action<string> OnPlayerLeft;
+
     public void Awake()
     {
         inputs = new Inputs();
         inputs.Enable();
 
-        inputs.UI.Submit.canceled += JoinPlayer;
-        inputs.UI.Submit.started += ReadyUp;
+        inputs.UI.Submit.started += JoinPlayer;
         inputs.UI.Cancel.started += LeavePlayer;
         inputs.UI.Switch.started += ChangeRole;
     }
@@ -44,10 +42,8 @@ public class JoinMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (players.Length == 0)
-        {
-            Debug.LogError("No players have been assigned!");
-        }
+        player0Image.sprite = driverSprite;
+        player1Image.sprite = paramedicSprite;
     }
 
     // Update is called once per frame
@@ -55,167 +51,142 @@ public class JoinMenu : MonoBehaviour
     {
         if(PlayersJoined())
         {
-            if(!PlayersHaveDifferentRoles())
+            if(player0Image.sprite == player1Image.sprite)
                 infoText.text = "Players must have different roles!";
             else
-                infoText.text = "Ready up to begin!";
+                infoText.text = "Press Start to begin!";
         }
         else
         {
             infoText.text = "Waiting for players to join...";
         }
-
-        for(int i = 0; i < players.Length; i++)
-        {
-            UpdateImageColor(i);
-            UpdatePlayerText(i);
-        }
-
+        UpdateImageColor();
+        UpdatePlayerText();
     }
     void JoinPlayer(InputAction.CallbackContext context)
     {
         List<InputDevice> inputDevices = new List<InputDevice>();
         inputDevices.Add(context.control.device);
-
-        for(int i = 0; i < players.Length; i++)
+        if (player0Input.Contains(inputDevices[0]) || player1Input.Contains(inputDevices[0]))
         {
-            if (players[i].inputDevices.Contains(inputDevices[0]))
-            {
-                return;
-            }
+            Debug.Log("Player already joined");
+            return;
         }
-
         if (inputDevices[0].displayName == "Keyboard")
         {
             InputDevice secondInputDevice = InputSystem.GetDevice("Mouse");
             inputDevices.Add(secondInputDevice);
         }
 
-        for(int i = 0; i < players.Length; i++)
+        if (player0Input.Count == 0)
         {
-            if (players[i].inputDevices.Count == 0)
-            {
-                players[i].inputDevices = inputDevices;
-                Debug.Log("Player " + i + " joined!");
-                return;
-            }
+            player0Input = inputDevices;
+            Debug.Log("Player0 joined");
+            OnPlayerJoined?.Invoke("Player0");
+        }
+        else if(player1Input.Count == 0)
+        {
+            player1Input = inputDevices;
+            Debug.Log("Player1 joined");
+            OnPlayerJoined?.Invoke("Player1");
+        }
+        else
+        {
+            Debug.Log("No more players allowed");
         }
     }
     void LeavePlayer(InputAction.CallbackContext context)
     {
         InputDevice inputDevice = context.control.device;
-        for(int i = 0; i < players.Length; i++)
+        if(player0Input.Contains(inputDevice))
         {
-            if (players[i].inputDevices.Contains(inputDevice))
-            {
-                players[i].inputDevices.Clear();
-                players[i].ready = false;
-                return;
-            }
+            player0Input.Clear();
+            OnPlayerLeft?.Invoke("Player0");
         }
-        Debug.Log("Player has not joined yet!");
+        else if(player1Input.Contains(inputDevice))
+        {
+            player1Input.Clear();
+            OnPlayerLeft?.Invoke("Player1");
+        }
+        else
+        {
+            Debug.Log("Player has not joined the game yet.");
+        }
     }
-    void ReadyUp(InputAction.CallbackContext context)
+    void StartGame(InputAction.CallbackContext context)
     {
-        InputDevice inputDevice = context.control.device;
-        for(int i = 0; i < players.Length; i++)
+        if(player0Image.sprite == player1Image.sprite)
         {
-            if (players[i].inputDevices.Contains(inputDevice))
-            {
-                players[i].ready = !players[i].ready;
-                break;
-            }
+            Debug.Log("Players must have different roles");
+            return;
         }
-
-        if(PlayersReady() && PlayersHaveDifferentRoles())
+        if (!PlayersJoined())
         {
-            Debug.Log("Game started");
-
-            if (string.IsNullOrEmpty(sceneToLoad))
-            {
-                Debug.LogError("Scene to load is not set!");
-            }
-            else
-            {
-                SceneManager.LoadScene(sceneToLoad);
-            }
+            Debug.Log("Not all players joined");
+            return;
         }
+        Debug.Log("Game started");
+        GameObject inputSafeGO = new GameObject("InputSafe");
+        InputSafe inputSafe = inputSafeGO.AddComponent<InputSafe>();
+        if (player0Image.sprite == driverSprite)
+        {
+            inputSafe.ambulanceInput.devices = player0Input.ToArray();
+            inputSafe.ambulanceInput.controlScheme = InputControlScheme.FindControlSchemeForDevices(player0Input.ToArray(), inputs.controlSchemes).Value;
+            inputSafe.paramedicInput.devices = player1Input.ToArray();
+            inputSafe.paramedicInput.controlScheme = InputControlScheme.FindControlSchemeForDevices(player1Input.ToArray(), inputs.controlSchemes).Value;
+        }
+        else
+        {
+            inputSafe.ambulanceInput.devices = player1Input.ToArray();
+            inputSafe.ambulanceInput.controlScheme = InputControlScheme.FindControlSchemeForDevices(player1Input.ToArray(), inputs.controlSchemes).Value;
+            inputSafe.paramedicInput.devices = player0Input.ToArray();
+            inputSafe.paramedicInput.controlScheme = InputControlScheme.FindControlSchemeForDevices(player0Input.ToArray(), inputs.controlSchemes).Value;
+        }
+        SceneManager.LoadScene(sceneToLoad);
     }
     void ChangeRole(InputAction.CallbackContext context)
     {
         InputDevice inputDevice = context.control.device;
-        for(int i = 0; i < players.Length; i++)
+        if (player0Input.Contains(inputDevice))
         {
-            if (players[i].inputDevices.Contains(inputDevice))
-            {
-                players[i].image.sprite = players[i].image.sprite == driverSprite ? paramedicSprite : driverSprite;
-                players[i].ready = false;
-                return;
-            }
+            player0Image.sprite = player0Image.sprite == driverSprite ? paramedicSprite : driverSprite;
+        }
+        else if (player1Input.Contains(inputDevice))
+        {
+            player1Image.sprite = player1Image.sprite == driverSprite ? paramedicSprite : driverSprite;
         }
     }
-    void UpdateImageColor(int playerIndex)
+    void UpdateImageColor()
     {
-        players[playerIndex].image.color = PlayerJoined(playerIndex) ? joinedColor : notJoinedColor;
+        player0Image.color = player0Input.Count == 0 ? notJoinedColor : joinedColor;
+        player1Image.color = player1Input.Count == 0 ? notJoinedColor : joinedColor;
     }
-    void UpdatePlayerText(int playerIndex)
+    void UpdatePlayerText()
     {
-        if (!PlayerJoined(playerIndex))
+        if(player0Input.Count == 0)
         {
-            players[playerIndex].text.text = "Press X to join";
+            player0Text.text = "Press X to join";
         }
         else
         {
-            players[playerIndex].text.text = players[playerIndex].image.sprite == driverSprite ? "< Driver >" : "< Paramedic >";
-            players[playerIndex].text.text += players[playerIndex].ready ? "\n- Ready!" : "\n- Not Ready!";
+            player0Text.text = player0Image.sprite == driverSprite ? "< Driver >" : "< Paramedic >";
         }
-    }
-    bool PlayerJoined(int playerIndex)
-    {
-        return players[playerIndex].inputDevices.Count != 0;
-    }
-    bool PlayersJoined()
-    {
-        foreach (Player player in players)
+        if(player1Input.Count == 0)
         {
-            if (player.inputDevices.Count == 0)
-            {
-                return false;
-            }
+            player1Text.text = "Press X to join";
         }
-        return true;
-    }
-    bool PlayersHaveDifferentRoles()
-    {
-        for(int i = 0; i < players.Length; i++)
+        else
         {
-            for (int j = i + 1; j < players.Length; j++)
-            {
-                if (players[i].image.sprite == players[j].image.sprite)
-                {
-                    return false;
-                }
-            }
+            player1Text.text = player1Image.sprite == driverSprite ? "< Driver >" : "< Paramedic >";
         }
-        return true;
     }
-    bool PlayersReady()
+    public bool PlayersJoined()
     {
-        foreach (Player player in players)
-        {
-            if (!player.ready)
-            {
-                return false;
-            }
-        }
-        return true;
+        return player0Input.Count != 0 && player1Input.Count != 0;
     }
     private void OnEnable()
     {
-        foreach(Player player in players)
-        {
-            player.ready = false;
-            player.inputDevices = new List<InputDevice>();
-        }
+        player0Input.Clear();
+        player1Input.Clear();
     }
 }
