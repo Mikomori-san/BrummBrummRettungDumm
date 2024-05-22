@@ -1,6 +1,7 @@
 using UnityEngine; 
-using System.Collections; 
- 
+using System.Collections;
+using UnityEngine.InputSystem;
+
 public class DragRigidbody : MonoBehaviour 
 { 
     public float maxDistance = 100.0f; 
@@ -14,52 +15,17 @@ public class DragRigidbody : MonoBehaviour
     [HideInInspector]
     public Camera paramedicCamera;
     
+    public bool isDragging = false;
     private SpringJoint springJoint;
 
     private void Start()
     {
         paramedicCamera = InputSafe.instance.GetParamedic().GetComponentInChildren<Camera>();
+        InputSafe.instance.GetParamedic().GetComponent<PlayerInput>().onActionTriggered += Input_GrabRagdoll;
     }
 
     void Update() 
     { 
-        if(!Input.GetMouseButtonDown(0)) 
-            return; 
-        
-        RaycastHit hit; 
-        Ray ray = paramedicCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        
-        if(!Physics.Raycast(ray, out hit, maxDistance, LayerMask.GetMask("Ragdoll"))) 
-            return;
-        if(!hit.rigidbody || hit.rigidbody.isKinematic)
-            return;
-        
-        if(!springJoint) 
-        { 
-            GameObject go = new GameObject("Rigidbody dragger"); 
-            Rigidbody body = go.AddComponent<Rigidbody>(); 
-            body.isKinematic = true; 
-            springJoint = go.AddComponent<SpringJoint>(); 
-        } 
-        
-        springJoint.transform.position = hit.point; 
-        if(attachToCenterOfMass) 
-        { 
-            Vector3 anchor = transform.TransformDirection(hit.rigidbody.centerOfMass) + hit.rigidbody.transform.position; 
-            anchor = springJoint.transform.InverseTransformPoint(anchor); 
-            springJoint.anchor = anchor; 
-        } 
-        else 
-        { 
-            springJoint.anchor = Vector3.zero; 
-        } 
-        
-        springJoint.spring = spring; 
-        springJoint.damper = damper; 
-        springJoint.maxDistance = distance; 
-        springJoint.connectedBody = hit.rigidbody; 
-        
-        StartCoroutine(DragObject()); 
     } 
     
     IEnumerator DragObject()
@@ -70,12 +36,12 @@ public class DragRigidbody : MonoBehaviour
         springJoint.connectedBody.drag             = this.drag; 
         springJoint.connectedBody.angularDrag     = this.angularDrag; 
         
-        while(Input.GetMouseButton(0)) 
+        while(isDragging) 
         { 
-            Ray ray = paramedicCamera.ScreenPointToRay(Input.mousePosition); 
+            Ray ray = paramedicCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             springJoint.transform.position = ray.GetPoint(distance); 
             yield return null; 
-        } 
+        }
         
         if(springJoint.connectedBody) 
         { 
@@ -84,4 +50,56 @@ public class DragRigidbody : MonoBehaviour
             springJoint.connectedBody                 = null; 
         } 
     } 
+    private void Input_GrabRagdoll(InputAction.CallbackContext context)
+    {
+        if (context.action.name != "Grab")
+            return;
+
+        if (context.started)
+        {
+            isDragging = true;
+            RaycastHit hit;
+            Ray ray = paramedicCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+
+            if (!Physics.Raycast(ray, out hit, maxDistance, LayerMask.GetMask("Ragdoll")))
+                return;
+            if (!hit.rigidbody || hit.rigidbody.isKinematic)
+                return;
+
+            if (!springJoint)
+            {
+                GameObject go = new GameObject("Rigidbody dragger");
+                Rigidbody body = go.AddComponent<Rigidbody>();
+                body.isKinematic = true;
+                springJoint = go.AddComponent<SpringJoint>();
+            }
+
+            springJoint.transform.position = hit.point;
+            if (attachToCenterOfMass)
+            {
+                Vector3 anchor = transform.TransformDirection(hit.rigidbody.centerOfMass) + hit.rigidbody.transform.position;
+                anchor = springJoint.transform.InverseTransformPoint(anchor);
+                springJoint.anchor = anchor;
+            }
+            else
+            {
+                springJoint.anchor = Vector3.zero;
+            }
+
+            springJoint.spring = spring;
+            springJoint.damper = damper;
+            springJoint.maxDistance = distance;
+            springJoint.connectedBody = hit.rigidbody;
+
+            StartCoroutine(DragObject());
+        }
+        else if(context.performed)
+        {
+            isDragging = true;
+        }
+        else
+        {
+            isDragging = false;
+        }
+    }
 }
