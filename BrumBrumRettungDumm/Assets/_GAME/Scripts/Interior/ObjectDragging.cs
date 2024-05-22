@@ -76,16 +76,12 @@ public class ObjectDragging : MonoBehaviour
         if(context.action.name != "Grab")
             return;
 
-        print("Hauns");
         if (context.started)
         {
-            print("Meow");
             RaycastHit hit;
             Ray ray = paramedicCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             
             float maxRange = 1.5f;
-            
-            Debug.DrawLine(ray.origin, ray.origin + ray.direction * 10, Color.red, 2f);
             
             if (Physics.Raycast(ray, out hit, maxRange))
             {
@@ -102,8 +98,6 @@ public class ObjectDragging : MonoBehaviour
                     isDragging = true;
                     if(grabbedObject.GetComponent<ForceObjectLogic>())
                         dragObjectForceObjectLogic = grabbedObject.GetComponent<ForceObjectLogic>();
-
-                    print("Dragging!");
                 }
             }
         }

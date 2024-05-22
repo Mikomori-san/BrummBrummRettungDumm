@@ -62,6 +62,7 @@ public class PillManager : MonoBehaviour
                             selectedPill.SetActive(false);
                             AvailablePills.Enqueue(selectedPill);
                             ObjectDragging.Instance.grabbedObject = null;
+                            ScoreSystem.Instance.AddScorePill();
                         }
                     }
                 }

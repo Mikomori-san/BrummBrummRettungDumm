@@ -17,27 +17,30 @@ public class PatientLifespan : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-            
+        
     }
 
     private IEnumerator DecreasePatientHealth()
     {
-        while (patientHealth > 0)
+        while (true)
         {
-            patientHealth -= healthSeverity;
-            print(gameObject.name + " Health: " + patientHealth);
-            
-            // ReSharper disable once PossibleLossOfFraction
-            yield return new WaitForSeconds(1.0f * (1 / patientHealthDecreaseRate));
+            if (patientHealth > 0)
+            {
+                patientHealth -= healthSeverity;
+        
+                // ReSharper disable once PossibleLossOfFraction
+                yield return new WaitForSeconds(1.0f * (1 / patientHealthDecreaseRate));
+            }
+            else
+            {
+                yield return new WaitForEndOfFrame();
+            }
         }
     }
     
     public void IncreasePatientHealth(int healthIncrease)
     {
-        if (patientHealth > 0)
-        {
-            patientHealth += healthIncrease;
-        }
+        patientHealth += healthIncrease;
         
         if(patientHealth > 100)
             patientHealth = 100;
