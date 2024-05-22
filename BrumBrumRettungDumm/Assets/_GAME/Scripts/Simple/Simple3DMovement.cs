@@ -26,7 +26,7 @@ public class Simple3DMovement : MonoBehaviour
     private bool isGrounded = false;
 
     [Header("Camera")]
-    [SerializeField] private float mouseSensitivity = 25f;
+    [SerializeField] private float mouseSensitivity = 5f;
     [SerializeField] private float cameraClamp = 90f;
     private Camera cam;
     private float xRotation = 0f;
@@ -47,8 +47,17 @@ public class Simple3DMovement : MonoBehaviour
         if(context.action.name != "Look") 
             return;
 
-        mouseX = context.ReadValue<Vector2>().x;
-        mouseY = context.ReadValue<Vector2>().y;
+        //if controlscheme is gamepad
+        if(context.action.actionMap.asset.bindingMask.Value.groups == "Gamepad")
+        {
+            mouseX = context.ReadValue<Vector2>().x * mouseSensitivity * Time.deltaTime * 50;
+            mouseY = context.ReadValue<Vector2>().y * mouseSensitivity * Time.deltaTime * 50;
+        }
+        else
+        {
+            mouseX = context.ReadValue<Vector2>().x * mouseSensitivity * Time.deltaTime;
+            mouseY = context.ReadValue<Vector2>().y * mouseSensitivity * Time.deltaTime;
+        }
     }
 
     public void Input_Movement(InputAction.CallbackContext context)
