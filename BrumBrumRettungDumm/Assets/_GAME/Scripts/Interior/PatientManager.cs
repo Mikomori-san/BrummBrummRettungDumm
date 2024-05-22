@@ -24,8 +24,8 @@ public class PatientManager : MonoBehaviour
     #endregion
 
     [SerializeField] private GameObject[] patientPrefabs;
-    [SerializeField] private GameObject spawnPoint;
-    [SerializeField] private GameObject interior;
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private Transform interior;
     public List<Patient> allPatients = new List<Patient>();
 
     public class Patient
@@ -43,8 +43,9 @@ public class PatientManager : MonoBehaviour
     {
         print("Spawn Patient in manager");
         Patient newPatient = new Patient();
-        newPatient.ragdoll = Instantiate(patientPrefabs[modelId], spawnPoint.transform.position, Quaternion.identity, interior.transform);
+        newPatient.ragdoll = Instantiate(patientPrefabs[modelId], spawnPoint.position, Quaternion.identity, interior);
         newPatient.lifeBar = HealthBarManager.Instance.HealthBarNumberPlus(newPatient);
+        //HealthBarManager.Instance.StopCoroutine() <- Look into this to avoid the wonderful try catch statement
         allPatients.Add(newPatient);
     }
     
