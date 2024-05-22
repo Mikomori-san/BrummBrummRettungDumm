@@ -8,7 +8,7 @@ public class TimeManager : MonoBehaviour
     private static TimeManager instance;
     public static TimeManager Instance { get { return instance; } }
     
-    private const float MAX_TIME = 10;
+    private const float MAX_TIME = 300;
     private const short ADDED_TIME = 30;
     private float time = MAX_TIME;
     private bool isOver = false;
