@@ -8,12 +8,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_GAME/Scenes/_FinalGame/MainMenu.unity
     guid: dae0179d4b9abdf4c813701d2b20072a
-  - enabled: 0
-    path: Assets/_GAME/Scenes/_FinalGame/GameScene_Playtesting.unity
-    guid: 0e9e67014a948244d98308d89119965b
+  - enabled: 1
+    path: Assets/_GAME/Scenes/Working/Stefan_JoinMenu.unity
+    guid: 3a40422d062a667449f7e47c9816af3c
   - enabled: 1
     path: Assets/_GAME/Scenes/_FinalGame/GameScene.unity
     guid: 83d75a8111131dd49b3967c66790f22b
+  - enabled: 1
+    path: Assets/_GAME/Scenes/Working/Stefan_EndScreen.unity
+    guid: 75ad72690aa4ebb44b642256011d7db8
+  - enabled: 0
+    path: Assets/_GAME/Scenes/_FinalGame/GameScene_Playtesting.unity
+    guid: 0e9e67014a948244d98308d89119965b
   - enabled: 0
     path: Assets/_GAME/Scenes/_FinalGame/Game.unity
     guid: 4606cae15cd6a1a4c8abe80d81ef4e0b

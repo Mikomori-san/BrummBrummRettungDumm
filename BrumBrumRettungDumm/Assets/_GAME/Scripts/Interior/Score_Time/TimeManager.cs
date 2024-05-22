@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 public class TimeManager : MonoBehaviour
 {
     private static TimeManager instance;
@@ -13,6 +14,7 @@ public class TimeManager : MonoBehaviour
     private bool isOver = false;
     
     [SerializeField] private TMPro.TextMeshProUGUI timeText;
+    public string EndMenuScene;
     void Awake()
     {
         if (instance == null)
@@ -23,7 +25,6 @@ public class TimeManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -40,6 +41,7 @@ public class TimeManager : MonoBehaviour
             {
                 isOver = true;
                 ScoreSystem.Instance.AddScoreRemainingPatient(PatientManager.Instance.allPatients.Count);
+                SceneManager.LoadScene(EndMenuScene);
                 // End the game
             }
         }

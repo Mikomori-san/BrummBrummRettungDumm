@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class InputSafe : MonoBehaviour
 {
-    public class InputInstance
+    private class InputInstance
     {
         public InputDevice[] devices;
         public InputControlScheme controlScheme;
@@ -13,8 +13,8 @@ public class InputSafe : MonoBehaviour
 
     public static InputSafe instance;
 
-    public InputInstance ambulanceInput;
-    public InputInstance paramedicInput;
+    private InputInstance ambulanceInput;
+    private InputInstance paramedicInput;
 
     private GameObject ambulance;
     private GameObject paramedic;
@@ -24,8 +24,6 @@ public class InputSafe : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            ambulanceInput = new InputInstance();
-            paramedicInput = new InputInstance();
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -62,5 +60,40 @@ public class InputSafe : MonoBehaviour
     public GameObject GetParamedic()
     {
         return paramedic;
+    }
+    public InputDevice[] GetAmbulanceDevices()
+    {
+        return ambulanceInput.devices;
+    }
+
+    public InputControlScheme GetAmbulanceControlScheme()
+    {
+        return ambulanceInput.controlScheme;
+    }
+
+    public InputDevice[] GetParamedicDevices()
+    {
+        return paramedicInput.devices;
+    }
+
+    public InputControlScheme GetParamedicControlScheme()
+    {
+        return paramedicInput.controlScheme;
+    }
+    public void SetAmbulanceInput(InputDevice[] inputDevices, InputControlScheme controlScheme)
+    {
+        ambulanceInput = new InputInstance
+        {
+            devices = inputDevices,
+            controlScheme = controlScheme
+        };
+    }
+    public void SetParamedicInput(InputDevice[] inputDevices, InputControlScheme controlScheme)
+    {
+        paramedicInput = new InputInstance
+        {
+            devices = inputDevices,
+            controlScheme = controlScheme
+        };
     }
 }

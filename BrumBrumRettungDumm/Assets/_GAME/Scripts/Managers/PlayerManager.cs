@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 public class PlayerManager : MonoBehaviour
 {
     private PlayerInputManager playerInputManager;
-    private InputSafe inputSafe;
 
     [SerializeField]
     private GameObject ambulancePrefab;
@@ -21,29 +20,34 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        inputSafe = InputSafe.instance;
         playerInputManager = GetComponent<PlayerInputManager>();
         playerInputManager.EnableJoining();
 
-        playerInputManager.onPlayerJoined += inputSafe.OnPlayerJoined;
-        playerInputManager.onPlayerLeft += inputSafe.OnPlayerLeft;
-
+        // Join paramedic
         playerInputManager.playerPrefab = paramedicPrefab;
-        PlayerInput paramedicInput = playerInputManager.JoinPlayer(playerIndex: playerInputManager.playerCount, controlScheme: inputSafe.paramedicInput.controlScheme.name, pairWithDevices: inputSafe.paramedicInput.devices);
+        PlayerInput paramedicInput = playerInputManager.JoinPlayer(playerIndex: playerInputManager.playerCount, controlScheme: InputSafe.instance.GetParamedicControlScheme().name, pairWithDevices: InputSafe.instance.GetParamedicDevices());
         if (paramedicParent != null)
             paramedicInput.gameObject.transform.SetParent(paramedicParent.transform);
         paramedicInput.gameObject.transform.localPosition = paramedicLocalSpawnPoint;
 
+        // Join ambulance
         playerInputManager.playerPrefab = ambulancePrefab;
-        PlayerInput ambulanceInput = playerInputManager.JoinPlayer(playerIndex: playerInputManager.playerCount, controlScheme: inputSafe.ambulanceInput.controlScheme.name, pairWithDevices: inputSafe.ambulanceInput.devices);
+        PlayerInput ambulanceInput = playerInputManager.JoinPlayer(playerIndex: playerInputManager.playerCount, controlScheme: InputSafe.instance.GetAmbulanceControlScheme().name, pairWithDevices: InputSafe.instance.GetAmbulanceDevices());
         if (ambulanceParent != null)
             ambulanceInput.gameObject.transform.SetParent(ambulanceParent.transform);
         ambulanceInput.gameObject.transform.localPosition = ambulanceLocalSpawnPoint;
+
+        playerInputManager.DisableJoining();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        playerInputManager.onPlayerJoined += InputSafe.instance.OnPlayerJoined;
+        playerInputManager.onPlayerLeft += InputSafe.instance.OnPlayerLeft;
+    }
+    private void OnDisable()
+    {
+        playerInputManager.onPlayerJoined -= InputSafe.instance.OnPlayerJoined;
+        playerInputManager.onPlayerLeft -= InputSafe.instance.OnPlayerLeft;
     }
 }

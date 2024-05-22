@@ -20,7 +20,6 @@ public class NavigationManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
     #endregion
 
