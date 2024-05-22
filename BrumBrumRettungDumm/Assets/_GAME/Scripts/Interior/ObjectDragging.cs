@@ -13,14 +13,12 @@ public class ObjectDragging : MonoBehaviour
 {
     private Camera paramedicCamera;
     [SerializeField] private GameObject defibrilator;
+    [SerializeField] private Transform defiPos;
     
     [HideInInspector] public bool isDragging = false;
     [HideInInspector] public GameObject grabbedObject;
     private ForceObjectLogic dragObjectForceObjectLogic;
     public static ObjectDragging Instance { get; private set; }
-
-    private Vector3 oldPositionDefi;
-    private Quaternion oldRotationDefi;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -68,6 +66,7 @@ public class ObjectDragging : MonoBehaviour
 
             grabbedObject.transform.position = objectPosition;
             grabbedObject.transform.rotation = cameraRotation;
+            grabbedObject.transform.Rotate(90, 0, 0);
         }
     }
 
@@ -76,7 +75,7 @@ public class ObjectDragging : MonoBehaviour
         if(context.action.name != "Grab")
             return;
 
-        if (context.started)
+        if (context.started && !isDragging)
         {
             RaycastHit hit;
             Ray ray = paramedicCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
@@ -88,12 +87,6 @@ public class ObjectDragging : MonoBehaviour
                 
                 if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Draggable"))
                 {
-                    if (hit.collider.gameObject.name == defibrilator.name)
-                    {
-                        oldPositionDefi = hit.collider.transform.position;
-                        oldRotationDefi = hit.collider.transform.rotation;
-                    }
-
                     grabbedObject = hit.collider.gameObject;
                     isDragging = true;
                     if(grabbedObject.GetComponent<ForceObjectLogic>())
@@ -108,8 +101,8 @@ public class ObjectDragging : MonoBehaviour
             {
                 if(grabbedObject.name == defibrilator.name)
                 {
-                    grabbedObject.transform.position = oldPositionDefi;
-                    grabbedObject.transform.rotation = oldRotationDefi;
+                    grabbedObject.transform.position = defiPos.position;
+                    grabbedObject.transform.rotation = defiPos.rotation;
                 }
 
                 if (grabbedObject.GetComponent<ForceObjectLogic>())

@@ -74,24 +74,13 @@ public class PillManager : MonoBehaviour
     {
         while(true)
         {
-            GameObject pill;
-            if(AvailablePills.Count == 0)
+            if(AvailablePills.Count != 0)
             {
-                pill = Instantiate(pillPrefab, pillSpawnPos.position, Quaternion.identity, pillSpawnPos);
-                //pill.transform.parent = pillSpawnPos;
-            }
-            else
-            {
-                pill = AvailablePills.Dequeue();
+                GameObject pill = AvailablePills.Dequeue();
+                pill.transform.position = pillSpawnPos.position;
+                pill.SetActive(true);
             }
 
-            //Vector3 randomSpawnPoint = GetRandomPoint();
-
-            pill.transform.position = pillSpawnPos.position;
-            //pill.transform.SetParent(interior.transform); // Set the parent to the interior object
-            pill.SetActive(true);
-
-            print("Spawn");
             yield return new WaitForSeconds(5f);
         }
     }
