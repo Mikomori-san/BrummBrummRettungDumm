@@ -15,6 +15,7 @@ namespace UnityEngine.InputSystem.Scripts.Interior
         private void Start()
         {
             defiSlider = defibrilatorUi.GetComponentInChildren<Slider>();
+            GetComponent<Canvas>().worldCamera = InputSafe.instance.GetParamedic().GetComponentInChildren<Camera>();
         }
 
         private void Update()
