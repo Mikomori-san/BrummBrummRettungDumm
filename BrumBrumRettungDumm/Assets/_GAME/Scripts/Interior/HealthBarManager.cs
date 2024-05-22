@@ -21,7 +21,6 @@ public class HealthBarManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     [SerializeField] private GameObject patientUiPrefab;

@@ -32,7 +32,6 @@ public class ScoreSystem : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     void Update()

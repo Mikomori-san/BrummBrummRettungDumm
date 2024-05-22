@@ -20,7 +20,6 @@ public class PatientManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
     #endregion
 

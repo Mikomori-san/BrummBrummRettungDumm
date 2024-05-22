@@ -333,7 +333,7 @@ MonoBehaviour:
   infoText: {fileID: 1850445248}
   notJoinedColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
   joinedColor: {r: 1, g: 1, b: 1, a: 1}
-  sceneToLoad: Stefan
+  sceneToLoad: GameScene
 --- !u!1 &975238742
 GameObject:
   m_ObjectHideFlags: 0
