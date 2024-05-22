@@ -8,7 +8,7 @@ public class DefibrilatorTask : MonoBehaviour
 {
     private float progress = 0f;
     private bool isMakingProgress = false;
-    private float timer = 0;
+    private float defibrilatorCooldown = 0;
     private bool patientRevived = false;
     public float radius = 5.0F;
     public float power = 100.0F;
@@ -31,12 +31,12 @@ public class DefibrilatorTask : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timer > 0)
+        if (defibrilatorCooldown > 0)
         {
-            timer -= Time.deltaTime;
+            defibrilatorCooldown -= Time.deltaTime;
         }
         
-        if (ObjectDragging.Instance.grabbedObject && ObjectDragging.Instance.grabbedObject.name == defibrilator.name && timer <= 0)
+        if (ObjectDragging.Instance.grabbedObject && ObjectDragging.Instance.grabbedObject.name == defibrilator.name && defibrilatorCooldown <= 0)
         {
             if (isMakingProgress)
             {
@@ -69,7 +69,7 @@ public class DefibrilatorTask : MonoBehaviour
                         }
                     }
                     progress = 0;
-                    timer = 2;
+                    defibrilatorCooldown = 2;
                 }
             }
             else if(progress != 0)

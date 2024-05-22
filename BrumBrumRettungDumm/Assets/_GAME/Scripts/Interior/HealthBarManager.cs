@@ -27,7 +27,6 @@ public class HealthBarManager : MonoBehaviour
     [SerializeField] private GameObject patientUiPrefab;
     [SerializeField] private float healthBarHeight = 40f;
     [SerializeField] private float yOffset = 15f;
-    [SerializeField] private float deathTime = 10f;
     
     [HideInInspector] public List<GameObject> allHealthbars = new List<GameObject>();
     // private float deathTimer;
@@ -64,14 +63,12 @@ public class HealthBarManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            print("Healthbar is missing, restarting healthbar rearaangement.");
+            print("Healthbar is missing, restarting healthbar rearrangement.");
         }
     }
 
     private IEnumerator UpdateHealthbar(GameObject patientHealthbar, PatientManager.Patient patient)
     {
-        float deathTimer = deathTime;
-        
         PatientLifespan patientLifespan = patient.ragdoll.GetComponent<PatientLifespan>();
         Slider healthSlider = patientHealthbar.GetComponentInChildren<Slider>();
         TextMeshProUGUI name = patientHealthbar.GetComponentInChildren<TextMeshProUGUI>();
@@ -84,12 +81,11 @@ public class HealthBarManager : MonoBehaviour
             
             if (patientLifespan.GetPatientHealth() <= 0)
             {
-                deathTimer -= Time.deltaTime;
-                
                 reviveTimer.gameObject.SetActive(true);
-                reviveTimer.SetText("Revive! " + (int)deathTimer);
+                reviveTimer.SetText("Revive! " + (int)patientLifespan.GetDeathTimer());
+                patientLifespan.SetDying();
                 
-                if (deathTimer <= 0 && patientLifespan.GetPatientHealth() <= 0)
+                if (patientLifespan.GetDeathTimer() <= 0 && patientLifespan.GetPatientHealth() <= 0)
                 {
                     PatientManager.Instance.RemovePatient(patient);
                     ScoreSystem.Instance.AddScorePatientDeath();
@@ -97,9 +93,12 @@ public class HealthBarManager : MonoBehaviour
                 }
             }
             
-            if(patientLifespan.GetPatientHealth() > 0)
+            if(patientLifespan.GetPatientHealth() > 0 && patientLifespan.IsCurrentlyDying())
             {
                 reviveTimer.gameObject.SetActive(false);
+                
+                patientLifespan.deathTime -= 3;
+                patientLifespan.ResetDeathTime();
             }
             
             yield return new WaitForEndOfFrame();
