@@ -16,10 +16,10 @@ public class ForceObjectLogic : MonoBehaviour
     public AudioClip audioClipOnCollision;
     public float soundRange = 10;
     public float soundCooldown = .5f;
+    private float soundCooldownTimer = 0;
     public float velocityThreshold = 10f;
-    public float soundCooldownTimer = 0.5f;
     public float minVolume = 0f;
-    public float maxVolume = 1f;
+    public float maxVolume = 0.5f;
 
     private void Awake()
     {
@@ -70,8 +70,8 @@ public class ForceObjectLogic : MonoBehaviour
 
         if (collision.relativeVelocity.magnitude > 5f)
         {
-            audioSource.volume = Mathf.Clamp(collision.relativeVelocity.magnitude / 20f, minVolume, maxVolume);
-            audioSource.pitch = UnityEngine.Random.Range(0.8f, 1.2f) * Mathf.Clamp(collision.relativeVelocity.magnitude / 20, 0.5f, 1.5f) * rb.mass;
+            audioSource.volume = Mathf.Lerp(minVolume, maxVolume, collision.relativeVelocity.magnitude / 20);
+            audioSource.pitch = UnityEngine.Random.Range(0.8f, 1.2f) * Mathf.Lerp(0.5f, 1.5f,collision.relativeVelocity.magnitude / 20) * Mathf.Lerp(0.3f, 3f, rb.mass);
             audioSource.Play();
             soundCooldownTimer = soundCooldown;
         }

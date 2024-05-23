@@ -21,7 +21,6 @@ public class DefibrilatorTask : MonoBehaviour
     RaycastHit[] results = new RaycastHit[10];
 
     [SerializeField]private AudioClip defiChargeSound;
-    [SerializeField]private AudioClip defiProgressSound;
     [SerializeField]private AudioClip defiShockSound;
     [SerializeField]private AudioSource defiPaddles;
     // Start is called before the first frame update
@@ -44,8 +43,7 @@ public class DefibrilatorTask : MonoBehaviour
         {
             if (isMakingProgress)
             {
-                if(!defiPaddles.isPlaying)
-                    defiPaddles.PlayOneShot(defiProgressSound);
+                defiPaddles.pitch = defiPaddles.pitch + 0.1f * Time.deltaTime;
                 defiUI.ShowDefibrilatorUI();
                 progress += 10f * chargeModifier * Time.deltaTime;
                 // ProgressBar Load
@@ -63,7 +61,9 @@ public class DefibrilatorTask : MonoBehaviour
                         {
                             if (results[i].collider && results[i].collider.gameObject.name == "Spine_02")
                             {   
-                                defiPaddles.pitch = Random.Range(0.6f, 1.4f);
+                                defiPaddles.loop = false;
+                                defiPaddles.Stop();
+                                defiPaddles.pitch = 1;
                                 StartCoroutine(PlayShockSound(results[i].collider.gameObject));
                                 // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                                 results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().IncreasePatientHealth(healthIncrease);
@@ -120,12 +120,19 @@ public class DefibrilatorTask : MonoBehaviour
         {
             if (ObjectDragging.Instance.grabbedObject && ObjectDragging.Instance.grabbedObject.name == defibrilator.name && defibrilatorCooldown <= 0)
             {
-                defiPaddles.PlayOneShot(defiChargeSound);
+                defiPaddles.pitch = 1;
+                defiPaddles.clip = defiChargeSound;
+                defiPaddles.Play();
+                defiPaddles.loop = true;
             }
             isMakingProgress = true;
         }
         else if(context.canceled)
         {
+            defiPaddles.loop = false;
+            if(defiPaddles.clip == defiChargeSound)
+                defiPaddles.Stop();
+            defiPaddles.pitch = 1;
             isMakingProgress = false;
         }
     }

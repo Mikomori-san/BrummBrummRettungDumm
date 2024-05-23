@@ -1836,6 +1836,7 @@ GameObject:
   - component: {fileID: 6923401741022457120}
   - component: {fileID: 4910283668002925954}
   - component: {fileID: 3966769408617394158}
+  - component: {fileID: 6544911785304089056}
   m_Layer: 0
   m_Name: car body
   m_TagString: AmbulanceBody
@@ -2007,6 +2008,29 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6544911785304089056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8877700930661025252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8371c7cd4a995244e975cc39ca9d4aff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 83ab3a5140d367748b9a1e0d57084ae9, type: 3}
+  - {fileID: 8300000, guid: 25c804c2564459d40965db37c71fa48d, type: 3}
+  soundRange: 100
+  soundCooldown: 0
+  velocityThreshold: 2
+  maxVelocity: 50
+  minVolume: 0
+  maxVolume: 1
+  pitchMultiplier: 1
+  pitchRandomness: 0
 --- !u!1001 &9122919444763212205
 PrefabInstance:
   m_ObjectHideFlags: 0
