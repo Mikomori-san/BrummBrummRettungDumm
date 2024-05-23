@@ -14,7 +14,7 @@ public class ObjectDragging : MonoBehaviour
     private Camera paramedicCamera;
     [SerializeField] private GameObject defibrilator;
     [SerializeField] private Transform defiPos;
-    
+    [SerializeField] private float maxRange = 1.5f;
     [HideInInspector] public bool isDragging = false;
     [HideInInspector] public GameObject grabbedObject;
     private ForceObjectLogic dragObjectForceObjectLogic;
@@ -79,8 +79,6 @@ public class ObjectDragging : MonoBehaviour
         {
             RaycastHit hit;
             Ray ray = paramedicCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-            
-            float maxRange = 1.5f;
             
             if (Physics.Raycast(ray, out hit, maxRange))
             {

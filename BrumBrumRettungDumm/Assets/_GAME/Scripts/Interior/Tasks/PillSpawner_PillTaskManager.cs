@@ -15,6 +15,7 @@ public class PillManager : MonoBehaviour
     [SerializeField] private int pillAmount = 10;
     [SerializeField] private Transform pillSpawnPos;
     [SerializeField] private short lifeToRestore = 40;
+    [SerializeField] private float maxRange = 5f;
     
     // Start is called before the first frame update
     void Start()
@@ -49,7 +50,6 @@ public class PillManager : MonoBehaviour
             {
                 selectedPill = ObjectDragging.Instance.grabbedObject;
                 
-                float maxRange = 5f;
                 Ray ray = paramedicCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
                 var size = Physics.RaycastNonAlloc(ray, results, maxRange);
 

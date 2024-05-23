@@ -9,7 +9,6 @@ public class DefibrilatorTask : MonoBehaviour
     private float progress = 0f;
     private bool isMakingProgress = false;
     private float defibrilatorCooldown = 0;
-    private bool patientRevived = false;
     public float radius = 5.0F;
     public float power = 100.0F;
     
@@ -18,6 +17,7 @@ public class DefibrilatorTask : MonoBehaviour
     [SerializeField] private float chargeModifier = 1f;
     [SerializeField] private int healthIncrease = 30;
     [SerializeField] private DefibrilatorUI defiUI;
+    [SerializeField] private float maxRange = 5f;
     RaycastHit[] results = new RaycastHit[10];
     
     // Start is called before the first frame update
@@ -46,8 +46,6 @@ public class DefibrilatorTask : MonoBehaviour
                 if (progress >= 100)
                 {
                     defiUI.HideDefibrilatorUI();
-                    patientRevived = false;
-                    float maxRange = 5f;
                     Ray ray = paramedicCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
                     var size = Physics.RaycastNonAlloc(ray, results, maxRange);
 
@@ -59,7 +57,6 @@ public class DefibrilatorTask : MonoBehaviour
                             {   
                                 // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                                 results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().IncreasePatientHealth(healthIncrease);
-                                patientRevived = true;
                                 ScoreSystem.Instance.AddScoreDefibrilator();
                                 
                                 // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
