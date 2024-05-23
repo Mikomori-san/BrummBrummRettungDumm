@@ -13,6 +13,34 @@ PrefabInstance:
       value: Patient_BusinessWoman
       objectReference: {fileID: 0}
     - target: {fileID: 5290859662103674235, guid: 8bdf3a33d5a42a74e983b9af2c5820b1, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290859662103674235, guid: 8bdf3a33d5a42a74e983b9af2c5820b1, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290859662103674235, guid: 8bdf3a33d5a42a74e983b9af2c5820b1, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290859662103674235, guid: 8bdf3a33d5a42a74e983b9af2c5820b1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290859662103674235, guid: 8bdf3a33d5a42a74e983b9af2c5820b1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290859662103674235, guid: 8bdf3a33d5a42a74e983b9af2c5820b1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290859662103674235, guid: 8bdf3a33d5a42a74e983b9af2c5820b1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290859662103674235, guid: 8bdf3a33d5a42a74e983b9af2c5820b1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -90
       objectReference: {fileID: 0}

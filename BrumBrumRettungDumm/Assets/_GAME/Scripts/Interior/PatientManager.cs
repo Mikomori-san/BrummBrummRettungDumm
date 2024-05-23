@@ -44,7 +44,7 @@ public class PatientManager : MonoBehaviour
     {
         print("Spawn Patient in manager");
         Patient newPatient = new Patient();
-        newPatient.ragdoll = Instantiate(patientPrefabs[modelId], spawnPoint.transform.position, Quaternion.identity, interior.transform);
+        newPatient.ragdoll = Instantiate(patientPrefabs[modelId], spawnPoint.transform.position, patientPrefabs[modelId].transform.rotation, interior.transform);
         newPatient.lifeBar = HealthBarManager.Instance.HealthBarNumberPlus(newPatient);
         allPatients.Add(newPatient);
     }

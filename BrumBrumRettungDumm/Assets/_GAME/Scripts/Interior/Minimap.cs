@@ -39,6 +39,9 @@ public class Minimap : MonoBehaviour
 
     public void Input_InteractWithMinimap(InputAction.CallbackContext context)
     {
+        if(context.action.name != "Give")
+            return;
+        
         if (!context.started || ObjectDragging.Instance.grabbedObject) return;
         
         if (minimapActive)
@@ -62,6 +65,7 @@ public class Minimap : MonoBehaviour
             
             if (Physics.Raycast(ray, out var hit, minimapActivationRange))
             {
+                print(hit.collider.gameObject.name);
                 if (hit.collider != null && hit.collider.gameObject.name == minimapSocket.name)
                 {
                     print("Should go into minimap mode!");
@@ -84,6 +88,9 @@ public class Minimap : MonoBehaviour
 
     public void Input_SetMarker(InputAction.CallbackContext context)
     {
+        if(context.action.name != "Grab")
+            return;
+        
         if (!context.started || !minimapActive || ObjectDragging.Instance.grabbedObject) return;
         
         Vector2 mousePosition = Mouse.current.position.ReadValue();

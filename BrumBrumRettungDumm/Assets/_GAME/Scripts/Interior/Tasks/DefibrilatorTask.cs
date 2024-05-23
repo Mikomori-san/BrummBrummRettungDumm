@@ -53,7 +53,7 @@ public class DefibrilatorTask : MonoBehaviour
                     {
                         for(int i = 0; i < size; i++)
                         {
-                            if (results[i].collider && results[i].collider.gameObject.name == "Spine_02")
+                            if (results[i].collider && results[i].collider.gameObject.name == "Spine_02" && results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().GetPatientHealth() <= 0)
                             {   
                                 // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                                 results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().IncreasePatientHealth(healthIncrease);
