@@ -13,6 +13,7 @@ TagManager:
   - Interior
   - InteriorGround
   - Paramedic
+  - Defi
   layers:
   - Default
   - TransparentFX

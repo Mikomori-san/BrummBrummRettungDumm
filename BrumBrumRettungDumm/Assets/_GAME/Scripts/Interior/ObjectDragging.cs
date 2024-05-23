@@ -13,7 +13,10 @@ public class ObjectDragging : MonoBehaviour
 {
     private Camera paramedicCamera;
     [SerializeField] private GameObject defibrilator;
-    
+    [SerializeField] private AudioSource defiPaddles;
+    [SerializeField] private AudioClip defiPickUpSound;
+    [SerializeField] private AudioClip itemPickUpSound;
+
     [HideInInspector] public bool isDragging = false;
     [HideInInspector] public GameObject grabbedObject;
     private ForceObjectLogic dragObjectForceObjectLogic;
@@ -88,6 +91,14 @@ public class ObjectDragging : MonoBehaviour
                 
                 if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Draggable"))
                 {
+                    if(hit.collider.gameObject.tag == "Defi")
+                    {
+                        defiPaddles.PlayOneShot(defiPickUpSound);
+                    }
+                    else
+                    {
+                        hit.collider.gameObject.GetComponent<AudioSource>().PlayOneShot(itemPickUpSound);
+                    }
                     if (hit.collider.gameObject.name == defibrilator.name)
                     {
                         oldPositionDefi = hit.collider.transform.position;

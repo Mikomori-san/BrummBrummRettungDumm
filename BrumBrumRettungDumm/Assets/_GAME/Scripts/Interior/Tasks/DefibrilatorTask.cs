@@ -20,11 +20,10 @@ public class DefibrilatorTask : MonoBehaviour
     [SerializeField] private DefibrilatorUI defiUI;
     RaycastHit[] results = new RaycastHit[10];
 
-    public AudioClip defiChargeSound;
-    public AudioClip defiProgressSound;
-    public AudioClip defiShockSound;
-
-    public AudioSource defiPaddles;
+    [SerializeField]private AudioClip defiChargeSound;
+    [SerializeField]private AudioClip defiProgressSound;
+    [SerializeField]private AudioClip defiShockSound;
+    [SerializeField]private AudioSource defiPaddles;
     // Start is called before the first frame update
     void Start()
     {
