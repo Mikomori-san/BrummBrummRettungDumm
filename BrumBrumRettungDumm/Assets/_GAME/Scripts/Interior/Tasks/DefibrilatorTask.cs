@@ -63,7 +63,8 @@ public class DefibrilatorTask : MonoBehaviour
                         {
                             if (results[i].collider && results[i].collider.gameObject.name == "Spine_02")
                             {   
-                                defiPaddles.PlayOneShot(defiShockSound);
+                                defiPaddles.pitch = Random.Range(0.6f, 1.4f);
+                                StartCoroutine(PlayShockSound(results[i].collider.gameObject));
                                 // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                                 results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().IncreasePatientHealth(healthIncrease);
                                 patientRevived = true;
@@ -144,6 +145,15 @@ public class DefibrilatorTask : MonoBehaviour
 
             if (rb != null)
                 rb.AddExplosionForce(power, explosionPos, radius, 3.0F);
+        }
+    }
+    private IEnumerator PlayShockSound(GameObject gameObject)
+    {
+        gameObject.GetComponent<AudioSource>().pitch = Random.Range(0.6f, 1.4f);
+        gameObject.GetComponent<AudioSource>().PlayOneShot(defiShockSound);
+        while (gameObject.GetComponent<AudioSource>().isPlaying)
+        {
+            yield return null;
         }
     }
 }
