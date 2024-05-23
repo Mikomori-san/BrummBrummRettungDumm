@@ -1462,7 +1462,7 @@ GameObject:
   - component: {fileID: 6237863434580074168}
   - component: {fileID: 6880856022612412501}
   m_Layer: 0
-  m_Name: Ambulance
+  m_Name: Ambulance_new
   m_TagString: Ambulance
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2019,18 +2019,6 @@ PrefabInstance:
       propertyPath: carController
       value: 
       objectReference: {fileID: 7023008539303486700}
-    - target: {fileID: 599623835672391404, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
-      propertyPath: thirdPersonOffsetEnd.z
-      value: -10
-      objectReference: {fileID: 0}
-    - target: {fileID: 599623835672391404, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
-      propertyPath: thirdPersonPositionSpeed
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 599623835672391404, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
-      propertyPath: thirdPersonRotationSpeed
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 1132942259726340813, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.67
@@ -2074,18 +2062,6 @@ PrefabInstance:
     - target: {fileID: 6343193350542867736, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
       propertyPath: m_Name
       value: Camera
-      objectReference: {fileID: 0}
-    - target: {fileID: 7674799859095961466, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
-      propertyPath: m_ClearFlags
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7674799859095961466, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
-      propertyPath: m_NormalizedViewPortRect.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7674799859095961466, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
-      propertyPath: m_NormalizedViewPortRect.width
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

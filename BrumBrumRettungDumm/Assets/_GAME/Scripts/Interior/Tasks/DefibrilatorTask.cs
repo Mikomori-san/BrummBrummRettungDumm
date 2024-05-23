@@ -19,7 +19,12 @@ public class DefibrilatorTask : MonoBehaviour
     [SerializeField] private int healthIncrease = 30;
     [SerializeField] private DefibrilatorUI defiUI;
     RaycastHit[] results = new RaycastHit[10];
-    
+
+    public AudioClip defiChargeSound;
+    public AudioClip defiProgressSound;
+    public AudioClip defiShockSound;
+
+    public AudioSource defiPaddles;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +45,8 @@ public class DefibrilatorTask : MonoBehaviour
         {
             if (isMakingProgress)
             {
+                if(!defiPaddles.isPlaying)
+                    defiPaddles.PlayOneShot(defiProgressSound);
                 defiUI.ShowDefibrilatorUI();
                 progress += 10f * chargeModifier * Time.deltaTime;
                 // ProgressBar Load
@@ -57,6 +64,7 @@ public class DefibrilatorTask : MonoBehaviour
                         {
                             if (results[i].collider && results[i].collider.gameObject.name == "Torso")
                             {   
+                                defiPaddles.PlayOneShot(defiShockSound);
                                 // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                                 results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().IncreasePatientHealth(healthIncrease);
                                 patientRevived = true;
@@ -110,6 +118,10 @@ public class DefibrilatorTask : MonoBehaviour
 
         if (context.started)
         {
+            if (ObjectDragging.Instance.grabbedObject && ObjectDragging.Instance.grabbedObject.name == defibrilator.name && defibrilatorCooldown <= 0)
+            {
+                defiPaddles.PlayOneShot(defiChargeSound);
+            }
             isMakingProgress = true;
         }
         else if(context.canceled)

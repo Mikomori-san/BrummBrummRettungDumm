@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4114699867764834893}
   - component: {fileID: 3862692658374750959}
   - component: {fileID: 7562590860785857865}
+  - component: {fileID: 6676717636606218085}
   m_Layer: 0
   m_Name: Paramedic
   m_TagString: Paramedic
@@ -278,6 +279,14 @@ MonoBehaviour:
   jumpHeight: 1
   mouseSensitivity: 5
   cameraClamp: 90
+--- !u!81 &6676717636606218085
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417700028933930227}
+  m_Enabled: 1
 --- !u!1 &1754512716785278401
 GameObject:
   m_ObjectHideFlags: 0

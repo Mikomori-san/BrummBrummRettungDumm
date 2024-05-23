@@ -111,9 +111,9 @@ MonoBehaviour:
   topDownAngle: {x: 45, y: 0, z: 0}
   topDownSpeed: 50
   thirdPersonOffsetStart: {x: 0, y: 0, z: 0}
-  thirdPersonOffsetEnd: {x: 0, y: 3, z: -6}
+  thirdPersonOffsetEnd: {x: 0, y: 3, z: -10}
   thirdPersonAngle: {x: 20, y: 0, z: 0}
   thirdPersonSkinWidth: 0.1
   interpolationUpToSpeed: 50
-  thirdPersonPositionSpeed: 100
-  thirdPersonRotationSpeed: 100
+  thirdPersonPositionSpeed: 50
+  thirdPersonRotationSpeed: 50
