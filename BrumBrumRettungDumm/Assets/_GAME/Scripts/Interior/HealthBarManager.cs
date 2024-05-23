@@ -88,7 +88,7 @@ public class HealthBarManager : MonoBehaviour
                 
                 if (patientLifespan.GetDeathTimer() <= 0 && patientLifespan.GetPatientHealth() <= 0)
                 {
-                    PatientManager.Instance.RemovePatient(patient);
+                    PatientManager.Instance.KillPatient(patient);
                     ScoreSystem.Instance.AddScorePatientDeath();
                     break;
                 }

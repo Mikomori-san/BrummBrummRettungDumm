@@ -20,7 +20,6 @@ public class WorldManager : MonoBehaviour
     private float timeUntilNewPatient;
     private List<DummyPatient> patients = new List<DummyPatient>();
 
-
     private class DummyPatient
     {
         public uint modelId;
@@ -66,7 +65,6 @@ public class WorldManager : MonoBehaviour
                 print($"Patient {patients[i].gameObject.transform.GetInstanceID()} collected");
 
                 PatientManager.Instance.SpawnPatient(patients[i].modelId);
-                
                 Destroy(patients[i].gameObject); 
                 patients.RemoveAt(i);
                 i--;

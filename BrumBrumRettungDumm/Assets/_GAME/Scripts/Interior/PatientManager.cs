@@ -28,6 +28,11 @@ public class PatientManager : MonoBehaviour
     [SerializeField] private Transform interior;
     public List<Patient> allPatients = new List<Patient>();
 
+
+    [Header("Sounds")]
+    [SerializeField] private AudioClip[] patientCollectionSounds;
+    [SerializeField] private AudioClip[] patientDeathSounds;
+
     public class Patient
     {
         public GameObject ragdoll;
@@ -44,6 +49,8 @@ public class PatientManager : MonoBehaviour
         print("Spawn Patient in manager");
         Patient newPatient = new Patient();
         newPatient.ragdoll = Instantiate(patientPrefabs[modelId], spawnPoint.transform.position, Quaternion.identity, interior);
+        newPatient.ragdoll.AddComponent<AudioSource>();
+        newPatient.ragdoll.GetComponent<AudioSource>().PlayOneShot(patientCollectionSounds[Random.Range(0, patientCollectionSounds.Length)]);
         newPatient.lifeBar = HealthBarManager.Instance.HealthBarNumberPlus(newPatient);
         //HealthBarManager.Instance.StopCoroutine() <- Look into this to avoid the wonderful try catch statement
         allPatients.Add(newPatient);
@@ -68,6 +75,10 @@ public class PatientManager : MonoBehaviour
             }
         }
     }
+    public void KillPatient(Patient patient)
+    {
+        StartCoroutine(SoundKillPatient(patient));
+    }
 
     public void Input_SpawnPatient(InputAction.CallbackContext context)
     {
@@ -75,5 +86,17 @@ public class PatientManager : MonoBehaviour
         {
             SpawnPatient(0);
         }
+    }
+    private IEnumerator SoundKillPatient(Patient patient)
+    {
+        patient.ragdoll.GetComponent<AudioSource>().PlayOneShot(patientDeathSounds[Random.Range(0, patientDeathSounds.Length)]);
+        while (patient.ragdoll.GetComponent<AudioSource>().isPlaying)
+        {
+            yield return null;
+        }
+        HealthBarManager.Instance.allHealthbars.Remove(patient.lifeBar);
+        Destroy(patient.ragdoll);
+        Destroy(patient.lifeBar);
+        HealthBarManager.Instance.UpdateHealthBarPositions();
     }
 }
