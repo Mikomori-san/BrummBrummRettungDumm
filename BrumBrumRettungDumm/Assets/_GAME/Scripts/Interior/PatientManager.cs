@@ -89,14 +89,14 @@ public class PatientManager : MonoBehaviour
     }
     private IEnumerator SoundKillPatient(Patient patient)
     {
+        HealthBarManager.Instance.allHealthbars.Remove(patient.lifeBar);
+        Destroy(patient.lifeBar);
+        HealthBarManager.Instance.UpdateHealthBarPositions();
         patient.ragdoll.GetComponent<AudioSource>().PlayOneShot(patientDeathSounds[Random.Range(0, patientDeathSounds.Length)]);
         while (patient.ragdoll.GetComponent<AudioSource>().isPlaying)
         {
             yield return null;
         }
-        HealthBarManager.Instance.allHealthbars.Remove(patient.lifeBar);
         Destroy(patient.ragdoll);
-        Destroy(patient.lifeBar);
-        HealthBarManager.Instance.UpdateHealthBarPositions();
     }
 }

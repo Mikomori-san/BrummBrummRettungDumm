@@ -14,7 +14,8 @@ public class PillManager : MonoBehaviour
     [SerializeField] private GameObject pillPrefab;
     [SerializeField] private int pillAmount = 5;
     [SerializeField] private Transform pillSpawnPos;
-    
+    [SerializeField] private AudioClip[] patientGivePillSounds;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,6 +60,7 @@ public class PillManager : MonoBehaviour
                         if (results[i].collider != null && results[i].collider.gameObject.name == "Head")
                         {
                             results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().IncreasePatientHealth(20);
+                            results[i].collider.gameObject.GetComponentInParent<AudioSource>().PlayOneShot(patientGivePillSounds[Random.Range(0, patientGivePillSounds.Length)]);
                             selectedPill.SetActive(false);
                             AvailablePills.Enqueue(selectedPill);
                             ObjectDragging.Instance.grabbedObject = null;
