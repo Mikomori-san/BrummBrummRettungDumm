@@ -12,8 +12,9 @@ public class PillManager : MonoBehaviour
     
     private Camera paramedicCamera;
     [SerializeField] private GameObject pillPrefab;
-    [SerializeField] private int pillAmount = 5;
+    [SerializeField] private int pillAmount = 10;
     [SerializeField] private Transform pillSpawnPos;
+    [SerializeField] private short lifeToRestore = 40;
     
     // Start is called before the first frame update
     void Start()
@@ -58,9 +59,10 @@ public class PillManager : MonoBehaviour
                     {
                         if (results[i].collider != null && results[i].collider.gameObject.name == "Head")
                         {
-                            results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().IncreasePatientHealth(20);
-                            selectedPill.SetActive(false);
+                            results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().IncreasePatientHealth(lifeToRestore);
                             AvailablePills.Enqueue(selectedPill);
+                            selectedPill.GetComponent<Collider>().enabled = true;
+                            selectedPill.SetActive(false);
                             ObjectDragging.Instance.grabbedObject = null;
                             ScoreSystem.Instance.AddScorePill();
                         }
@@ -77,11 +79,12 @@ public class PillManager : MonoBehaviour
             if(AvailablePills.Count != 0)
             {
                 GameObject pill = AvailablePills.Dequeue();
-                pill.transform.position = pillSpawnPos.position;
                 pill.SetActive(true);
+                pill.transform.position = pillSpawnPos.position;
+                print("Pill spawned! " + pill.transform.position);
             }
 
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(2f);
         }
     }
     
