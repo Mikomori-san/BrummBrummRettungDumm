@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Windows;
 
+[RequireComponent(typeof(AudioSource))]
 public class JoinMenu : MonoBehaviour
 {
     [Serializable]
@@ -18,20 +19,29 @@ public class JoinMenu : MonoBehaviour
         public TextMeshProUGUI text;
         [HideInInspector] public bool ready = false;
     }
-
-    public InputActionAsset inputActions;
-
     private Inputs inputs;
 
+    public InputActionAsset inputActions;
     public Player[] players;
+
+    [Header("UI")]
     public Sprite driverSprite;
     public Sprite paramedicSprite;
     [SerializeField] private TextMeshProUGUI infoText;
-
     public Color notJoinedColor = new Color(0.1f, 0.1f, 0.1f, 1f);
     public Color joinedColor = new Color(1f, 1f, 1f, 1f);
 
+    [Header("Scene")]
     public string sceneToLoad;
+
+    [Header("Sounds")]
+    private AudioSource audioSource;
+    public AudioClip joinSound;
+    public AudioClip leaveSound;
+    public AudioClip clickSound;
+    public AudioClip selectSound;
+    public AudioClip errorSound;
+
     public void Awake()
     {
         inputs = new Inputs();
@@ -41,6 +51,7 @@ public class JoinMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -88,6 +99,7 @@ public class JoinMenu : MonoBehaviour
         {
             if (players[i].inputDevices.Count == 0)
             {
+                audioSource.PlayOneShot(joinSound);
                 players[i].inputDevices = inputDevices;
                 Debug.Log("Player " + i + " joined!");
                 return;
@@ -101,6 +113,7 @@ public class JoinMenu : MonoBehaviour
         {
             if (players[i].inputDevices.Contains(inputDevice))
             {
+                audioSource.PlayOneShot(leaveSound);
                 players[i].inputDevices.Clear();
                 players[i].ready = false;
                 return;
@@ -115,13 +128,19 @@ public class JoinMenu : MonoBehaviour
         {
             if (players[i].inputDevices.Contains(inputDevice))
             {
+                audioSource.PlayOneShot(clickSound);
                 players[i].ready = !players[i].ready;
                 break;
             }
         }
 
-        if (PlayersReady() && PlayersHaveDifferentRoles())
+        if (PlayersReady())
         {
+            if(!PlayersHaveDifferentRoles())
+            {
+                audioSource.PlayOneShot(errorSound);
+                return;
+            }
             Debug.Log("Game started");
 
             if (string.IsNullOrEmpty(sceneToLoad))
@@ -154,6 +173,7 @@ public class JoinMenu : MonoBehaviour
         {
             if (players[i].inputDevices.Contains(inputDevice))
             {
+                audioSource.PlayOneShot(selectSound);
                 players[i].image.sprite = players[i].image.sprite == driverSprite ? paramedicSprite : driverSprite;
                 players[i].ready = false;
                 return;
