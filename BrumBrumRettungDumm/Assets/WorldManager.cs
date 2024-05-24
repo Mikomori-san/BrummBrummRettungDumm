@@ -104,7 +104,7 @@ public class WorldManager : MonoBehaviour
         {
             if (patientSpawnPositions[i] == null) { continue; }
             Gizmos.color = Color.gray;
-            Gizmos.DrawWireSphere(patientSpawnPositions[i].position, 1);
+            Gizmos.DrawWireSphere(patientSpawnPositions[i].position, maxOffsetFromSpawnPosition);
         }
 
         if(patients == null) { return; }
