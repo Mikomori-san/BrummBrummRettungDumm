@@ -57,7 +57,7 @@ public class PillManager : MonoBehaviour
                 {
                     for(int i = 0; i < size; i++)
                     {
-                        if (results[i].collider != null && results[i].collider.gameObject.name == "Head")
+                        if (results[i].collider != null && results[i].collider.gameObject.name == "Head" && results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().GetPatientHealth() > 0)
                         {
                             results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().IncreasePatientHealth(lifeToRestore);
                             AvailablePills.Enqueue(selectedPill);
@@ -84,7 +84,7 @@ public class PillManager : MonoBehaviour
                 print("Pill spawned! " + pill.transform.position);
             }
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(4f);
         }
     }
     
