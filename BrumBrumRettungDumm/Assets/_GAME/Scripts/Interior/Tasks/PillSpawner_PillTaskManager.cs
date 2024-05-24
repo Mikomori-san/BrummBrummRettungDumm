@@ -12,10 +12,13 @@ public class PillManager : MonoBehaviour
     
     private Camera paramedicCamera;
     [SerializeField] private GameObject pillPrefab;
-    [SerializeField] private int pillAmount = 5;
+    [SerializeField] private int pillAmount = 10;
     [SerializeField] private Transform pillSpawnPos;
     [SerializeField] private AudioClip[] patientGivePillSounds;
 
+    [SerializeField] private short lifeToRestore = 40;
+    [SerializeField] private float maxRange = 5f;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -49,7 +52,6 @@ public class PillManager : MonoBehaviour
             {
                 selectedPill = ObjectDragging.Instance.grabbedObject;
                 
-                float maxRange = 5f;
                 Ray ray = paramedicCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
                 var size = Physics.RaycastNonAlloc(ray, results, maxRange);
 
@@ -57,12 +59,13 @@ public class PillManager : MonoBehaviour
                 {
                     for(int i = 0; i < size; i++)
                     {
-                        if (results[i].collider != null && results[i].collider.gameObject.name == "Head")
+                        if (results[i].collider != null && results[i].collider.gameObject.name == "Head" && results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().GetPatientHealth() > 0)
                         {
-                            results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().IncreasePatientHealth(20);
+                            results[i].collider.gameObject.GetComponentInParent<PatientLifespan>().IncreasePatientHealth(lifeToRestore);
                             results[i].collider.gameObject.GetComponentInParent<AudioSource>().PlayOneShot(patientGivePillSounds[Random.Range(0, patientGivePillSounds.Length)]);
-                            selectedPill.SetActive(false);
                             AvailablePills.Enqueue(selectedPill);
+                            selectedPill.GetComponent<Collider>().enabled = true;
+                            selectedPill.SetActive(false);
                             ObjectDragging.Instance.grabbedObject = null;
                             ScoreSystem.Instance.AddScorePill();
                         }
@@ -76,25 +79,15 @@ public class PillManager : MonoBehaviour
     {
         while(true)
         {
-            GameObject pill;
-            if(AvailablePills.Count == 0)
+            if(AvailablePills.Count != 0)
             {
-                pill = Instantiate(pillPrefab, pillSpawnPos.position, Quaternion.identity, pillSpawnPos);
-                //pill.transform.parent = pillSpawnPos;
-            }
-            else
-            {
-                pill = AvailablePills.Dequeue();
+                GameObject pill = AvailablePills.Dequeue();
+                pill.SetActive(true);
+                pill.transform.position = pillSpawnPos.position;
+                print("Pill spawned! " + pill.transform.position);
             }
 
-            //Vector3 randomSpawnPoint = GetRandomPoint();
-
-            pill.transform.position = pillSpawnPos.position;
-            //pill.transform.SetParent(interior.transform); // Set the parent to the interior object
-            pill.SetActive(true);
-
-            print("Spawn");
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(4f);
         }
     }
     

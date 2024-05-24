@@ -17,13 +17,12 @@ public class ObjectDragging : MonoBehaviour
     [SerializeField] private AudioClip defiPickUpSound;
     [SerializeField] private AudioClip itemPickUpSound;
 
+    [SerializeField] private Transform defiPos;
+    [SerializeField] private float maxRange = 1.5f;
     [HideInInspector] public bool isDragging = false;
     [HideInInspector] public GameObject grabbedObject;
     private ForceObjectLogic dragObjectForceObjectLogic;
     public static ObjectDragging Instance { get; private set; }
-
-    private Vector3 oldPositionDefi;
-    private Quaternion oldRotationDefi;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -71,6 +70,7 @@ public class ObjectDragging : MonoBehaviour
 
             grabbedObject.transform.position = objectPosition;
             grabbedObject.transform.rotation = cameraRotation;
+            grabbedObject.transform.Rotate(90, 0, 0);
         }
     }
 
@@ -79,12 +79,10 @@ public class ObjectDragging : MonoBehaviour
         if(context.action.name != "Grab")
             return;
 
-        if (context.started)
+        if (context.started && !isDragging)
         {
             RaycastHit hit;
             Ray ray = paramedicCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-            
-            float maxRange = 1.5f;
             
             if (Physics.Raycast(ray, out hit, maxRange))
             {
@@ -119,8 +117,8 @@ public class ObjectDragging : MonoBehaviour
             {
                 if(grabbedObject.name == defibrilator.name)
                 {
-                    grabbedObject.transform.position = oldPositionDefi;
-                    grabbedObject.transform.rotation = oldRotationDefi;
+                    grabbedObject.transform.position = defiPos.position;
+                    grabbedObject.transform.rotation = defiPos.rotation;
                 }
 
                 if (grabbedObject.GetComponent<ForceObjectLogic>())

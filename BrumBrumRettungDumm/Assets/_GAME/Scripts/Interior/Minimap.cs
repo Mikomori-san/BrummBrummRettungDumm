@@ -12,7 +12,7 @@ public class Minimap : MonoBehaviour
     [SerializeField] private GameObject minimapCursor;
     [SerializeField] private GameObject marker;
     [SerializeField] private LayerMask ground;
-    [SerializeField] private float minimapActivationRange = 1.5f;
+    [SerializeField] private float minimapActivationRange = 5f;
     [SerializeField] private float markerDeletionRange = 50;
 
     private bool minimapActive = false;
@@ -41,46 +41,46 @@ public class Minimap : MonoBehaviour
     {
         if(context.action.name != "Give")
             return;
-
-        if (context.started)
+        
+        if (!context.started || ObjectDragging.Instance.grabbedObject) return;
+        
+        if (minimapActive)
         {
-            if (minimapActive)
+            minimapCamera.enabled = false;
+            playerCamera.enabled = true;
+                
+            minimapActive = false;
+                
+            minimapCursor.SetActive(false);
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            UnityEngine.Cursor.visible = false;
+                
+            playerMovement.enabled = true;
+                
+            print("Minimap Deactivated!");
+        }
+        else
+        {
+            var ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            
+            if (Physics.Raycast(ray, out var hit, minimapActivationRange))
             {
-                minimapCamera.enabled = false;
-                playerCamera.enabled = true;
-                
-                minimapActive = false;
-                
-                minimapCursor.SetActive(false);
-                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-                UnityEngine.Cursor.visible = false;
-                
-                playerMovement.enabled = true;
-                
-                print("Minimap Deactivated!");
-            }
-            else
-            {
-                RaycastHit hit;
-                Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-
-                if (Physics.Raycast(ray, out hit, minimapActivationRange))
+                print(hit.collider.gameObject.name);
+                if (hit.collider != null && hit.collider.gameObject.name == minimapSocket.name)
                 {
-                    if (hit.collider != null && hit.collider.gameObject.name == minimapSocket.name)
-                    {
-                        playerCamera.enabled = false;
-                        minimapCamera.enabled = true;
+                    print("Should go into minimap mode!");
+                    playerCamera.enabled = false;
+                    minimapCamera.enabled = true;
                         
-                        minimapActive = true;
+                    minimapActive = true;
                         
-                        minimapCursor.SetActive(true);
-                        UnityEngine.Cursor.visible = true;
-                        UnityEngine.Cursor.lockState = CursorLockMode.None;
+                    minimapCursor.SetActive(true);
+                    UnityEngine.Cursor.visible = true;
+                    UnityEngine.Cursor.lockState = CursorLockMode.None;
                         
-                        playerMovement.enabled = false;
+                    playerMovement.enabled = false;
                         
-                        print("Minimap Active!");
-                    }
+                    print("Minimap Active!");
                 }
             }
         }
@@ -90,19 +90,16 @@ public class Minimap : MonoBehaviour
     {
         if(context.action.name != "Grab")
             return;
+        
+        if (!context.started || !minimapActive || ObjectDragging.Instance.grabbedObject) return;
+        
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        Ray ray = minimapCamera.ScreenPointToRay(mousePosition);
 
-        if (context.started && minimapActive)
+        if (Physics.Raycast(ray, out var hit, 10000, ground))
         {
-            Vector2 mousePosition = Mouse.current.position.ReadValue();
-            Ray ray = minimapCamera.ScreenPointToRay(mousePosition);
-
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, 10000, ground))
-            {
-                GameObject newMarker = Instantiate(marker, hit.point,Quaternion.identity);
-                NavigationManager.Instance.AddMarker(ref newMarker);
-            }
+            GameObject newMarker = Instantiate(marker, hit.point,Quaternion.identity);
+            NavigationManager.Instance.AddMarker(ref newMarker);
         }
     }
 }
