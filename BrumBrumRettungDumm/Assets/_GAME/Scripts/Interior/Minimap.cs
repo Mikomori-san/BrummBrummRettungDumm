@@ -17,13 +17,16 @@ public class Minimap : MonoBehaviour
 
     private bool minimapActive = false;
     private Simple3DMovement playerMovement;
-    
+
+    public float cursorSpeed = 5;
+
     // Start is called before the first frame update
     void Start()
     {
         PlayerInput playerInput = InputSafe.instance.GetParamedic().GetComponent<PlayerInput>();
         playerInput.onActionTriggered += Input_SetMarker;
         playerInput.onActionTriggered += Input_InteractWithMinimap;
+        playerInput.onActionTriggered += Input_MoveCursor;
 
         playerCamera = InputSafe.instance.GetParamedic().GetComponentInChildren<Camera>();
         minimapCursor.SetActive(false);
@@ -34,7 +37,7 @@ public class Minimap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void Input_InteractWithMinimap(InputAction.CallbackContext context)
@@ -103,6 +106,18 @@ public class Minimap : MonoBehaviour
                 GameObject newMarker = Instantiate(marker, hit.point,Quaternion.identity);
                 NavigationManager.Instance.AddMarker(ref newMarker);
             }
+        }
+    }
+
+    public void Input_MoveCursor(InputAction.CallbackContext context)
+    {
+        if (context.action.name != "Look" || context.action.actionMap.asset.bindingMask.Value.groups != "Gamepad")
+            return;
+
+        if (minimapActive)
+        {
+            Vector2 input = context.ReadValue<Vector2>();
+            Mouse.current.WarpCursorPosition(Mouse.current.position.ReadValue() + input * cursorSpeed);
         }
     }
 }
