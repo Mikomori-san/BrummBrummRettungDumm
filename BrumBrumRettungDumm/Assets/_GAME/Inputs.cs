@@ -136,6 +136,15 @@ namespace UnityEngine.InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""cf133e71-0fba-4c7d-869f-34fcf18a2e4e"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -541,7 +550,7 @@ namespace UnityEngine.InputSystem
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""RemoveMarker"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -552,10 +561,76 @@ namespace UnityEngine.InputSystem
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""RemoveMarker"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""d1370e06-9a23-485a-8f2f-fb549501448c"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""28e16d43-64e9-46ed-a113-9ff3b202bf8a"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""fc6c3bff-b241-47e7-8ff0-bf527629ac10"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""38819d84-8917-4de5-985a-e2a36179eaea"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""f40cf717-3e87-4ff8-a4e8-508263b13541"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""1e3e3cd7-a2a7-49d3-ba88-8dbe8b9abad1"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -1316,6 +1391,7 @@ namespace UnityEngine.InputSystem
             m_Player_CarSteering = m_Player.FindAction("CarSteering", throwIfNotFound: true);
             m_Player_SpawnPatient = m_Player.FindAction("SpawnPatient", throwIfNotFound: true);
             m_Player_RemoveMarker = m_Player.FindAction("RemoveMarker", throwIfNotFound: true);
+            m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1402,6 +1478,7 @@ namespace UnityEngine.InputSystem
         private readonly InputAction m_Player_CarSteering;
         private readonly InputAction m_Player_SpawnPatient;
         private readonly InputAction m_Player_RemoveMarker;
+        private readonly InputAction m_Player_Zoom;
         public struct PlayerActions
         {
             private @Inputs m_Wrapper;
@@ -1418,6 +1495,7 @@ namespace UnityEngine.InputSystem
             public InputAction @CarSteering => m_Wrapper.m_Player_CarSteering;
             public InputAction @SpawnPatient => m_Wrapper.m_Player_SpawnPatient;
             public InputAction @RemoveMarker => m_Wrapper.m_Player_RemoveMarker;
+            public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1463,6 +1541,9 @@ namespace UnityEngine.InputSystem
                 @RemoveMarker.started += instance.OnRemoveMarker;
                 @RemoveMarker.performed += instance.OnRemoveMarker;
                 @RemoveMarker.canceled += instance.OnRemoveMarker;
+                @Zoom.started += instance.OnZoom;
+                @Zoom.performed += instance.OnZoom;
+                @Zoom.canceled += instance.OnZoom;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -1503,6 +1584,9 @@ namespace UnityEngine.InputSystem
                 @RemoveMarker.started -= instance.OnRemoveMarker;
                 @RemoveMarker.performed -= instance.OnRemoveMarker;
                 @RemoveMarker.canceled -= instance.OnRemoveMarker;
+                @Zoom.started -= instance.OnZoom;
+                @Zoom.performed -= instance.OnZoom;
+                @Zoom.canceled -= instance.OnZoom;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -1705,6 +1789,7 @@ namespace UnityEngine.InputSystem
             void OnCarSteering(InputAction.CallbackContext context);
             void OnSpawnPatient(InputAction.CallbackContext context);
             void OnRemoveMarker(InputAction.CallbackContext context);
+            void OnZoom(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

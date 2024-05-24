@@ -14,6 +14,7 @@ public class Minimap : MonoBehaviour
     [SerializeField] private LayerMask ground;
     [SerializeField] private float minimapActivationRange = 5f;
     [SerializeField] private float markerDeletionRange = 50;
+    [SerializeField] private LayerMask markerLayer;
 
     private bool minimapActive = false;
     private Simple3DMovement playerMovement;
@@ -21,8 +22,11 @@ public class Minimap : MonoBehaviour
     public float cursorSpeed = 5;
     
     private Vector2 stickInput;
-    public float mapDragSpeed = 0.2f;
+    public float mapDragSpeedMultiplier = 1f;
     public float viewMarginForDrag = 0.1f;
+
+    [SerializeField] private float minOrthographicSize = 20;
+    [SerializeField] private float maxOrthographicSize = 700;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +36,7 @@ public class Minimap : MonoBehaviour
         playerInput.onActionTriggered += Input_InteractWithMinimap;
         playerInput.onActionTriggered += Input_MoveCursor;
         playerInput.onActionTriggered += Input_RemoveMarker;
+        playerInput.onActionTriggered += Input_Zoom;
 
         playerCamera = InputSafe.instance.GetParamedic().GetComponentInChildren<Camera>();
         minimapCursor.SetActive(false);
@@ -49,7 +54,10 @@ public class Minimap : MonoBehaviour
             // Check if the mouse is at of the camera viewport
             if (viewportPoint.x < 0 + viewMarginForDrag || viewportPoint.x > 1 - viewMarginForDrag || viewportPoint.y < 0 + viewMarginForDrag || viewportPoint.y > 1 - viewMarginForDrag)
             {
-                minimapCamera.transform.position = new Vector3(minimapCamera.transform.position.x + (mousePosition.x - Screen.width / 4) * Time.deltaTime * mapDragSpeed, minimapCamera.transform.position.y, minimapCamera.transform.position.z + (mousePosition.y - Screen.height / 2) * Time.deltaTime * mapDragSpeed);
+                //the closer the cursor to the edge of the viewport, the faster the camera moves
+                float mapDragSpeed = 1 - Mathf.Clamp01(Mathf.Min(viewportPoint.x, 1 - viewportPoint.x, viewportPoint.y, 1 - viewportPoint.y) / viewMarginForDrag);
+
+                minimapCamera.transform.position = new Vector3(minimapCamera.transform.position.x + (mousePosition.x - Screen.width / 4) * Time.deltaTime * mapDragSpeedMultiplier * mapDragSpeed, minimapCamera.transform.position.y, minimapCamera.transform.position.z + (mousePosition.y - Screen.height / 2) * Time.deltaTime * mapDragSpeedMultiplier * mapDragSpeed);
             }
             Mouse.current.WarpCursorPosition(Mouse.current.position.ReadValue() + stickInput * cursorSpeed);
         }
@@ -91,11 +99,10 @@ public class Minimap : MonoBehaviour
                     minimapCamera.enabled = true;
                         
                     minimapActive = true;
-                        
+
                     minimapCursor.SetActive(true);
                     UnityEngine.Cursor.visible = true;
-                    UnityEngine.Cursor.lockState = CursorLockMode.None;
-                        
+                    UnityEngine.Cursor.lockState = CursorLockMode.Confined;
                     playerMovement.enabled = false;
                         
                     print("Minimap Active!");
@@ -142,12 +149,23 @@ public class Minimap : MonoBehaviour
         Vector2 mousePosition = Mouse.current.position.ReadValue();
         Ray ray = minimapCamera.ScreenPointToRay(mousePosition);
 
-        if (Physics.Raycast(ray, out var hit, maxDistance:1000))
+        if (Physics.Raycast(ray, out var hit, maxDistance:10000, markerLayer))
         {
-            if (hit.collider != null && hit.collider.gameObject.CompareTag("Marker"))
+            if (hit.collider != null)
             {
                 NavigationManager.Instance.RemoveMarker(hit.collider.gameObject);
             }
         }
+    }
+    public void Input_Zoom(InputAction.CallbackContext context)
+    {
+        if(context.action.name != "Zoom")
+            return;
+        
+        if (!minimapActive || ObjectDragging.Instance.grabbedObject) 
+            return;
+
+        minimapCamera.orthographicSize += context.ReadValue<float>() * 50;
+        minimapCamera.orthographicSize = Mathf.Clamp(minimapCamera.orthographicSize, minOrthographicSize, maxOrthographicSize);
     }
 }
