@@ -86,21 +86,15 @@ public class ObjectDragging : MonoBehaviour
             
             if (Physics.Raycast(ray, out hit, maxRange))
             {
-                
                 if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Draggable"))
                 {
-                    if(hit.collider.gameObject.tag == "Defi")
+                    if(hit.collider.gameObject.CompareTag("Defi"))
                     {
                         defiPaddles.PlayOneShot(defiPickUpSound);
                     }
                     else
                     {
                         hit.collider.gameObject.GetComponent<AudioSource>().PlayOneShot(itemPickUpSound);
-                    }
-                    if (hit.collider.gameObject.name == defibrilator.name)
-                    {
-                        oldPositionDefi = hit.collider.transform.position;
-                        oldRotationDefi = hit.collider.transform.rotation;
                     }
 
                     grabbedObject = hit.collider.gameObject;
