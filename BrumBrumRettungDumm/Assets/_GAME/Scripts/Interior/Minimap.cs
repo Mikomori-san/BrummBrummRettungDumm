@@ -38,7 +38,18 @@ public class Minimap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (minimapActive)
+        {
+            Vector2 mousePosition = Mouse.current.position.ReadValue();
+            Vector3 viewportPoint = minimapCamera.ScreenToViewportPoint(mousePosition);
+            float margin = 0.1f;
+            float speed = 0.1f;
+            // Check if the mouse is at of the camera viewport
+            if (viewportPoint.x < 0 + margin || viewportPoint.x > 1 - margin || viewportPoint.y < 0 + margin || viewportPoint.y > 1 - margin)
+            {
+                minimapCamera.transform.position = new Vector3(minimapCamera.transform.position.x + (mousePosition.x - Screen.width / 4) * Time.deltaTime * speed, minimapCamera.transform.position.y, minimapCamera.transform.position.z + (mousePosition.y - Screen.height / 2) * Time.deltaTime * speed);
+            }
+        }
     }
 
     public void Input_InteractWithMinimap(InputAction.CallbackContext context)
