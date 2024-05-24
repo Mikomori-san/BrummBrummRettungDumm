@@ -127,6 +127,15 @@ namespace UnityEngine.InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RemoveMarker"",
+                    ""type"": ""Button"",
+                    ""id"": ""f176a17c-0086-4d0f-85b9-1970aae84b6c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -523,6 +532,28 @@ namespace UnityEngine.InputSystem
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SpawnPatient"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9d07ec97-6d2b-4603-9416-3b2c4a71ab57"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RemoveMarker"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""53a064ac-3cdf-4571-90c8-cad3a5607af3"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RemoveMarker"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1284,6 +1315,7 @@ namespace UnityEngine.InputSystem
             m_Player_CarThrottle = m_Player.FindAction("CarThrottle", throwIfNotFound: true);
             m_Player_CarSteering = m_Player.FindAction("CarSteering", throwIfNotFound: true);
             m_Player_SpawnPatient = m_Player.FindAction("SpawnPatient", throwIfNotFound: true);
+            m_Player_RemoveMarker = m_Player.FindAction("RemoveMarker", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1369,6 +1401,7 @@ namespace UnityEngine.InputSystem
         private readonly InputAction m_Player_CarThrottle;
         private readonly InputAction m_Player_CarSteering;
         private readonly InputAction m_Player_SpawnPatient;
+        private readonly InputAction m_Player_RemoveMarker;
         public struct PlayerActions
         {
             private @Inputs m_Wrapper;
@@ -1384,6 +1417,7 @@ namespace UnityEngine.InputSystem
             public InputAction @CarThrottle => m_Wrapper.m_Player_CarThrottle;
             public InputAction @CarSteering => m_Wrapper.m_Player_CarSteering;
             public InputAction @SpawnPatient => m_Wrapper.m_Player_SpawnPatient;
+            public InputAction @RemoveMarker => m_Wrapper.m_Player_RemoveMarker;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1426,6 +1460,9 @@ namespace UnityEngine.InputSystem
                 @SpawnPatient.started += instance.OnSpawnPatient;
                 @SpawnPatient.performed += instance.OnSpawnPatient;
                 @SpawnPatient.canceled += instance.OnSpawnPatient;
+                @RemoveMarker.started += instance.OnRemoveMarker;
+                @RemoveMarker.performed += instance.OnRemoveMarker;
+                @RemoveMarker.canceled += instance.OnRemoveMarker;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -1463,6 +1500,9 @@ namespace UnityEngine.InputSystem
                 @SpawnPatient.started -= instance.OnSpawnPatient;
                 @SpawnPatient.performed -= instance.OnSpawnPatient;
                 @SpawnPatient.canceled -= instance.OnSpawnPatient;
+                @RemoveMarker.started -= instance.OnRemoveMarker;
+                @RemoveMarker.performed -= instance.OnRemoveMarker;
+                @RemoveMarker.canceled -= instance.OnRemoveMarker;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -1664,6 +1704,7 @@ namespace UnityEngine.InputSystem
             void OnCarThrottle(InputAction.CallbackContext context);
             void OnCarSteering(InputAction.CallbackContext context);
             void OnSpawnPatient(InputAction.CallbackContext context);
+            void OnRemoveMarker(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

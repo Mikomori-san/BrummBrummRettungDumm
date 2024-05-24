@@ -103,6 +103,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "RemoveMarker",
+                    "type": "Button",
+                    "id": "f176a17c-0086-4d0f-85b9-1970aae84b6c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -499,6 +508,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "SpawnPatient",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9d07ec97-6d2b-4603-9416-3b2c4a71ab57",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RemoveMarker",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "53a064ac-3cdf-4571-90c8-cad3a5607af3",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RemoveMarker",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

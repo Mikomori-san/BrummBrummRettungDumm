@@ -27,6 +27,7 @@ public class Minimap : MonoBehaviour
         playerInput.onActionTriggered += Input_SetMarker;
         playerInput.onActionTriggered += Input_InteractWithMinimap;
         playerInput.onActionTriggered += Input_MoveCursor;
+        playerInput.onActionTriggered += Input_RemoveMarker;
 
         playerCamera = InputSafe.instance.GetParamedic().GetComponentInChildren<Camera>();
         minimapCursor.SetActive(false);
@@ -115,6 +116,25 @@ public class Minimap : MonoBehaviour
         {
             Vector2 input = context.ReadValue<Vector2>();
             Mouse.current.WarpCursorPosition(Mouse.current.position.ReadValue() + input * cursorSpeed);
+        }
+    }
+    public void Input_RemoveMarker(InputAction.CallbackContext context)
+    {
+        if(context.action.name != "RemoveMarker")
+            return;
+        
+        if (!context.started || !minimapActive || ObjectDragging.Instance.grabbedObject) 
+            return;
+        
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        Ray ray = minimapCamera.ScreenPointToRay(mousePosition);
+
+        if (Physics.Raycast(ray, out var hit, maxDistance:1000))
+        {
+            if (hit.collider != null && hit.collider.gameObject.CompareTag("Marker"))
+            {
+                NavigationManager.Instance.RemoveMarker(hit.collider.gameObject);
+            }
         }
     }
 }
