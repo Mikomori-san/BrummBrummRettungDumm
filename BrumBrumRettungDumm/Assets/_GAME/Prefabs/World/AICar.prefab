@@ -622,7 +622,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.327, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3823946050340027616}
@@ -669,7 +669,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetOffset: 50
-  updateTargetTime: 3
+  updateTargetTime: 10
   wheel_F_L: {fileID: 6294509338284882974}
   wheel_F_R: {fileID: 9051182015579926232}
   wheel_R_L: {fileID: 6402195469723606484}
