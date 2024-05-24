@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
@@ -21,6 +22,14 @@ public class ObjectDragging : MonoBehaviour
     [SerializeField] private float maxRange = 1.5f;
     [HideInInspector] public bool isDragging = false;
     [HideInInspector] public GameObject grabbedObject;
+
+    [SerializeField] private Image CrossHair;
+    public Sprite normalCrossHair;
+    public Vector3 normalCrossHairScale = Vector3.one;
+    public Sprite grabableCrossHair;
+    public Vector3 grabableCrossHairScale = Vector3.one;
+    private GameObject targetedObject;
+    
     private ForceObjectLogic dragObjectForceObjectLogic;
     public static ObjectDragging Instance { get; private set; }
     private void Awake()
@@ -50,6 +59,27 @@ public class ObjectDragging : MonoBehaviour
         if (isDragging)
         {
             DragObject();
+        }
+        if(grabbedObject)
+            return;
+        
+        RaycastHit hit;
+        Ray ray = paramedicCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+
+        if (Physics.Raycast(ray, out hit, maxRange))
+        {
+            if (hit.collider && hit.collider.gameObject.layer == LayerMask.NameToLayer("Draggable"))
+            {
+                CrossHair.sprite = grabableCrossHair;
+                CrossHair.GetComponent<RectTransform>().localScale = grabableCrossHairScale;
+                targetedObject = hit.collider.gameObject;
+            }
+            else
+            {
+                CrossHair.sprite = normalCrossHair;
+                CrossHair.GetComponent<RectTransform>().localScale = normalCrossHairScale;
+                targetedObject = null;
+            }
         }
     }
     
@@ -81,27 +111,21 @@ public class ObjectDragging : MonoBehaviour
 
         if (context.started && !isDragging)
         {
-            RaycastHit hit;
-            Ray ray = paramedicCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-            
-            if (Physics.Raycast(ray, out hit, maxRange))
+            if (targetedObject)
             {
-                if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Draggable"))
+                if (targetedObject.CompareTag("Defi"))
                 {
-                    if(hit.collider.gameObject.CompareTag("Defi"))
-                    {
-                        defiPaddles.PlayOneShot(defiPickUpSound);
-                    }
-                    else
-                    {
-                        hit.collider.gameObject.GetComponent<AudioSource>().PlayOneShot(itemPickUpSound);
-                    }
-
-                    grabbedObject = hit.collider.gameObject;
-                    isDragging = true;
-                    if(grabbedObject.GetComponent<ForceObjectLogic>())
-                        dragObjectForceObjectLogic = grabbedObject.GetComponent<ForceObjectLogic>();
+                    defiPaddles.PlayOneShot(defiPickUpSound);
                 }
+                else
+                {
+                    targetedObject.GetComponent<AudioSource>().PlayOneShot(itemPickUpSound);
+                }
+
+                grabbedObject = targetedObject;
+                isDragging = true;
+                if (grabbedObject.GetComponent<ForceObjectLogic>())
+                    dragObjectForceObjectLogic = grabbedObject.GetComponent<ForceObjectLogic>();
             }
         }
         else if (context.canceled)
