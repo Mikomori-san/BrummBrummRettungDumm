@@ -48,7 +48,7 @@ public class PatientManager : MonoBehaviour
     {
         print("Spawn Patient in manager");
         Patient newPatient = new Patient();
-        newPatient.ragdoll = Instantiate(patientPrefabs[modelId], spawnPoint.transform.position, Quaternion.identity, interior);
+        newPatient.ragdoll = Instantiate(patientPrefabs[modelId], spawnPoint.transform.position, patientPrefabs[modelId].transform.rotation, interior.transform);
         newPatient.ragdoll.AddComponent<AudioSource>();
         newPatient.ragdoll.GetComponent<AudioSource>().PlayOneShot(patientCollectionSounds[Random.Range(0, patientCollectionSounds.Length)]);
         newPatient.lifeBar = HealthBarManager.Instance.HealthBarNumberPlus(newPatient);

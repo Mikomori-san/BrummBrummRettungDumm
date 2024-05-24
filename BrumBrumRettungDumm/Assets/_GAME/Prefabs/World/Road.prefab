@@ -118,18 +118,18 @@ MonoBehaviour:
   points:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 9}
-  - {x: 0, y: 0, z: 10}
+  - {x: 0, y: 0, z: 3}
+  - {x: 0, y: 0, z: 4}
   normals:
   - {x: 0, y: 1, z: 0}
   - {x: 0, y: 1, z: 0}
   angles: []
   bounds:
-    m_Center: {x: 0, y: 0, z: 5}
-    m_Extent: {x: 0, y: 0, z: 5}
+    m_Center: {x: 0, y: 0, z: 2}
+    m_Extent: {x: 0, y: 0, z: 2}
   boundingBoxes:
-  - m_Center: {x: 0, y: 0, z: 5}
-    m_Extent: {x: 0, y: 0, z: 5}
+  - m_Center: {x: 0, y: 0, z: 2}
+    m_Extent: {x: 0, y: 0, z: 2}
 --- !u!33 &9221286213038852279
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -157,4 +157,4 @@ MonoBehaviour:
       isRightHanded: 1
     uvOffset: {x: 0, y: 1}
   autoGenerate: 1
-  SourceMesh: {fileID: -5754084199372789682, guid: 4bc73b566267a1742af9aadc9b36daad, type: 3}
+  SourceMesh: {fileID: -5754084199372789682, guid: 36f006b4926c949459aeb58bad43ae3b, type: 3}
