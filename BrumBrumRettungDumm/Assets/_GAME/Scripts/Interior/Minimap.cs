@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.Licensing;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class Minimap : MonoBehaviour
 {
@@ -19,6 +20,10 @@ public class Minimap : MonoBehaviour
     private Simple3DMovement playerMovement;
 
     public float cursorSpeed = 5;
+    
+    private Vector2 stickInput;
+    public float mapDragSpeed = 0.2f;
+    public float viewMarginForDrag = 0.1f;
 
     // Start is called before the first frame update
     void Start()
@@ -42,13 +47,12 @@ public class Minimap : MonoBehaviour
         {
             Vector2 mousePosition = Mouse.current.position.ReadValue();
             Vector3 viewportPoint = minimapCamera.ScreenToViewportPoint(mousePosition);
-            float margin = 0.1f;
-            float speed = 0.1f;
             // Check if the mouse is at of the camera viewport
-            if (viewportPoint.x < 0 + margin || viewportPoint.x > 1 - margin || viewportPoint.y < 0 + margin || viewportPoint.y > 1 - margin)
+            if (viewportPoint.x < 0 + viewMarginForDrag || viewportPoint.x > 1 - viewMarginForDrag || viewportPoint.y < 0 + viewMarginForDrag || viewportPoint.y > 1 - viewMarginForDrag)
             {
-                minimapCamera.transform.position = new Vector3(minimapCamera.transform.position.x + (mousePosition.x - Screen.width / 4) * Time.deltaTime * speed, minimapCamera.transform.position.y, minimapCamera.transform.position.z + (mousePosition.y - Screen.height / 2) * Time.deltaTime * speed);
+                minimapCamera.transform.position = new Vector3(minimapCamera.transform.position.x + (mousePosition.x - Screen.width / 4) * Time.deltaTime * mapDragSpeed, minimapCamera.transform.position.y, minimapCamera.transform.position.z + (mousePosition.y - Screen.height / 2) * Time.deltaTime * mapDragSpeed);
             }
+            Mouse.current.WarpCursorPosition(Mouse.current.position.ReadValue() + stickInput * cursorSpeed);
         }
     }
 
@@ -125,8 +129,7 @@ public class Minimap : MonoBehaviour
 
         if (minimapActive)
         {
-            Vector2 input = context.ReadValue<Vector2>();
-            Mouse.current.WarpCursorPosition(Mouse.current.position.ReadValue() + input * cursorSpeed);
+            stickInput = context.ReadValue<Vector2>();
         }
     }
     public void Input_RemoveMarker(InputAction.CallbackContext context)
