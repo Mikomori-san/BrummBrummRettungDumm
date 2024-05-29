@@ -573,7 +573,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3698195812722201233}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2511287151526dd4997b1d8cff35558e, type: 3}
@@ -1174,20 +1174,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -10.805602
-      outSlope: -10.805602
+      inSlope: -4.779775
+      outSlope: -4.779775
       tangentMode: 0
       weightedMode: 3
       inWeight: 0.33333334
-      outWeight: 0.08405095
+      outWeight: 0.20870808
     - serializedVersion: 3
       time: 1
-      value: 0.1
-      inSlope: -0.109579064
-      outSlope: -0.109579064
+      value: 0.05
+      inSlope: -0.31606722
+      outSlope: -0.31606722
       tangentMode: 0
       weightedMode: 3
-      inWeight: 0.30904502
+      inWeight: 0.7247261
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1196,7 +1196,7 @@ MonoBehaviour:
   steeringDamper: 50
   invertSteering: 0
   motorEnabled: 1
-  motorMaxSpeed: 50
+  motorMaxSpeed: 100
   motorAcceleration: 300
   motorAccelerationOverSpeed:
     serializedVersion: 2
@@ -1939,20 +1939,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -10.805602
-      outSlope: -10.805602
+      inSlope: -4.779775
+      outSlope: -4.779775
       tangentMode: 0
       weightedMode: 3
       inWeight: 0.33333334
-      outWeight: 0.08405095
+      outWeight: 0.20870808
     - serializedVersion: 3
       time: 1
-      value: 0.1
-      inSlope: -0.109579064
-      outSlope: -0.109579064
+      value: 0.05
+      inSlope: -0.31606722
+      outSlope: -0.31606722
       tangentMode: 0
       weightedMode: 3
-      inWeight: 0.30904502
+      inWeight: 0.7247261
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1961,7 +1961,7 @@ MonoBehaviour:
   steeringDamper: 50
   invertSteering: 0
   motorEnabled: 1
-  motorMaxSpeed: 50
+  motorMaxSpeed: 100
   motorAcceleration: 300
   motorAccelerationOverSpeed:
     serializedVersion: 2
@@ -2118,14 +2118,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31f529d23ea4dd248a6002f0175f6461, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodyMass: 20
+  bodyMass: 10
   rigidbodyInterpolation: 1
   collisionDetectionMode: 2
   centerOfMass: {x: 0, y: -0.1, z: 0}
   rollCounterMode: 1
   rollCounterTargetAngle: 0
-  rollCounterForce: 2
-  rollCounterSmoothing: 2
+  rollCounterForce: 5
+  rollCounterSmoothing: 5
   rollCounterOverSpeed:
     serializedVersion: 2
     m_Curve:
@@ -2368,6 +2368,10 @@ PrefabInstance:
     - target: {fileID: 6343193350542867736, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
       propertyPath: m_Name
       value: Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 6663284736028712273, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
