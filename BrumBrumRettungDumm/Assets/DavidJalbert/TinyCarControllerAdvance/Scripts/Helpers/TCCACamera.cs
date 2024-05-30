@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace DavidJalbert.TinyCarControllerAdvance
 {
@@ -41,6 +42,12 @@ namespace DavidJalbert.TinyCarControllerAdvance
         public float thirdPersonRotationSpeed = 50;
 
         private Rigidbody cameraBody;
+        private Vector3 originalThirdPersonAngle;
+
+        private Vector2 lookInput;
+        public float lookSensitivity = 10;
+        private float inputTimer;
+        private float inputDelay = 1;
 
         private void Start()
         {
@@ -55,6 +62,11 @@ namespace DavidJalbert.TinyCarControllerAdvance
             cameraBody.useGravity = false;
             cameraBody.drag = 0;
             cameraBody.angularDrag = 0;
+
+            PlayerInput playerInput = GetComponentInParent<PlayerInput>();
+            playerInput.onActionTriggered += Input_Look;
+
+            originalThirdPersonAngle = thirdPersonAngle;
         }
 
         void FixedUpdate()
@@ -65,6 +77,25 @@ namespace DavidJalbert.TinyCarControllerAdvance
 
             Vector3 previousPosition = transform.position;
             Quaternion previousRotation = transform.rotation;
+
+            if(lookInput != Vector2.zero)
+            {
+                thirdPersonAngle.x = Mathf.Clamp(thirdPersonAngle.x - lookInput.y, -90, 90);
+                thirdPersonAngle.y += lookInput.x;
+                thirdPersonAngle.y = Mathf.Repeat(thirdPersonAngle.y, 360);
+            }
+            else if(inputTimer > 0)
+            {
+                inputTimer -= Time.fixedDeltaTime;
+            }
+            else
+            {
+                float angleDifferenceY = Mathf.DeltaAngle(thirdPersonAngle.y, originalThirdPersonAngle.y);
+                thirdPersonAngle.y = Mathf.MoveTowardsAngle(thirdPersonAngle.y, originalThirdPersonAngle.y, Time.fixedDeltaTime * 100);
+
+                float angleDifferenceX = Mathf.DeltaAngle(thirdPersonAngle.x, originalThirdPersonAngle.x);
+                thirdPersonAngle.x = Mathf.MoveTowardsAngle(thirdPersonAngle.x, originalThirdPersonAngle.x, Time.fixedDeltaTime * 100);
+            }
 
             getTargetTransforms(out Vector3 targetPosition, out Quaternion targetRotation);
 
@@ -188,6 +219,21 @@ namespace DavidJalbert.TinyCarControllerAdvance
             getTargetTransforms(out Vector3 targetPosition, out Quaternion targetRotation, true);
             cameraBody.position = targetPosition;
             cameraBody.rotation = targetRotation;
+        }
+        public void Input_Look(InputAction.CallbackContext context)
+        {
+            if (context.action.name != "Look")
+                return;
+
+            if (viewMode == CAMERA_MODE.ThirdPerson)
+            {
+                inputTimer = inputDelay;
+                lookInput = context.ReadValue<Vector2>() * Time.fixedDeltaTime * lookSensitivity;
+                if (context.action.actionMap.asset.bindingMask.Value.groups == "Gamepad")
+                {
+                    lookInput = context.ReadValue<Vector2>() * Time.fixedDeltaTime * 20 * lookSensitivity;
+                }
+            }
         }
     }
 }

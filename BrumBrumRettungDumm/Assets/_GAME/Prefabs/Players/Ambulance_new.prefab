@@ -2322,9 +2322,25 @@ PrefabInstance:
     m_TransformParent: {fileID: 5497088827533659254}
     m_Modifications:
     - target: {fileID: 599623835672391404, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
+      propertyPath: topDownSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 599623835672391404, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
       propertyPath: carController
       value: 
       objectReference: {fileID: 7023008539303486700}
+    - target: {fileID: 599623835672391404, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
+      propertyPath: interpolationUpToSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 599623835672391404, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
+      propertyPath: thirdPersonPositionSpeed
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 599623835672391404, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
+      propertyPath: thirdPersonRotationSpeed
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 1132942259726340813, guid: 38a9b7acc4241d14da3a1b1105b59389, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.67
