@@ -188,7 +188,7 @@ public class JoinMenu : MonoBehaviour
     {
         if (!PlayerJoined(playerIndex))
         {
-            players[playerIndex].text.text = "Press X to join";
+            players[playerIndex].text.text = "Press A/Enter to join";
         }
         else
         {
