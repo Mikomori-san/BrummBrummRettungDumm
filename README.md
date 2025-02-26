@@ -1,7 +1,7 @@
-4th Semester Project
-
+4th Semester Project <br>
+<br>
 Personal Contributions:
-  Interior Programming
-  Part of Physics Programming
-  Asset Adjustments in Blender
-  Map Asset Placements
+  * Interior Programming <br>
+  * Part of Physics Programming <br>
+  * Asset Adjustments in Blender <br>
+  * Map Asset Placements <br>
